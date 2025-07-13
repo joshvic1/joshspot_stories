@@ -1,0 +1,32 @@
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { FaRegCommentDots } from "react-icons/fa";
+import "/styles/storycard.css";
+
+export default function CommentIcon({ storyId }) {
+  const [commentCount, setCommentCount] = useState(0);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await fetch(`/api/all-stories/${storyId}/comment`);
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setCommentCount(data.length);
+        }
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+
+    fetchComments();
+  }, [storyId]);
+
+  return (
+    <Link href={`/story/${storyId}`} className="comment-icon" title="Comment">
+      <FaRegCommentDots /> {commentCount}{" "}
+      {commentCount <= 1 ? "Reply" : "Replies"}
+    </Link>
+  );
+}

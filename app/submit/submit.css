@@ -1,0 +1,210 @@
+/* submit.css */
+body {
+  background: rgb(229, 228, 230);
+}
+.back {
+  padding-left: 60px;
+}
+.submit-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #030000;
+}
+.submit-container {
+  background: rgb(229, 228, 230);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.submit-form-wrapper {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* subtle shadow */
+  padding: 30px 25px;
+  width: 100%;
+  max-width: 1000px;
+  color: #333;
+  text-align: center;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Emoji radio options */
+.emoji-radio {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.emoji-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 1px solid #999;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 15px;
+  color: #000000;
+}
+label {
+  font-weight: 600;
+  color: black;
+}
+
+.emoji-option input[type="radio"] {
+  display: none;
+}
+
+.emoji-option.selected {
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 6px var(--primary-color);
+  transform: scale(1.03);
+}
+
+.submit-form textarea,
+.submit-form select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 14px;
+  border: none;
+  background-color: #f9f9f9;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.submit-form textarea {
+  resize: none;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #000000;
+}
+
+.submit-form textarea::placeholder {
+  color: #403f3f;
+}
+
+.submit-form select {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #030000;
+}
+
+.submit-form select option {
+  color: #000;
+}
+
+.radio-group {
+  margin-bottom: 15px;
+  text-align: left;
+  color: #fff;
+}
+
+.radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.radio-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.radio-options input {
+}
+.submit-form button {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 14px;
+  border: none;
+  background-color: #501360;
+  color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  font-size: 15px;
+  font-family: inherit;
+  font-weight: 600;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.submit-form button:hover {
+  transform: scale(1.03);
+  background: #946c9e;
+}
+
+/* Toast styles */
+.toast-popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  background: rgba(34, 34, 34, 0.9);
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  animation: fadeInScale 0.4s ease forwards;
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+  max-width: 90%;
+  backdrop-filter: blur(10px);
+}
+
+/* Color variations */
+.toast-popup.success {
+  background: rgba(128, 0, 66, 0.85);
+}
+
+.toast-popup.error {
+  background: rgba(255, 0, 0, 0.85);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Mobile-friendly */
+@media (max-width: 480px) {
+  .submit-form-wrapper {
+    padding: 20px 15px;
+  }
+
+  .submit-title {
+    font-size: 18px;
+  }
+}
