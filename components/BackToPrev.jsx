@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FiArrowLeft } from "react-icons/fi";
-import "/styles/BackToPrev.css";
+import "/styles/backToPrev.css";
 
 const BackButton = () => {
   const router = useRouter();
