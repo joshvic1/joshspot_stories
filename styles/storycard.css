@@ -1,12 +1,14 @@
 .story-card-v2 {
   position: relative;
-  background: #ffffff;
+  background: var(--white-color);
   border-radius: 18px;
   padding: 1rem 1.2rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
   margin-bottom: 1.5rem;
   transition: all 0.2s ease-in-out;
   animation: fadeInCard 0.4s ease-in-out;
+  z-index: 1;
+  overflow: visible;
 }
 
 @keyframes fadeInCard {
@@ -32,7 +34,7 @@
 }
 
 .emoji-avatar {
-  background-color: #f0f0f0;
+  background-color: var(--accent-color-3);
   border-radius: 50%;
   width: 2.5rem;
   height: 2.5rem;
@@ -45,7 +47,7 @@
   display: flex;
   flex-direction: column;
   font-size: 0.75rem;
-  color: #777;
+  color: var(--accent-color-2);
 }
 
 .category {
@@ -56,7 +58,9 @@
 .time {
   font-style: italic;
   font-size: 0.7rem;
+  color: var(--time);
 }
+
 .favorite-icon {
   position: absolute;
   top: 14px;
@@ -64,11 +68,13 @@
   z-index: 10;
   cursor: pointer;
   transition: transform 0.2s ease;
+  color: var(--tooltip-bg);
 }
 
 .favorite-icon:hover {
   transform: scale(1.2);
 }
+
 .favorite-toggle {
   position: relative;
   display: inline-block;
@@ -85,8 +91,8 @@
 .tooltip-text {
   visibility: hidden;
   width: max-content;
-  background-color: #222;
-  color: #fff;
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-text-color);
   text-align: center;
   padding: 4px 8px;
   border-radius: 6px;
@@ -108,7 +114,7 @@
 
 .story-content {
   font-size: 0.95rem;
-  color: #222;
+  color: var(--text-color);
   line-height: 1.5;
   margin-bottom: 0.8rem;
 }
@@ -116,7 +122,7 @@
 .expand-btn {
   background: none;
   border: none;
-  color: #7c2f9f;
+  color: var(--primary-color);
   font-size: 0.85rem;
   margin-top: -0.2rem;
   margin-bottom: 0.6rem;
@@ -124,19 +130,23 @@
   padding: 0;
   transition: color 0.2s;
 }
+[data-theme="dark"] .expand-btn {
+  color: var(--time);
+}
 
 .expand-btn:hover {
-  color: #92908f;
+  color: var(--accent-color-2);
 }
+
 .story-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-color);
   padding-top: 8px;
   margin-top: 12px;
   font-size: 14px;
-  color: #555;
+  color: var(--text-color);
 }
 
 .meta-item {
@@ -144,17 +154,18 @@
   gap: 16px;
   align-items: center;
 }
+
 .comment-icon {
   display: flex;
   align-items: center;
   gap: 4px;
   font-size: 14px;
-  color: #666;
+  color: var(--tooltip-bg);
   transition: all 0.2s ease;
 }
 
 .comment-icon:hover {
-  color: #000;
+  color: var(--hover-color);
   text-decoration: underline;
 }
 
@@ -173,6 +184,7 @@
     font-size: 1.4rem;
   }
 }
+
 .back {
-  padding-left: 40px;
+  padding-left: 30px;
 }

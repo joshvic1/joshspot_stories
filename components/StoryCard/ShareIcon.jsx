@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaShareAlt, FaTwitter, FaWhatsapp, FaTelegram } from "react-icons/fa";
 import { LuCopy } from "react-icons/lu";
+import { FiShare } from "react-icons/fi";
 import "/styles/shareIcon.css";
 
 const ShareIcon = ({ storyId }) => {
@@ -19,7 +20,7 @@ const ShareIcon = ({ storyId }) => {
   return (
     <div className="share-wrapper">
       <button onClick={() => setOpen(!open)} className="share-btn">
-        <FaShareAlt />
+        <FiShare />
       </button>
 
       {open && (

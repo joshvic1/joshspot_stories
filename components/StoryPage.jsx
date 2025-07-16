@@ -8,7 +8,14 @@ import { useState, useEffect, useRef } from "react";
 import StoryCard from "./StoryCard/StoryCard";
 import "../styles/storypage.css";
 
-const categories = ["all", "love", "sex", "relationship", "heartbreak"];
+const categories = [
+  "all",
+  "love",
+  "sex",
+  "relationship",
+  "heartbreak",
+  "others",
+];
 
 export default function StoryPage({
   featuredStories,

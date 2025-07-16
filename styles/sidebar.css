@@ -1,7 +1,12 @@
 .sidebar {
   height: 100vh;
-  background: linear-gradient(135deg, #431845, #2f0931);
-  color: white;
+  /* background: linear-gradient(135deg, #431845, #2f0931); */
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: var(--text-color);
   padding: 1rem 0.5rem;
   position: fixed;
   top: 0;
@@ -31,7 +36,7 @@
   font-size: 1.5rem;
   margin-bottom: 2rem;
   cursor: pointer;
-  padding-left: 0.5rem;
+  padding-left: 0.9rem;
 }
 
 .sidebar-nav {
@@ -54,6 +59,33 @@
 .sidebar-link:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
+@keyframes breathing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(31, 163, 125, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(31, 163, 125, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(31, 163, 125, 0);
+  }
+}
+
+.sidebar-nav a[href="/exclusive"] {
+  background-color: #1fa37d !important;
+  color: #fff !important;
+  animation: breathing 2.5s infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav a[href="/exclusive"] .icon,
+.sidebar-nav a[href="/exclusive"] .label {
+  color: #fff !important;
+}
+.sidebar-nav a[href="/exclusive"]:hover {
+  background-color: #178965 !important;
+}
 
 .icon {
   font-size: 1.2rem;
@@ -65,4 +97,82 @@
 .label {
   font-size: 0.95rem;
   white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.sidebar.expanded .label {
+  opacity: 1;
+  transform: translateX(0);
+}
+.dark-toggle-wrapper {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.dark-toggle-wrapper button {
+  width: 40px;
+  height: 20px;
+  background-color: #555;
+  border-radius: 9999px;
+  position: relative;
+  cursor: pointer;
+  border: none;
+}
+
+.dark-toggle-wrapper button::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.dark-toggle-wrapper button.active::before {
+  transform: translateX(20px);
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-socials {
+  display: flex;
+  flex-direction: row;
+  /* gap: 1rem; */
+  padding: 1rem;
+  align-items: center;
+}
+
+.sidebar.expanded .sidebar-socials {
+  align-items: flex-start;
+  padding-left: 1.5rem;
+}
+
+.sidebar-socials a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color var(--transition-speed);
+}
+
+.sidebar-socials a:hover {
+  color: var(--primary-color);
+}
+
+.sidebar-socials svg {
+  font-size: 1.2rem;
 }

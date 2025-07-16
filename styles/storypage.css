@@ -1,6 +1,7 @@
+/* Story Wrapper */
 .story-wrapper {
   padding: 1rem;
-  background: linear-gradient(135deg, #e9e5ea, #ffffff);
+  background: var(--background-color);
   min-height: 100vh;
 }
 
@@ -34,41 +35,49 @@
   justify-content: center;
   overflow-x: auto;
   gap: 10px;
-  padding: 0.5rem 0.5rem 1rem;
+  padding: 0.5rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--accent-color);
 }
 
 .tab {
   padding: 8px 14px;
   border-radius: 20px;
-  background: #f0f0f0;
+  background: var(--accent-color-3);
   font-size: 0.9rem;
-  color: #444;
+  color: var(--text-color);
   white-space: nowrap;
-  transition: 0.3s;
+  transition: var(--transition-speed);
   text-decoration: none;
 }
+
 .fab-category {
   padding: 8px 14px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #431845, #af3db5);
+  background: linear-gradient(135deg, var(--primary-color), #af3db5);
   font-weight: 700;
-  color: #fff;
+  color: var(--white-color);
   white-space: nowrap;
-  transition: all 0.2s ease-in-out;
+  transition: var(--transition-speed);
   text-decoration: none;
 }
+[data-theme="dark"] .fab-category {
+  background: linear-gradient(135deg, #af3db5, #b03bb7);
+}
+
 .fab-category:hover {
   transform: scale(1.11);
 }
-.tab:hover {
-  background: #e0e0e0;
-}
 
 .active-tab {
-  background-color: #111;
-  color: #fff;
+  background-color: var(--text-color);
+  color: var(--accent-color);
+}
+
+.active-tab:hover,
+.tab:hover {
+  background-color: var(--accent-color-2);
+  color: var(--text-color);
 }
 
 /* Search Box */
@@ -81,11 +90,12 @@
 
 .search-box {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #ccc;
+  padding: 10px 14px;
+  border: 1px solid var(--accent-color);
   border-radius: 25px;
-  font-size: 1rem;
-  background-color: #fff;
+  font-size: 0.95rem;
+  background-color: var(--white-color);
+  color: var(--text-color);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -98,7 +108,7 @@
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--text-color);
 }
 
 /* Story grid (for featured) */
@@ -118,8 +128,8 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #111827; /* dark gray */
-  color: white;
+  background-color: var(--text-color);
+  color: var(--white-color);
   padding: 12px;
   border-radius: 50%;
   z-index: 1000;
@@ -127,11 +137,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: var(--transition-speed);
 }
 
 .fab:hover {
-  background-color: #1f2937; /* darker hover */
+  background-color: var(--secondary-color);
+}
+
+.fab:focus {
+  outline: 2px solid var(--primary-color);
 }
 
 .fab-icon {

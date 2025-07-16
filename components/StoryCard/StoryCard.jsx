@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { FiBookmark } from "react-icons/fi";
 import { FaBookmark } from "react-icons/fa";
 
+// Defining my custom emoji avatar
 const emojiAvatars = [
   "🦁",
   "🐼",
@@ -76,7 +77,7 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
       <div className="favorite-icon" onClick={toggleFavorite}>
         {isFavorite ? (
           <div className="tooltip">
-            <FaBookmark size={20} color="#000" />
+            <FaBookmark size={20} color="var(--text-color)" />
             <span className="tooltip-text">Remove from Favorite</span>
           </div>
         ) : (
@@ -110,9 +111,9 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
       <div className="story-meta">
         <div className="meta-item">
           <Reactions storyId={story._id} />
-        </div>
-        <div className="meta-item">
-          <CommentIcon storyId={story._id} />
+          <div className="meta-item">
+            <CommentIcon storyId={story._id} />
+          </div>
         </div>
         <div className="meta-item">
           <ShareIcon story={story} />

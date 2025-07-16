@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaRegCommentDots } from "react-icons/fa";
+import { FiMessageSquare } from "react-icons/fi";
 import "/styles/storycard.css";
 
 export default function CommentIcon({ storyId }) {
@@ -25,7 +25,7 @@ export default function CommentIcon({ storyId }) {
 
   return (
     <Link href={`/story/${storyId}`} className="comment-icon" title="Comment">
-      <FaRegCommentDots /> {commentCount}{" "}
+      <FiMessageSquare /> {commentCount}{" "}
       {commentCount <= 1 ? "Reply" : "Replies"}
     </Link>
   );

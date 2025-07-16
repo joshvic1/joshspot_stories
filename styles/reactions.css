@@ -25,12 +25,16 @@
 
 .reaction-pill.reacted {
   background-color: #ffe9ec;
-  color: #c62828;
+  color: var(--primary-color);
   font-weight: bold;
 }
 
 .reaction-pill .emoji {
-  font-size: 16px;
+  font-size: 1.2rem;
+}
+
+.reaction-pill.reacted .emoji {
+  color: var(--primary-color);
 }
 
 .reaction-pill .count {

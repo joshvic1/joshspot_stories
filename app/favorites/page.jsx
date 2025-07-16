@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import MainLayout from "@/components/Layout/MainLayout";
 import StoryCard from "@/components/StoryCard/StoryCard";
 import BackButton from "@/components/BackToPrev";
+import "/styles/favorites.css";
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);
@@ -15,13 +16,13 @@ export default function FavoritesPage() {
   const removeFromFavorites = (id) => {
     const updated = favorites.filter((story) => story._id !== id);
     localStorage.setItem("favorites", JSON.stringify(updated));
-    setFavorites(updated); // Instantly update the UI
+    setFavorites(updated);
   };
 
   return (
     <MainLayout>
-      <div style={{ padding: "2rem" }}>
-        <h2 className="text-2xl font-bold mb-4">❤️ Favorite Stories</h2>
+      <div className="favorites-container">
+        <h2 className="fav-title">❤️ Favorite Stories</h2>
         {favorites.length === 0 ? (
           <p>No favorites yet.</p>
         ) : (

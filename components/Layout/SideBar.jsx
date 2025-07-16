@@ -3,15 +3,20 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   FiHome,
-  FiSearch,
-  FiHeart,
   FiBookmark,
   FiMenu,
   FiX,
   FiBell,
   FiPlusCircle,
+  FiMessageCircle,
+  FiEdit2,
+  FiZap,
+  FiTwitter,
+  FiInstagram,
+  FiYoutube,
 } from "react-icons/fi";
 import "../../styles/sidebar.css";
+import DarklightMode from "../DarkLightMode";
 
 const Sidebar = ({ setSidebarOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,9 +48,10 @@ const Sidebar = ({ setSidebarOpen }) => {
 
   const menuItems = [
     { label: "Home", icon: <FiHome />, href: "/" },
+    { label: "My Stories", icon: <FiEdit2 />, href: "/submissions" },
     { label: "Submit Anonymous", icon: <FiPlusCircle />, href: "/submit" },
-    { label: "Search", icon: <FiSearch />, href: "/search" },
-    { label: "Love", icon: <FiHeart />, href: "/love" },
+    { label: "JoshspotAI", icon: <FiMessageCircle />, href: "/ai" },
+    { label: "Exclusive Stories", icon: <FiZap />, href: "/exclusive" },
     { label: "Saved", icon: <FiBookmark />, href: "/favorites" },
     { label: "Notifications", icon: <FiBell />, href: "/notifications" },
   ];
@@ -70,7 +76,7 @@ const Sidebar = ({ setSidebarOpen }) => {
             <Link
               key={index}
               href={item.href}
-              className="sidebar-link"
+              className={`sidebar-link ${item.className || ""}`}
               onClick={() => isMobile && setIsOpen(false)}
             >
               <span className="icon">{item.icon}</span>
@@ -79,6 +85,9 @@ const Sidebar = ({ setSidebarOpen }) => {
               )}
             </Link>
           ))}
+          <div className="dark-toggle-wrapper">
+            <DarklightMode />
+          </div>
         </nav>
       </aside>
     </>

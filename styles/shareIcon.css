@@ -1,31 +1,55 @@
+:root {
+  --share-btn-bg: rgba(255, 255, 255, 0.15);
+  --share-btn-hover-bg: rgba(255, 255, 255, 0.3);
+  --share-btn-color: #3d1759;
+  --share-btn-shadow: rgba(0, 0, 0, 0.08);
+  --share-menu-bg: rgba(255, 255, 255, 0.7);
+  --share-item-hover-bg: rgba(255, 255, 255, 0.4);
+  --border-color: #eee;
+  --text-color: #333;
+  --hover-text-color: #000;
+}
+
+[data-theme="dark"] {
+  --share-btn-bg: rgba(0, 0, 0, 0.15);
+  --share-btn-hover-bg: rgba(0, 0, 0, 0.3);
+  --share-btn-color: #f1e6fc;
+  --share-btn-shadow: rgba(0, 0, 0, 0.4);
+  --share-menu-bg: rgba(0, 0, 0, 0.6);
+  --share-item-hover-bg: rgba(0, 0, 0, 0.4);
+  --border-color: #555;
+  --text-color: #eee;
+  --hover-text-color: #fff;
+}
 .share-wrapper {
   position: relative;
   display: inline-block;
+  z-index: 999;
 }
 
 .share-btn {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--share-btn-bg, rgba(255, 255, 255, 0.15));
   border: none;
   padding: 0.5rem 0.6rem;
   border-radius: 50%;
   cursor: pointer;
-  color: #3d1759;
+  color: var(--share-btn-color, #3d1759);
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px var(--share-btn-shadow, rgba(0, 0, 0, 0.08));
   transition: all 0.2s ease;
 }
 
 .share-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--share-btn-hover-bg, rgba(255, 255, 255, 0.3));
 }
 
 .share-menu {
   position: absolute;
   top: 120%;
   right: 0;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--share-menu-bg, rgba(255, 255, 255, 0.7));
   backdrop-filter: blur(10px);
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color, #eee);
   border-radius: 0.8rem;
   padding: 0.75rem;
   min-width: 180px;
@@ -53,7 +77,7 @@
   gap: 0.6rem;
   padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
-  color: #333;
+  color: var(--text-color, #333);
   border-radius: 0.5rem;
   background: transparent;
   transition: 0.2s ease;
@@ -61,6 +85,6 @@
 }
 
 .share-item:hover {
-  background: rgba(255, 255, 255, 0.4);
-  color: #000;
+  background: var(--share-item-hover-bg, rgba(255, 255, 255, 0.4));
+  color: var(--hover-text-color, #000);
 }

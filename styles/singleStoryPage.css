@@ -2,17 +2,19 @@
   padding-left: 2rem;
   padding-top: 1rem;
 }
+
 .back-home {
-  background: #fefefe;
+  background: var(--black-color);
 }
+
 .individual-story {
-  background: #fefefe;
-  color: #222;
+  background: var(--white-color);
+  color: var(--text-color);
   padding: 2rem 1rem;
   border-radius: 16px;
   margin: 2rem;
   box-shadow: 0 8px 20px rgba(67, 24, 69, 0.1);
-  transition: all 0.3s ease-in-out;
+  transition: var(--transition-speed);
 }
 
 .story-meta {
@@ -26,14 +28,14 @@
 .story-category {
   padding: 6px 14px;
   border-radius: 20px;
-  background: linear-gradient(130deg, #000000, #000);
-  color: #fff;
+  background: var(--black-gradient);
+  color: var(--white-color);
   font-weight: 500;
   text-transform: capitalize;
 }
 
 .story-time {
-  color: #888;
+  color: var(--time);
 }
 
 .story-full-content {
@@ -41,6 +43,7 @@
   line-height: 1.9;
   margin-bottom: 1.5rem;
   white-space: pre-line;
+  color: var(--text-color);
 }
 
 .story-meta-icons {

@@ -1,13 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FiHeart } from "react-icons/fi";
 import "/styles/reactions.css";
-
-const reactionTypes = {
-  love: "❤️",
-  heartbreak: "💔",
-  thumbsdown: "👎",
-};
 
 export default function Reactions({ storyId }) {
   const [reactions, setReactions] = useState({});
@@ -30,16 +25,30 @@ export default function Reactions({ storyId }) {
     fetchReactions();
   }, [storyId]);
 
-  const handleReaction = async (type) => {
-    if (userReaction) return;
+  const handleReaction = async () => {
+    let newReaction = null;
+    let previousType = userReaction;
+
+    // Toggle love
+    if (userReaction === "love") {
+      previousType = "love";
+      newReaction = null;
+    } else {
+      newReaction = "love";
+    }
 
     try {
       const res = await axios.post(`/api/all-stories/${storyId}/reactions`, {
-        type,
+        type: newReaction,
+        previousType,
       });
       setReactions(res.data.reactions);
-      setUserReaction(type);
-      localStorage.setItem(localStorageKey, type);
+      setUserReaction(newReaction);
+      if (newReaction) {
+        localStorage.setItem(localStorageKey, newReaction);
+      } else {
+        localStorage.removeItem(localStorageKey);
+      }
     } catch (error) {
       console.error("Reaction failed", error);
     }
@@ -47,16 +56,13 @@ export default function Reactions({ storyId }) {
 
   return (
     <div className="reaction-group">
-      {Object.entries(reactionTypes).map(([type, emoji]) => (
-        <button
-          key={type}
-          className={`reaction-pill ${userReaction === type ? "reacted" : ""}`}
-          onClick={() => handleReaction(type)}
-        >
-          <span className="emoji">{emoji}</span>
-          <span className="count">{reactions[type] || 0}</span>
-        </button>
-      ))}
+      <button
+        className={`reaction-pill ${userReaction === "love" ? "reacted" : ""}`}
+        onClick={handleReaction}
+      >
+        <FiHeart className="emoji" />
+        <span className="count">{reactions.love || 0}</span>
+      </button>
     </div>
   );
 }

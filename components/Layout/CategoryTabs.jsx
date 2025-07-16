@@ -1,6 +1,13 @@
 import Link from "next/link";
 
-const categories = ["all", "love", "sex", "relationship", "heartbreak"];
+const categories = [
+  "all",
+  "love",
+  "sex",
+  "relationship",
+  "heartbreak",
+  "others",
+];
 
 export default function CategoryTabs({ selectedCategory }) {
   return (

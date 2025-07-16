@@ -17,7 +17,7 @@ const StorySchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["love", "sex", "relationship", "heartbreak"],
+    enum: ["love", "sex", "relationship", "heartbreak", "others"],
     required: true,
   },
   createdAt: {
@@ -26,8 +26,6 @@ const StorySchema = new mongoose.Schema({
   },
   reactions: {
     love: { type: Number, default: 0 },
-    heartbreak: { type: Number, default: 0 },
-    dislike: { type: Number, default: 0 },
   },
   comments: [
     {

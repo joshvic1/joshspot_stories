@@ -1,0 +1,74 @@
+.confirm-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.confirm-popup {
+  background: var(--white-color);
+  color: var(--text-color);
+  padding: 1.2rem 1.5rem;
+  border-radius: 16px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+.confirm-popup p {
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.4;
+}
+
+.confirm-popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.confirm-btn,
+.cancel-btn {
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  border: none;
+  transition: background var(--transition-speed);
+}
+
+.confirm-btn {
+  background: var(--primary-color);
+  color: var(--white-color);
+}
+[data-theme="dark"] .confirm-btn {
+  background: var(--secondary-color);
+  color: #fff;
+}
+
+.confirm-btn:hover {
+  background: var(--secondary-color);
+}
+
+.cancel-btn {
+  background: var(--accent-color);
+  color: var(--text-color);
+}
+
+.cancel-btn:hover {
+  background: var(--accent-color-2);
+}

@@ -2,7 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --primary-color: #431845;
+  --secondary-color: #2f0931; */
+
+/* globals.css */
+:root {
+  --background-color: linear-gradient(135deg, #e9e5ea, #ffffff);
+  --text-color: #111111;
+  --primary-color: #431845;
+  --secondary-color: #2f0931;
+
+  --white-color: #ffffff;
+  --black-color: #000000;
+
+  --accent-color: #eee;
+  --accent-color-2: #ccc;
+  --accent-color-3: #f0f0f0;
+
+  --border-color: #e5e5e5;
+  --tooltip-bg: #222;
+  --tooltip-text-color: #fff;
+  --hover-color: #111;
+  --transition-speed: 0.3s;
+  --black-gradient: linear-gradient(
+    130deg,
+    var(--black-color),
+    var(--black-color)
+  );
+  --time: #98989898;
+}
+
+[data-theme="dark"] {
+  --background-color: #141414;
+  --text-color: #ffffff;
+  --primary-color: #2f0931;
+  --secondary-color: #431845;
+
+  --white-color: #242424;
+  --black-color: #ffffff;
+
+  --accent-color: #333;
+  --accent-color-2: #444;
+  --accent-color-3: #323131;
+
+  --border-color: #444;
+  --tooltip-bg: #fff;
+  --tooltip-text-color: #000;
+  --hover-color: #ddd;
+  --time: #ffffffae;
+}
+
 body {
+  background-color: linear-gradient(135deg, #e9e5ea, #ffffff);
   font-family: sans-serif;
-  background: linear-gradient(135deg, #e9e5ea, #ffffff);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

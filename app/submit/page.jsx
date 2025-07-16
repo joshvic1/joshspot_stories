@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import MainLayout from "@/components/Layout/MainLayout";
 import "./submit.css";
 import BackButton from "@/components/BackToPrev";
-
-const categories = ["love", "sex", "relationship", "heartbreak"];
+// Categories to be displayed.
+const categories = ["love", "sex", "relationship", "heartbreak", "others"];
 
 export default function SubmitPage() {
   const [content, setContent] = useState("");
@@ -34,7 +34,6 @@ export default function SubmitPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,6 +43,14 @@ export default function SubmitPage() {
     setLoading(false);
 
     if (res.ok) {
+      // Store the story in localStorage
+      const existing = JSON.parse(localStorage.getItem("myStories")) || [];
+      const newStory = { content, category, type, time: Date.now() };
+      localStorage.setItem(
+        "myStories",
+        JSON.stringify([...existing, newStory])
+      );
+      // Set popup message and reset form
       setPopupMessage("Story submitted successfully!");
       setContent("");
       setCategory("");
@@ -77,6 +84,7 @@ export default function SubmitPage() {
                     sex: "🍑",
                     relationship: "💑",
                     heartbreak: "💔",
+                    others: "🌟",
                   };
                   return (
                     <label
