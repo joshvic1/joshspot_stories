@@ -11,9 +11,7 @@ import {
   FiMessageCircle,
   FiEdit2,
   FiZap,
-  FiTwitter,
-  FiInstagram,
-  FiYoutube,
+  
 } from "react-icons/fi";
 import "../../styles/sidebar.css";
 import DarklightMode from "../DarkLightMode";
