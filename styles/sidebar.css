@@ -136,15 +136,6 @@
 .dark-toggle-wrapper button.active::before {
   transform: translateX(20px);
 }
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 
 .sidebar-socials {
   display: flex;
