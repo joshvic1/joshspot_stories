@@ -11,12 +11,14 @@ import {
   FiMessageCircle,
   FiEdit2,
   FiZap,
-  
+  FiTwitter,
+  FiInstagram,
+  FiFacebook,
 } from "react-icons/fi";
 import "../../styles/sidebar.css";
 import DarklightMode from "../DarkLightMode";
 
-const Sidebar = ({ setSidebarOpen }) => {
+const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -30,10 +32,8 @@ const Sidebar = ({ setSidebarOpen }) => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       if (!mobile) {
-        // For desktop, sync initial sidebar state to MainLayout
         setSidebarOpen && setSidebarOpen(isOpen);
       } else {
-        // On mobile, close sidebar by default
         setIsOpen(false);
         setSidebarOpen && setSidebarOpen(false);
       }
@@ -48,7 +48,6 @@ const Sidebar = ({ setSidebarOpen }) => {
     { label: "Home", icon: <FiHome />, href: "/" },
     { label: "My Stories", icon: <FiEdit2 />, href: "/submissions" },
     { label: "Submit Anonymous", icon: <FiPlusCircle />, href: "/submit" },
-    { label: "JoshspotAI", icon: <FiMessageCircle />, href: "/ai" },
     { label: "Exclusive Stories", icon: <FiZap />, href: "/exclusive" },
     { label: "Saved", icon: <FiBookmark />, href: "/favorites" },
     { label: "Notifications", icon: <FiBell />, href: "/notifications" },
@@ -56,14 +55,12 @@ const Sidebar = ({ setSidebarOpen }) => {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
       {isMobile && (
         <button className="mobile-toggle-btn" onClick={() => setIsOpen(true)}>
           <FiMenu />
         </button>
       )}
 
-      {/* Sidebar (Desktop or Mobile Drawer) */}
       <aside className={`sidebar ${isOpen ? "expanded" : ""}`}>
         <button className="toggle-btn" onClick={toggleSidebar}>
           {isMobile ? <FiX /> : isOpen ? <FiX /> : <FiMenu />}
@@ -83,6 +80,21 @@ const Sidebar = ({ setSidebarOpen }) => {
               )}
             </Link>
           ))}
+
+          <button
+            className="sidebar-link"
+            onClick={() => {
+              setChatOpen(true);
+              setChatExpanded(true);
+              if (isMobile) setIsOpen(false);
+            }}
+          >
+            <span className="icon">
+              <FiMessageCircle />
+            </span>
+            {(isOpen || isMobile) && <span className="label">Joshspot AI</span>}
+          </button>
+
           <div className="dark-toggle-wrapper">
             <DarklightMode />
           </div>

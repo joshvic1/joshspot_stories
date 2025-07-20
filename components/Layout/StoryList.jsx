@@ -23,6 +23,7 @@ export default function StoryList({
       {/* Regular */}
       {hasMounted && (
         <section className="section">
+          <h2 className="section-title">🔥 Recent Stories</h2>
           <div className="story-list">
             {!filteredStories ? (
               <p className="text-gray-500">Loading...</p>

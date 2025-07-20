@@ -38,6 +38,9 @@ const StorySchema = new mongoose.Schema({
       emojiAvatar: String, // Add random emoji
     },
   ],
+  media: {
+    type: String,
+  },
 });
 
 export default mongoose.models.Story || mongoose.model("Story", StorySchema);

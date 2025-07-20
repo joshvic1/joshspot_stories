@@ -33,30 +33,47 @@ export default function SubmitPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Regex to detect links
+    const linkRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/gi;
+    if (linkRegex.test(content)) {
+      setPopupMessage("Links are not allowed.");
+      return;
+    }
+
+    if (!category) {
+      setPopupMessage("Please select a category.");
+      return;
+    }
+
     setLoading(true);
-    const res = await fetch("/api/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content, category, type }),
-    });
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, category, type }),
+      });
 
-    setLoading(false);
+      setLoading(false);
 
-    if (res.ok) {
-      // Store the story in localStorage
-      const existing = JSON.parse(localStorage.getItem("myStories")) || [];
-      const newStory = { content, category, type, time: Date.now() };
-      localStorage.setItem(
-        "myStories",
-        JSON.stringify([...existing, newStory])
-      );
-      // Set popup message and reset form
-      setPopupMessage("Story submitted successfully!");
-      setContent("");
-      setCategory("");
-      setType("public");
-    } else {
-      setPopupMessage("Error submitting story.");
+      if (res.ok) {
+        const existing = JSON.parse(localStorage.getItem("myStories")) || [];
+        const newStory = { content, category, type, time: Date.now() };
+        localStorage.setItem(
+          "myStories",
+          JSON.stringify([...existing, newStory])
+        );
+        setPopupMessage("Story submitted successfully!");
+        setContent("");
+        setCategory("");
+        setType("public");
+      } else {
+        const data = await res.json();
+        setPopupMessage(data.error || "Error submitting story.");
+      }
+    } catch (error) {
+      setLoading(false);
+      setPopupMessage("Network error. Try again.");
     }
   };
 

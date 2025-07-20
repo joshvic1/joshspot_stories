@@ -72,51 +72,56 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
   }, [story._id]);
 
   return (
-    <div className="story-card-v2">
-      {/* 🔖 Favorite icon */}
-      <div className="favorite-icon" onClick={toggleFavorite}>
-        {isFavorite ? (
-          <div className="tooltip">
-            <FaBookmark size={20} color="var(--text-color)" />
-            <span className="tooltip-text">Remove from Favorite</span>
-          </div>
-        ) : (
-          <div className="tooltip">
-            <FiBookmark size={20} color="#aaa" />
-            <span className="tooltip-text">Add to Favorite</span>
-          </div>
-        )}
-      </div>
-
-      <div className="story-header">
-        <div className="emoji-avatar">{emojiAvatar}</div>
-
-        <div className="meta-info">
-          <span className="category" style={{ color: borderColor }}>
-            {category}
-          </span>
-          <span className="time">{timeAgo}</span>
+    <div className="story-card">
+      <div className="story-card-v2">
+        {/* 🔖 Favorite icon */}
+        <div className="favorite-icon" onClick={toggleFavorite}>
+          {isFavorite ? (
+            <div className="tooltip">
+              <FaBookmark size={20} color="var(--text-color)" />
+              <span className="tooltip-text">Remove from Favorite</span>
+            </div>
+          ) : (
+            <div className="tooltip">
+              <FiBookmark size={20} color="#aaa" />
+              <span className="tooltip-text">Add to Favorite</span>
+            </div>
+          )}
         </div>
-      </div>
 
-      <p className="story-content">
-        {displayedText}{" "}
-        {isLong && (
-          <button className="expand-btn" onClick={() => setExpanded(!expanded)}>
-            {expanded ? "Show Less ▲" : "Show More ▼"}
-          </button>
-        )}
-      </p>
+        <div className="story-header">
+          <div className="emoji-avatar">{emojiAvatar}</div>
 
-      <div className="story-meta">
-        <div className="meta-item">
-          <Reactions storyId={story._id} />
+          <div className="meta-info">
+            <span className="category" style={{ color: borderColor }}>
+              {category}
+            </span>
+            <span className="time">{timeAgo}</span>
+          </div>
+        </div>
+
+        <p className="story-content">
+          {displayedText}{" "}
+          {isLong && (
+            <button
+              className="expand-btn"
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded ? "Show Less ▲" : "Show More ▼"}
+            </button>
+          )}
+        </p>
+
+        <div className="story-meta">
           <div className="meta-item">
-            <CommentIcon storyId={story._id} />
+            <Reactions storyId={story._id} />
+            <div className="meta-item">
+              <CommentIcon storyId={story._id} />
+            </div>
           </div>
-        </div>
-        <div className="meta-item">
-          <ShareIcon story={story} />
+          <div className="meta-item">
+            <ShareIcon story={story} />
+          </div>
         </div>
       </div>
     </div>

@@ -113,14 +113,24 @@
 
 /* Story grid (for featured) */
 .story-grid {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
+  justify-content: space-evenly;
 }
 
-/* Recent story list */
+/* Recent story list (for regular) */
 .story-list {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Story Card */
+.story-card {
+  flex: 1 1;
+  max-width: auto;
 }
 
 /* Floating Action Button */
@@ -150,4 +160,15 @@
 
 .fab-icon {
   display: flex;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section {
+    padding: 0 0.2rem 2rem;
+  }
+  .story-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }

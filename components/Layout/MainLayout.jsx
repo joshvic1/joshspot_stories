@@ -3,10 +3,13 @@
 import { useState, useEffect } from "react";
 import "/app/globals.css";
 import Sidebar from "./SideBar";
+import FloatingChatButton from "./FloatingChatButton";
 
 export default function MainLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isChatExpanded, setIsChatExpanded] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,21 +24,43 @@ export default function MainLayout({ children }) {
   const sidebarWidth = isMobile ? 0 : sidebarOpen ? 200 : 60;
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", width: "100%" }}>
+    <div className="layout-container">
       {!isMobile && (
-        <Sidebar isOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Sidebar
+          isOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          setChatOpen={setIsChatOpen}
+          setChatExpanded={setIsChatExpanded}
+        />
       )}
 
-      <div
-        className="main-content-wrapper"
+      <FloatingChatButton
+        isChatOpen={isChatOpen}
+        setIsChatOpen={setIsChatOpen}
+        isChatExpanded={isChatExpanded}
+        setIsChatExpanded={setIsChatExpanded}
+      />
+
+      <main
+        className="main-content"
         style={{
-          flexGrow: 1,
           paddingLeft: `${sidebarWidth}px`,
-          transition: "padding-left 0.3s ease",
         }}
       >
         {children}
-      </div>
+      </main>
+
+      {isChatOpen && (
+        <div className={`chat-overlay ${isChatExpanded ? "expanded" : ""}`}>
+          <button
+            className="chat-close-btn"
+            onClick={() => {
+              setIsChatOpen(false);
+              setIsChatExpanded(false);
+            }}
+          ></button>
+        </div>
+      )}
     </div>
   );
 }

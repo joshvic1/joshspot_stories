@@ -3,10 +3,10 @@ import Header from "./Layout/Header";
 import CategoryTabs from "./Layout/CategoryTabs";
 import SearchBar from "./Layout/SearchBar";
 import StoryList from "./Layout/StoryList";
-import FloatingSubmitButton from "./Layout/FloatingSubmitButton";
 import { useState, useEffect, useRef } from "react";
 import StoryCard from "./StoryCard/StoryCard";
 import "../styles/storypage.css";
+import FloatingChatButton from "./Layout/FloatingChatButton";
 
 const categories = [
   "all",
@@ -104,8 +104,6 @@ export default function StoryPage({
         hasMounted={hasMounted}
         loading={loading}
       />
-
-      <FloatingSubmitButton />
     </main>
   );
 }

@@ -4,28 +4,20 @@ import Story from "@/models/Story";
 
 export async function POST(req) {
   await dbConnect();
-
-  const { content, category, type } = await req.json();
-
-  // 🚫 Link detection
-  const linkRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/gi;
-  if (linkRegex.test(content)) {
-    return NextResponse.json(
-      { error: "Links are not allowed." },
-      { status: 400 }
-    );
-  }
+  const { content, category, isFeatured, media } = await req.json();
 
   try {
     await Story.create({
       content,
       category,
-      isPublic: type === "public",
-      isFeatured: false,
+      media, // <-- This must exist in your schema.
+      isPublic: true,
+      isFeatured: isFeatured || false,
     });
 
     return NextResponse.json({ message: "Story saved!" });
   } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Error saving story" }, { status: 500 });
   }
 }
