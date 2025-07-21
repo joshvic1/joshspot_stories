@@ -170,7 +170,7 @@
   .notifications {
     padding: 0.5rem;
     background-color: var(--primary-color);
-    color: var(--white-color);
+    color: white;
     border-radius: 50px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     font-size: 0.875rem;

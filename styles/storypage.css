@@ -207,8 +207,9 @@
   .mobile-header {
     display: flex;
     align-items: center;
+    justify-content: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0.6rem;
   }
   .logoMobile {
     display: flex;
