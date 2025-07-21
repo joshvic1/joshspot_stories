@@ -32,6 +32,13 @@ export default function Header(setChatOpen, setChatExpanded) {
   ];
   return (
     <div>
+      <div className="scrolling-text-bar">
+        <div className="scrolling-text">
+          New Confessions & Stories every day on Joshspot Stories. Stay tuned!
+          New Confessions & Stories every day on Joshspot Stories. Stay tuned!
+        </div>
+      </div>
+
       <img src="/logo-desktop.png" alt="Logo" className="logo" />
       <div className="mobile-header">
         <div>
