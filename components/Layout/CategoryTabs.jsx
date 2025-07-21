@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import "/styles/category.css";
 import { useState } from "react";
-import { FiCornerRightDown } from "react-icons/fi";
+import { FiBell, FiChevronDown, FiPlusCircle } from "react-icons/fi";
 const categories = [
   "all",
   "love",
@@ -56,9 +56,7 @@ export default function CategoryTabs({ selectedCategory }) {
               {categoriess.find((cat) => cat.value === selectedCategory)
                 ?.label || "Select Category"}
             </span>
-            <FiCornerRightDown
-              className={`dropdown-icon ${open ? "open" : ""}`}
-            />
+            <FiChevronDown className={`dropdown-icon ${open ? "open" : ""}`} />
           </div>
           {open && (
             <ul className="dropdown-menu">
@@ -77,9 +75,18 @@ export default function CategoryTabs({ selectedCategory }) {
           )}
         </div>
 
-        <Link href="/submit" className="mobile-fab">
-          📨 Submit
-        </Link>
+        <div className="mobile-fab-wrapper">
+          <Link href="/submit" className="mobile-fab" title="Submit a story">
+            <FiPlusCircle />
+          </Link>
+          <Link
+            href="/notifications"
+            className="notifications"
+            title="Notifications"
+          >
+            <FiBell />
+          </Link>
+        </div>
       </div>
     </>
   );
