@@ -1,1 +1,92 @@
-/* Styles for featured */
+.featured-slider-wrapper {
+  position: relative;
+  padding: 2rem 0;
+}
+
+/* .section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+} */
+
+.slider-buttons {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  transform: translateY(-50%);
+}
+
+.arrow-button {
+  background: #f4f2f7;
+  color: #431845;
+  border: none;
+  font-size: 1.8rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.arrow-button:hover {
+  background: #d4c7e3;
+  transform: scale(1.1);
+}
+
+.featured-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  scroll-behavior: smooth;
+  padding: 1rem 0.5rem;
+  scroll-snap-type: x mandatory;
+}
+
+.featured-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.featured-card {
+  flex: 0 0 300px;
+  height: 220px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.featured-card:hover {
+  transform: scale(1.03);
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  border-radius: 12px;
+}
+
+.featured-text {
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.3;
+}

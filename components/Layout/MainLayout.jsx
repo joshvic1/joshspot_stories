@@ -4,16 +4,30 @@ import { useState, useEffect } from "react";
 import "/app/globals.css";
 import Sidebar from "./SideBar";
 import FloatingChatButton from "./FloatingChatButton";
+import TopHeader from "../TopHeader";
+import SearchBar from "./SearchBar";
 
 export default function MainLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
+  const [stories, setStories] = useState([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const fetchStories = async () => {
+      const res = await fetch("/api/all-stories?page=1&limit=100");
+      const data = await res.json();
+      setStories(data.stories || []);
+    };
+
+    fetchStories();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 827);
     };
 
     handleResize();
@@ -22,9 +36,14 @@ export default function MainLayout({ children }) {
   }, []);
 
   const sidebarWidth = isMobile ? 0 : sidebarOpen ? 200 : 60;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
+  if (!mounted) return null;
   return (
-    <div className="layout-container">
+    <div className="layout-root">
+      <TopHeader stories={stories} />
       {!isMobile && (
         <Sidebar
           isOpen={sidebarOpen}

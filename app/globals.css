@@ -2,54 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --primary-color: #431845;
-  --secondary-color: #2f0931; */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+  overscroll-behavior: none;
+}
+.layout-root {
+  position: relative;
+  min-height: 100vh;
+}
+.main-content {
+  transition: margin-left 0.3s ease;
+}
 
 /* globals.css */
 :root {
-  --background-color: linear-gradient(135deg, #e9e5ea, #ffffff);
-  --text-color: #111111;
-  --primary-color: #431845;
-  --secondary-color: #2f0931;
-
-  --white-color: #ffffff;
-  --black-color: #000000;
-
-  --accent-color: #eee;
-  --accent-color-2: #ccc;
-  --accent-color-3: #f0f0f0;
-
-  --border-color: #e5e5e5;
-  --tooltip-bg: #222;
-  --tooltip-text-color: #fff;
-  --hover-color: #111;
   --transition-speed: 0.3s;
-  --black-gradient: linear-gradient(
-    130deg,
-    var(--black-color),
-    var(--black-color)
-  );
-  --time: #98989898;
 }
 
-[data-theme="dark"] {
-  --background-color: #141414;
-  --text-color: #ffffff;
-  --primary-color: #2f0931;
-  --secondary-color: #431845;
+/* Light Theme Colors */
+:root[data-theme="light"] {
+  --background-color: #f4f2f7;
+  --primary-color: #6b368b;
+  --primary-dark: #572a73;
 
-  --white-color: #242424;
-  --black-color: #ffffff;
+  --accent-lightest: #f5f2f8;
+  --accent-lighter: #e4ddea;
+  --accent-medium: #c5b8d1;
+  --accent-dark: #e6e1ec;
 
-  --accent-color: #333;
-  --accent-color-2: #444;
-  --accent-color-3: #323131;
+  --bg-main: #faf8fb;
+  --bg-card: #ffffff;
+  --bg-hover: #f1ecf5;
 
-  --border-color: #444;
-  --tooltip-bg: #fff;
-  --tooltip-text-color: #000;
-  --hover-color: #ddd;
-  --time: #ffffffae;
+  --text-color: #333333;
+  --text-muted: #666666;
+  --text-inverse: #ffffff;
+
+  --border-color: #d3cde0;
+  --border-strong: #b8aacd;
+
+  --shadow-color: rgba(0, 0, 0, 0.08);
+
+  --success-color: #38a169;
+  --error-color: #e53e3e;
+  --surface-muted: #d8cfe1;
+  --card-bg: #fbf9fc;
+  --card-border: #e0d7eb;
+}
+
+/* Dark Theme Colors  */
+
+:root[data-theme="dark"] {
+  --background-color: #1a1621;
+  --primary-color: #b18bda;
+  --primary-dark: #8f63b8;
+
+  --accent-lightest: #1d1a22;
+  --accent-lighter: #2a2533;
+  --accent-medium: #3e3451;
+  --accent-dark: #4e3f63;
+
+  --bg-main: #1a1621;
+  --bg-card: #2a2533;
+  --bg-hover: #3e3451;
+
+  --text-color: #f2f2f2;
+  --text-muted: #aaaaaa;
+  --text-inverse: #000000;
+
+  --border-color: #3d3550;
+  --border-strong: #5a4a73;
+
+  --shadow-color: rgba(0, 0, 0, 0.6);
+
+  --success-color: #48bb78;
+  --error-color: #f56565;
+  --surface-muted-dark: #2d2533;
+  --card-bg: #221d2a;
+  --card-border: #2e2536;
 }
 
 body {

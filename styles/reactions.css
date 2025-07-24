@@ -10,31 +10,34 @@
   gap: 6px;
   padding: 6px 12px;
   border-radius: 9999px;
-  background-color: #f4f4f4;
-  border: none;
+  background-color: var(--accent-lighter);
+  border: 1px solid transparent;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #444;
+  color: var(--text-color);
 }
 
 .reaction-pill:hover {
-  background-color: #e6e6e6;
+  background-color: var(--bg-hover);
   transform: translateY(-1px);
 }
 
 .reaction-pill.reacted {
-  background-color: #ffe9ec;
-  color: var(--primary-color);
+  background-color: var(--accent-medium);
+  color: var(--text-color);
   font-weight: bold;
+  border: 1px solid var(--border-color);
 }
 
 .reaction-pill .emoji {
   font-size: 1.2rem;
+  transition: color 0.2s ease;
+  color: var(--text-color);
 }
 
 .reaction-pill.reacted .emoji {
-  color: var(--primary-color);
+  color: var(--text-color);
 }
 
 .reaction-pill .count {

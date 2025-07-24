@@ -31,6 +31,7 @@ export default function CategoryTabs({ selectedCategory }) {
   };
   return (
     <>
+      {/* Desktop category */}
       <div className="category-tabs">
         {categories.map((cat) => (
           <Link
@@ -41,11 +42,8 @@ export default function CategoryTabs({ selectedCategory }) {
             {cat.charAt(0).toUpperCase() + cat.slice(1)}
           </Link>
         ))}
-        <Link href="/submit" className="fab-category">
-          📨 Submit Anonymous
-        </Link>
       </div>
-
+      {/* Mobile category */}
       <div className="mobile-dropdown-container">
         <div className="dropdown-wrapper">
           <div

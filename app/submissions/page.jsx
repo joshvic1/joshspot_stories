@@ -33,6 +33,7 @@ export default function SubmissionsPage() {
 
   return (
     <MainLayout>
+      <BackButton />
       <div className="submissions-header mx-7 my-9">
         <h1 className="text-2xl font-bold"> My Submitted Stories</h1>
         <button onClick={handleClear} className="clear-button">
@@ -72,8 +73,6 @@ export default function SubmissionsPage() {
           </ul>
         )}
       </div>
-
-      <BackButton />
     </MainLayout>
   );
 }

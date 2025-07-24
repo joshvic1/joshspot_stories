@@ -11,15 +11,12 @@ import {
   FiMessageCircle,
   FiEdit2,
   FiZap,
-  FiTwitter,
-  FiInstagram,
-  FiFacebook,
 } from "react-icons/fi";
 import "../../styles/sidebar.css";
 import DarklightMode from "../DarkLightMode";
 
 const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
   const toggleSidebar = () => {
@@ -29,7 +26,7 @@ const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth < 768;
+      const mobile = window.innerWidth < 827;
       setIsMobile(mobile);
       if (!mobile) {
         setSidebarOpen && setSidebarOpen(isOpen);
@@ -45,7 +42,7 @@ const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
   }, []);
 
   const menuItems = [
-    { label: "Home", icon: <FiHome />, href: "/" },
+    { label: "Home", icon: <FiHome />, href: "/", title: "Home" },
     { label: "My Stories", icon: <FiEdit2 />, href: "/submissions" },
     { label: "Submit Anonymous", icon: <FiPlusCircle />, href: "/submit" },
     { label: "Exclusive Stories", icon: <FiZap />, href: "/exclusive" },
@@ -94,10 +91,6 @@ const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
             </span>
             {(isOpen || isMobile) && <span className="label">Joshspot AI</span>}
           </button>
-
-          <div className="dark-toggle-wrapper">
-            <DarklightMode />
-          </div>
         </nav>
       </aside>
     </>

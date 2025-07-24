@@ -1,9 +1,10 @@
 .story-card-v2 {
   position: relative;
-  background: var(--white-color);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 18px;
   padding: 1rem 1.2rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 1.5rem;
   transition: all 0.2s ease-in-out;
   animation: fadeInCard 0.4s ease-in-out;

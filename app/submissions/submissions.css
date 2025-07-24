@@ -1,18 +1,27 @@
 body {
-  background: var(--accent-color-3);
+  background: var(--background-color);
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 .back {
   padding-left: 60px;
+  padding-top: 10px;
+  background-color: var(--background-color);
 }
+
 .submissions-container {
   border-radius: 18px;
   padding: 1rem 1.2rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-
-  margin: 2rem 1.5rem 1.5rem 1.5rem;
+  box-shadow: 0 10px 20px var(--shadow-color);
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 800px;
   transition: all 0.2s ease-in-out;
   animation: fadeInCard 0.4s ease-in-out;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
 }
 
 .submissions-header {
@@ -20,25 +29,27 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .clear-button {
-  background-color: #e74c3c;
-  color: white;
+  background-color: var(--error-color);
+  color: var(--text-inverse);
   padding: 6px 12px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-speed);
 }
 
 .clear-button:hover {
-  background-color: #c0392b;
+  background-color: #c0392b; /* No variable for this in globals, kept as-is */
 }
 
 .empty-text {
-  color: #999;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -46,4 +57,47 @@ body {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+/* -------------------------------------- */
+/* RESPONSIVE DESIGN BELOW */
+/* -------------------------------------- */
+
+@media (max-width: 768px) {
+  .back {
+    padding-left: 20px;
+  }
+
+  .submissions-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .clear-button {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .submissions-container {
+    padding: 1rem;
+    margin: 1rem auto;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .back {
+    padding-left: 10px;
+  }
+
+  .submissions-container {
+    padding: 0.8rem;
+  }
+
+  .clear-button {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
 }

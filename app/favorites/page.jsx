@@ -21,6 +21,7 @@ export default function FavoritesPage() {
 
   return (
     <MainLayout>
+      <BackButton className="back" />
       <div className="favorites-container">
         <h2 className="fav-title">❤️ Favorite Stories</h2>
         {favorites.length === 0 ? (
@@ -36,7 +37,6 @@ export default function FavoritesPage() {
           ))
         )}
       </div>
-      <BackButton className="back" />
     </MainLayout>
   );
 }

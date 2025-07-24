@@ -3,20 +3,19 @@ import { useState, useEffect } from "react";
 import "/styles/darkLightMode.css";
 
 export default function DarklightMode() {
-  const [theme, setTheme] = useState(null);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme") || "light";
+    }
+    return "light";
+  });
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    setTheme(savedTheme);
-  }, []);
-
-  useEffect(() => {
-    if (!theme) return;
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
-  }, [theme]);
 
-  if (!theme) return null; // Avoid rendering toggle until theme is set
+    window.dispatchEvent(new Event("storage"));
+  }, [theme]);
 
   return (
     <div className="theme-toggle">

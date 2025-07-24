@@ -1,211 +1,208 @@
 body {
-  background: var(--accent-color-3);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .back {
   padding-left: 60px;
+  padding-top: 10px;
+  background-color: var(--bg-main);
 }
 
 .submit-title {
   font-size: 22px;
   margin-bottom: 20px;
-  color: var(--black-color);
+  color: var(--text-color);
+  text-align: center;
 }
 
 .submit-container {
-  background: var(--accent-color-3);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  padding: 40px 20px;
+  background-color: var(--bg-main);
 }
 
 .submit-form-wrapper {
-  background: var(--white-color);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  padding: 30px 25px;
+  box-shadow: 0 10px 25px var(--shadow-color);
+  padding: 30px;
+  max-width: 900px;
   width: 100%;
-  max-width: 1000px;
-  color: var(--text-color);
-  text-align: center;
-  animation: slideIn 0.5s ease-out;
+  animation: fadeIn 0.4s ease-out;
 }
 
-@keyframes slideIn {
-  0% {
+@keyframes fadeIn {
+  from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(20px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+.submit-form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: var(--text-color);
+}
+
+.submit-form textarea,
+.submit-form select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background-color: var(--accent-lightest);
+  color: var(--text-color);
+  font-size: 15px;
+  font-family: inherit;
+  margin-bottom: 16px;
+  outline: none;
+  transition: border var(--transition-speed) ease;
+}
+
+.submit-form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-form textarea::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.submit-form select option {
+  color: var(--text-color);
+}
+
 .emoji-radio {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 10px;
-  width: 100%;
+  margin-bottom: 20px;
 }
 
 .emoji-option {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background-color: var(--accent-lighter);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--text-color);
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 14px;
-  border: 1px solid var(--accent-color-2);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(6px);
-  cursor: pointer;
-  transition: all var(--transition-speed) ease;
-  font-weight: 500;
-  font-size: 15px;
-  color: var(--black-color);
-}
-
-label {
-  font-weight: 600;
-  color: var(--black-color);
+  transition: all var(--transition-speed);
 }
 
 .emoji-option input[type="radio"] {
   display: none;
 }
 
+.emoji-option:hover {
+  background-color: var(--bg-hover);
+  transform: scale(1.02);
+}
+
 .emoji-option.selected {
   border-color: var(--primary-color);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 6px var(--primary-color);
-  transform: scale(1.03);
-}
-
-.submit-form textarea,
-.submit-form select {
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 14px;
-  border: 1px solid var(--border-color);
-  background-color: var(--accent-color-3);
-  color: var(--text-color);
-  border-radius: 14px;
-  font-size: 15px;
-  font-family: inherit;
-  outline: none;
-  transition: var(--transition-speed) ease;
-}
-
-.submit-form textarea {
-  resize: none;
-  background-color: rgba(255, 255, 255, 0.25);
-  color: var(--black-color);
-}
-
-.submit-form textarea::placeholder {
-  color: var(--text-color);
-}
-
-.submit-form select {
-  background-color: rgba(255, 255, 255, 0.25);
-  color: var(--black-color);
-}
-
-.submit-form select option {
-  color: var(--black-color);
+  background-color: var(--surface-muted);
+  box-shadow: 0 0 0 3px rgba(107, 54, 139, 0.2);
 }
 
 .radio-group {
-  margin-bottom: 15px;
-  text-align: left;
-  color: var(--white-color);
+  margin-bottom: 16px;
 }
 
 .radio-options {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  gap: 10px;
   margin-top: 8px;
 }
 
 .radio-options label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  font-weight: 500;
+  color: var(--text-color);
 }
 
 .submit-form button {
   width: 100%;
-  margin-bottom: 15px;
   padding: 14px;
-  border: 1px solid var(--border-color);
+  border: none;
   background-color: var(--primary-color);
-  color: var(--white-color);
-  border-radius: 14px;
+  color: var(--text-inverse);
+  border-radius: 12px;
   font-size: 15px;
-  font-family: inherit;
   font-weight: 600;
-  outline: none;
-  transition: var(--transition-speed) ease;
-}
-[data-theme="dark"] .submit-form button {
-  background-color: var(--text-color);
-  color: var(--white-color);
-  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background var(--transition-speed),
+    transform var(--transition-speed);
 }
 
 .submit-form button:hover {
-  transform: scale(1.03);
-  background: #946c9e;
+  background-color: var(--primary-dark);
+  transform: scale(1.02);
 }
 
+/* Toast/Popup */
 .toast-popup {
   position: fixed;
   top: 20%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  background: rgba(34, 34, 34, 0.9);
-  color: var(--white-color);
-  padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  z-index: 9999;
-  animation: fadeInScale 0.4s ease forwards;
+  transform: translate(-50%, -50%);
+  background-color: var(--bg-card);
+  color: var(--text-color);
+  padding: 14px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 5px 20px var(--shadow-color);
+  z-index: 1000;
+  font-size: 15px;
   font-weight: 500;
-  font-size: 16px;
-  text-align: center;
-  max-width: 90%;
-  backdrop-filter: blur(10px);
+  animation: fadeIn 0.4s ease;
 }
 
 .toast-popup.success {
-  background: rgba(128, 0, 66, 0.85);
+  background-color: var(--success-color);
+  color: var(--text-inverse);
 }
 
 .toast-popup.error {
-  background: rgba(255, 0, 0, 0.85);
+  background-color: var(--error-color);
+  color: var(--text-inverse);
 }
 
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -60%) scale(0.8);
+/* Responsive */
+@media (max-width: 768px) {
+  .back {
+    padding-left: 20px;
   }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
 
-@media (max-width: 480px) {
+  .submit-container {
+    padding: 20px;
+  }
+
   .submit-form-wrapper {
-    padding: 20px 15px;
+    padding: 20px;
   }
 
   .submit-title {
-    font-size: 18px;
+    font-size: 20px;
   }
 }
