@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import DarkLightMode from "/components/DarkLightMode";
 import SearchBar from "./Layout/SearchBar";
-import "/styles/TopHeader.css";
+import "/styles/topHeader.css";
 
 export default function TopHeader({
   searchTerm,
