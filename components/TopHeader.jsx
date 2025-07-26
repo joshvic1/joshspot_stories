@@ -1,29 +1,41 @@
-// components/TopHeader.jsx
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { FiPlus, FiMenu } from "react-icons/fi";
 import DarkLightMode from "/components/DarkLightMode";
 import SearchBar from "./Layout/SearchBar";
 import "/styles/topHeader.css";
+import MobileSideBar from "./MobileSideBar";
 
-export default function TopHeader({
-  searchTerm,
-  setSearchTerm,
-  stories,
-  onSearch,
-}) {
+export default function TopHeader({ stories }) {
   const [theme, setTheme] = useState("light");
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize(); // initial check
+    window.addEventListener("resize", handleResize);
+
     if (typeof window !== "undefined") {
       setTheme(localStorage.getItem("theme") || "light");
       window.addEventListener("storage", () => {
         setTheme(localStorage.getItem("theme") || "light");
       });
     }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  const logoSrc = theme === "dark" ? "/logo2.png" : "/logo1.png";
+  const logoSrc = isMobile
+    ? "/mobilelogo.png"
+    : theme === "dark"
+    ? "/logo2.png"
+    : "/logo1.png";
 
   return (
     <header className="top-header">
@@ -39,9 +51,14 @@ export default function TopHeader({
 
       <div className="header-right">
         <Link href="/submit" className="submit-button">
-          Submit Story
+          {isMobile ? <FiPlus size={14} /> : "Submit Story"}
         </Link>
         <DarkLightMode />
+        {isMobile && (
+          <button className="mobile-menu-icon">
+            <MobileSideBar />
+          </button>
+        )}
       </div>
     </header>
   );

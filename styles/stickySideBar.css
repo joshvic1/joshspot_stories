@@ -1,0 +1,237 @@
+.sticky-sidebar {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  width: 280px;
+  margin-left: 20px;
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-scroll {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-box,
+.trending-sidebar {
+  padding: 10px 12px;
+  background: #221c2b;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  color: #e4e4e4;
+}
+
+.sidebar-box h3,
+.sidebar-box h4,
+.sidebar-title {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.sidebar-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trending-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #2a2a3d;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.trending-item:hover {
+  background: #373753;
+  transform: translateY(-1px);
+}
+
+.trending-item .emoji {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.trending-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.trending-title {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #f1f1f1;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trending-time {
+  font-size: 9.5px;
+  color: #a5a5a5;
+  margin-top: 2px;
+}
+
+.invite-box {
+  position: relative;
+  height: 170px;
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  margin-bottom: 12px;
+}
+
+.invite-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.invite-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3),
+    rgba(20, 16, 25, 0.95)
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+}
+
+.invite-overlay h4 {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.invite-overlay p {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.join-btn {
+  margin-top: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 20px;
+  background-color: #7928ca;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.join-btn:hover {
+  background-color: #9b4dff;
+}
+
+.sidebar-footer {
+  font-size: 10px;
+  margin-top: auto;
+  padding-top: 10px;
+  color: #9e9e9e;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .sticky-sidebar {
+    width: 100%;
+    margin-left: 0;
+    position: static;
+    max-height: none;
+    margin-top: 20px;
+  }
+
+  .sidebar-scroll {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .trending-item {
+    padding: 10px;
+  }
+
+  .trending-title {
+    font-size: 15px;
+  }
+
+  .trending-time {
+    font-size: 10px;
+  }
+
+  .invite-box {
+    height: 150px;
+  }
+
+  .invite-overlay h4 {
+    font-size: 13px;
+  }
+
+  .invite-overlay p {
+    font-size: 11px;
+  }
+
+  .join-btn {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .sidebar-footer {
+    font-size: 9.5px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sticky-sidebar {
+    margin-top: 30px;
+  }
+
+  .trending-title {
+    font-size: 14px;
+  }
+
+  .invite-box {
+    height: 130px;
+  }
+
+  .join-btn {
+    font-size: 10px;
+  }
+}

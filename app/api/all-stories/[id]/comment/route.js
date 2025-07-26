@@ -1,6 +1,10 @@
+// My comments API route
+// app/api/all-stories/[id]/comment/route.js
+
 import dbConnect from "@/lib/dbConnect";
 import Comment from "@/models/Comment";
 
+// Fetch comments for a specific story
 export async function GET(req, { params }) {
   await dbConnect();
   const { id } = params;
@@ -18,6 +22,7 @@ export async function GET(req, { params }) {
   }
 }
 
+// Add a new comment to a story
 export async function POST(req, { params }) {
   await dbConnect();
   const { id } = params;

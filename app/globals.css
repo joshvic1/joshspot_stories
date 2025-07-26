@@ -9,6 +9,8 @@ body {
   overflow-x: hidden;
   height: 100%;
   overscroll-behavior: none;
+  scroll-behavior: smooth;
+  overflow-anchor: auto;
 }
 .layout-root {
   position: relative;
@@ -91,7 +93,7 @@ body {
   font-family: sans-serif;
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
-  user-select: none;
+  /* user-select: none; */
 }
 .joshspot-ai-modal {
   user-select: text;

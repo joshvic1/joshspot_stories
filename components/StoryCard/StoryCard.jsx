@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { formatDistanceToNow } from "date-fns";
 import Reactions from "/components/StoryCard/Reactions";
 import CommentIcon from "/components/StoryCard/CommentIcon";
@@ -6,6 +6,7 @@ import ShareIcon from "/components/StoryCard/ShareIcon";
 import "/styles/storycard.css";
 import { usePathname } from "next/navigation";
 import { FiBookmark } from "react-icons/fi";
+
 import { FaBookmark } from "react-icons/fa";
 
 // Defining my custom emoji avatar
@@ -34,6 +35,9 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
   const { content, category, createdAt } = story;
   const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
   const borderColor = categoryColors[category] || "#999";
+  const [shareOpen, setShareOpen] = useState(false);
+  const [openShareId, setOpenShareId] = useState(null);
+  const shareRefs = useRef({});
 
   const [expanded, setExpanded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -61,6 +65,19 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
       setIsFavorite(true);
     }
   };
+  useEffect(() => {
+    function handleClickOutside(event) {
+      const currentRef = shareRefs.current[openShareId];
+      if (openShareId && currentRef && !currentRef.contains(event.target)) {
+        setOpenShareId(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openShareId]);
 
   const isLong = content.length > 200;
   const displayedText =
@@ -73,7 +90,12 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
 
   return (
     <div className="story-card">
-      <div className="story-card-v2">
+      <div
+        className={`story-card-v2 ${
+          openShareId === story._id ? "card-has-share-open" : ""
+        }`}
+        ref={(el) => (shareRefs.current[story._id] = el)}
+      >
         {/* 🔖 Favorite icon */}
         <div className="favorite-icon" onClick={toggleFavorite}>
           {isFavorite ? (
@@ -120,7 +142,13 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
             </div>
           </div>
           <div className="meta-item">
-            <ShareIcon story={story} />
+            <ShareIcon
+              storyId={story._id}
+              isOpen={openShareId === story._id}
+              onToggle={() =>
+                setOpenShareId(openShareId === story._id ? null : story._id)
+              }
+            />
           </div>
         </div>
       </div>

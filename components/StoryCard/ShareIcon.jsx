@@ -4,11 +4,9 @@ import { LuCopy } from "react-icons/lu";
 import { FiShare } from "react-icons/fi";
 import "/styles/shareIcon.css";
 
-const ShareIcon = ({ storyId }) => {
-  const [open, setOpen] = useState(false);
+const ShareIcon = ({ storyId, isOpen, onToggle }) => {
   const [copied, setCopied] = useState(false);
   const baseUrl = "https://yourwebsite.com/story/";
-
   const storyUrl = `${baseUrl}${storyId}`;
 
   const handleCopy = () => {
@@ -19,11 +17,11 @@ const ShareIcon = ({ storyId }) => {
 
   return (
     <div className="share-wrapper">
-      <button onClick={() => setOpen(!open)} className="share-btn">
+      <button onClick={onToggle} className="share-btn">
         <FiShare />
       </button>
 
-      {open && (
+      {isOpen && (
         <div className="share-menu">
           <button onClick={handleCopy} className="share-item">
             <LuCopy />

@@ -65,17 +65,21 @@ const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
 
         <nav className="sidebar-nav">
           {menuItems.map((item, index) => (
-            <Link
-              key={index}
-              href={item.href}
-              className={`sidebar-link ${item.className || ""}`}
-              onClick={() => isMobile && setIsOpen(false)}
-            >
-              <span className="icon">{item.icon}</span>
-              {(isOpen || isMobile) && (
-                <span className="label">{item.label}</span>
+            <div className="tooltip-wrapper" key={index}>
+              <Link
+                href={item.href}
+                className={`sidebar-link ${item.className || ""}`}
+                onClick={() => isMobile && setIsOpen(false)}
+              >
+                <span className="icon">{item.icon}</span>
+                {(isOpen || isMobile) && (
+                  <span className="label">{item.label}</span>
+                )}
+              </Link>
+              {!isOpen && !isMobile && (
+                <span className="tooltip-text">{item.label}</span>
               )}
-            </Link>
+            </div>
           ))}
 
           <button
@@ -86,9 +90,14 @@ const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
               if (isMobile) setIsOpen(false);
             }}
           >
-            <span className="icon">
-              <FiMessageCircle />
-            </span>
+            <div className="tooltip-wrapper">
+              <span className="icon">
+                <FiMessageCircle />
+              </span>
+              {!isOpen && !isMobile && (
+                <span className="tooltip-text">Joshspot AI</span>
+              )}
+            </div>
             {(isOpen || isMobile) && <span className="label">Joshspot AI</span>}
           </button>
         </nav>

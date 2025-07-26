@@ -4,12 +4,18 @@ import "/styles/featured.css";
 import { useRouter } from "next/navigation";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { useRef } from "react";
+import Spinner from "./Spinner";
+import SidebarSticky from "../StickySideBar/StickySideBar";
+import "/styles/stickySideBar.css";
 
 export default function StoryList({
   featuredStories,
   filteredStories,
   hasMounted,
   loading,
+  isFetchingCategory,
+  hasMore,
+  loadMoreStories,
 }) {
   const presetImages = [
     "/featured-1.png",
@@ -36,6 +42,7 @@ export default function StoryList({
   ];
   const router = useRouter();
   const scrollRef = useRef(null);
+
   const scroll = (direction) => {
     const container = scrollRef.current;
     if (!container) return;
@@ -46,13 +53,15 @@ export default function StoryList({
       behavior: "smooth",
     });
   };
+
   const getRandomImage = () => {
     const randomIndex = Math.floor(Math.random() * presetImages.length);
     return presetImages[randomIndex];
   };
+
   return (
     <>
-      {/* Featured Slider */}
+      {/* Featured Section */}
       {featuredStories.length > 0 && (
         <section className="section featured-slider-wrapper">
           <h2 className="section-title">
@@ -88,28 +97,52 @@ export default function StoryList({
           </div>
         </section>
       )}
-      {/* Regular */}
+
+      {/* Main Stories Section */}
       {hasMounted && (
         <section className="section">
           <h2 className="section-title">
             <FaFire style={{ marginRight: "5px" }} /> Recent Stories
           </h2>
-          <div className="story-list">
-            {!hasMounted || filteredStories === undefined ? (
-              <p className="text-gray-500">Loading...</p>
-            ) : filteredStories.length === 0 ? (
-              <p className="text-gray-500">No stories found.</p>
-            ) : (
-              filteredStories.map((story) => (
-                <StoryCard key={story._id} story={story} />
-              ))
-            )}
+
+          <div style={{ display: "flex", alignItems: "flex-start" }}>
+            <div style={{ flex: 1 }}>
+              <div className="story-list">
+                {isFetchingCategory ? (
+                  <div className="text-center mt-4">
+                    <Spinner size={30} color="#888" />
+                    <p className="text-gray-400 mt-2">Loading Stories...</p>
+                  </div>
+                ) : filteredStories.length === 0 ? (
+                  <p className="text-gray-500">No stories found.</p>
+                ) : (
+                  filteredStories.map((story) => (
+                    <StoryCard key={story._id} story={story} />
+                  ))
+                )}
+              </div>
+
+              {hasMore && (
+                <div className="text-center my-6">
+                  <button
+                    onClick={loadMoreStories}
+                    className="px-6 py-2 bg-purple-700 text-white text-sm font-medium rounded hover:bg-purple-800 transition-all"
+                  >
+                    {loading ? "Loading..." : "See More Stories"}
+                  </button>
+                </div>
+              )}
+
+              {!hasMore && !loading && filteredStories.length > 0 && (
+                <p className="text-center text-gray-500 text-sm mt-4">
+                  No more stories.
+                </p>
+              )}
+            </div>
+
+            <SidebarSticky />
           </div>
         </section>
-      )}
-      {/* Loading more indicator */}
-      {loading && (
-        <p className="text-center text-gray-400 mt-4">Loading more...</p>
       )}
     </>
   );

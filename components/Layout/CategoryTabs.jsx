@@ -72,19 +72,6 @@ export default function CategoryTabs({ selectedCategory }) {
             </ul>
           )}
         </div>
-
-        <div className="mobile-fab-wrapper">
-          <Link href="/submit" className="mobile-fab" title="Submit a story">
-            <FiPlusCircle />
-          </Link>
-          <Link
-            href="/notifications"
-            className="notifications"
-            title="Notifications"
-          >
-            <FiBell />
-          </Link>
-        </div>
       </div>
     </>
   );

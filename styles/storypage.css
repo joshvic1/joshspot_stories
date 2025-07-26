@@ -46,6 +46,7 @@
   padding: 1rem;
   background: var(--background-color);
   min-height: 100vh;
+  z-index: 9998;
 }
 .story-header-content {
   margin-top: 1.5rem;
@@ -116,6 +117,18 @@
   flex: 1 1;
   max-width: auto;
 }
+.load-more-btn {
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.load-more-btn:hover {
+  background-color: #333;
+}
 
 /* Floating Action Button */
 .fab {
@@ -167,9 +180,6 @@
     margin: 0 auto;
   }
   .mobile-special-toggle {
-    position: fixed;
-    top: 3.7rem;
-    right: 1rem;
     background: black;
     color: white;
     padding: 1rem;
@@ -185,21 +195,10 @@
     background: white;
     color: black;
   }
-  .mobile-special-toggle.fixed {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-  }
-  .outer-icon {
-    position: relative;
-    font-size: 1.5rem;
-    font-weight: bolder;
-  }
 
   .inner-icon {
     position: absolute;
-    top: 4px;
-    left: 4px;
+
     font-size: 1.5rem;
   }
 
