@@ -5,6 +5,7 @@ import axios from "axios";
 import "/styles/commentForm.css";
 
 export default function CommentForm({ storyId, onCommentAdded }) {
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -14,9 +15,12 @@ export default function CommentForm({ storyId, onCommentAdded }) {
 
     setLoading(true);
     try {
-      const res = await axios.post(`/api/all-stories/${storyId}/comment`, {
-        text,
-      });
+      const res = await axios.post(
+        `${BACKEND_URL}/api/all-stories/${storyId}/comment`,
+        {
+          text,
+        }
+      );
       onCommentAdded(res.data.comment);
       setText("");
     } catch (error) {

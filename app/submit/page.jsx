@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MainLayout from "@/components/Layout/MainLayout";
-import "./submit.css";
 import BackButton from "@/components/BackToPrev";
-// Categories to be displayed.
+import "./submit.css";
+
 const categories = ["love", "sex", "relationship", "heartbreak", "others"];
 
 export default function SubmitPage() {
@@ -16,6 +16,30 @@ export default function SubmitPage() {
   const [popupMessage, setPopupMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
+
+  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  const submitStory = async ({ content, category, type }) => {
+    try {
+      const response = await fetch(`${baseUrl}/api/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content, category, type }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit story");
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
 
   useEffect(() => {
     if (popupMessage) {
@@ -34,7 +58,6 @@ export default function SubmitPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Regex to detect links
     const linkRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/gi;
     if (linkRegex.test(content)) {
       setPopupMessage("Links are not allowed.");
@@ -47,33 +70,22 @@ export default function SubmitPage() {
     }
 
     setLoading(true);
-    try {
-      const res = await fetch("/api/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content, category, type }),
-      });
+    const result = await submitStory({ content, category, type });
+    setLoading(false);
 
-      setLoading(false);
-
-      if (res.ok) {
-        const existing = JSON.parse(localStorage.getItem("myStories")) || [];
-        const newStory = { content, category, type, time: Date.now() };
-        localStorage.setItem(
-          "myStories",
-          JSON.stringify([...existing, newStory])
-        );
-        setPopupMessage("Story submitted successfully!");
-        setContent("");
-        setCategory("");
-        setType("public");
-      } else {
-        const data = await res.json();
-        setPopupMessage(data.error || "Error submitting story.");
-      }
-    } catch (error) {
-      setLoading(false);
-      setPopupMessage("Network error. Try again.");
+    if (result.success) {
+      const existing = JSON.parse(localStorage.getItem("myStories")) || [];
+      const newStory = { content, category, type, time: Date.now() };
+      localStorage.setItem(
+        "myStories",
+        JSON.stringify([...existing, newStory])
+      );
+      setPopupMessage("Story submitted successfully!");
+      setContent("");
+      setCategory("");
+      setType("public");
+    } else {
+      setPopupMessage(result.error || "Error submitting story.");
     }
   };
 
@@ -128,36 +140,11 @@ export default function SubmitPage() {
               </div>
             </div>
 
-            {/* <div className="radio-group">
-              <label>How should we post it?</label>
-              <div className="radio-options">
-                <label>
-                  <input
-                    type="radio"
-                    name="type"
-                    value="public"
-                    checked={type === "public"}
-                    onChange={() => setType("public")}
-                  />
-                  Post Publicly
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="type"
-                    value="expert"
-                    checked={type === "expert"}
-                    onChange={() => setType("expert")}
-                  />
-                  Send to Joshspot AI
-                </label>
-              </div>
-            </div> */}
-
             <button type="submit" disabled={loading}>
               {loading ? "Submitting..." : "Submit Anonymously"}
             </button>
           </form>
+
           {showPopup && (
             <div
               className={`toast-popup ${

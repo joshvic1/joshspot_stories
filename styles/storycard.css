@@ -76,14 +76,14 @@
   transform: scale(1.2);
 }
 
-.tooltip {
+.favorite-icon .tooltip {
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.tooltip-text {
+.favorite-icon .tooltip-text {
   visibility: hidden;
   width: max-content;
   background-color: var(--accent-lighter);
@@ -103,7 +103,7 @@
   box-shadow: 0 2px 6px var(--shadow-color);
 }
 
-.tooltip:hover .tooltip-text {
+.favorite-icon .tooltip:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
 }

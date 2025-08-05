@@ -13,7 +13,6 @@ import {
   FiZap,
 } from "react-icons/fi";
 import "../../styles/sidebar.css";
-import DarklightMode from "../DarkLightMode";
 
 const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -77,29 +76,31 @@ const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
                 )}
               </Link>
               {!isOpen && !isMobile && (
-                <span className="tooltip-text">{item.label}</span>
+                <span className="tooltip-sidebar">{item.label}</span>
               )}
             </div>
           ))}
 
-          <button
-            className="sidebar-link"
-            onClick={() => {
-              setChatOpen(true);
-              setChatExpanded(true);
-              if (isMobile) setIsOpen(false);
-            }}
-          >
-            <div className="tooltip-wrapper">
+          <div className="tooltip-wrapper">
+            <button
+              className="sidebar-link"
+              onClick={() => {
+                setChatOpen(true);
+                setChatExpanded(true);
+                if (isMobile) setIsOpen(false);
+              }}
+            >
               <span className="icon">
                 <FiMessageCircle />
               </span>
-              {!isOpen && !isMobile && (
-                <span className="tooltip-text">Joshspot AI</span>
+              {(isOpen || isMobile) && (
+                <span className="label">Joshspot AI</span>
               )}
-            </div>
-            {(isOpen || isMobile) && <span className="label">Joshspot AI</span>}
-          </button>
+            </button>
+            {!isOpen && !isMobile && (
+              <span className="tooltip-sidebar">Joshspot AI</span>
+            )}
+          </div>
         </nav>
       </aside>
     </>

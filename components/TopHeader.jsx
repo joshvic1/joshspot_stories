@@ -51,11 +51,15 @@ export default function TopHeader({ stories }) {
 
       <div className="header-right">
         <Link href="/submit" className="submit-button">
-          {isMobile ? <FiPlus size={14} /> : "Submit Story"}
+          {isMobile ? <FiPlus size={18} /> : "Submit Story"}
         </Link>
-        <DarkLightMode />
+
+        <div className="dark-toggle">
+          <DarkLightMode />
+        </div>
+
         {isMobile && (
-          <button className="mobile-menu-icon">
+          <button className="mobile-menu-icon" aria-label="Open menu">
             <MobileSideBar />
           </button>
         )}

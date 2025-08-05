@@ -14,10 +14,13 @@ export default function MainLayout({ children }) {
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [stories, setStories] = useState([]);
   const [mounted, setMounted] = useState(false);
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     const fetchStories = async () => {
-      const res = await fetch("/api/all-stories?page=1&limit=100");
+      const res = await fetch(
+        `${BACKEND_URL}/api/all-stories?page=1&limit=100`
+      );
       const data = await res.json();
       setStories(data.stories || []);
     };

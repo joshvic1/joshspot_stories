@@ -4,6 +4,7 @@ import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import "/styles/commentList.css";
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const emojiAvatars = [
   "🦁",
   "🐼",
@@ -33,7 +34,9 @@ export default function CommentList({ storyId }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/api/all-stories/${storyId}/comment`);
+        const res = await axios.get(
+          `${BACKEND_URL}/api/all-stories/${storyId}/comment`
+        );
         setComments(res.data);
       } catch (err) {
         console.error("Error loading comments", err);

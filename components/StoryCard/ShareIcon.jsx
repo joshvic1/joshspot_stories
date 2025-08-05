@@ -6,7 +6,7 @@ import "/styles/shareIcon.css";
 
 const ShareIcon = ({ storyId, isOpen, onToggle }) => {
   const [copied, setCopied] = useState(false);
-  const baseUrl = "https://yourwebsite.com/story/";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const storyUrl = `${baseUrl}${storyId}`;
 
   const handleCopy = () => {

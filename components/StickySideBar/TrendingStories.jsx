@@ -7,11 +7,12 @@ import { FaFire } from "react-icons/fa";
 export default function TrendingSidebar() {
   const [trendingStories, setTrendingStories] = useState([]);
   const router = useRouter();
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const res = await fetch("/api/trending-stories");
+        const res = await fetch(`${BACKEND_URL}/api/trending-stories`);
         const data = await res.json();
         setTrendingStories(data.stories || []);
       } catch (err) {

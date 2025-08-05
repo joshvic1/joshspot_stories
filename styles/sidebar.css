@@ -12,8 +12,7 @@
   gap: 1rem;
   transition: width 0.3s ease;
   border-right: 1px solid var(--accent-dark);
-  overflow-y: auto;
-  overflow-x: visible;
+  overflow: visible;
   scrollbar-width: thin;
   scrollbar-color: var(--accent-medium) transparent;
 }
@@ -170,16 +169,16 @@
   z-index: 100000;
 }
 
-.tooltip-text {
-  position: absolute;
+.tooltip-sidebar {
+  position: fixed;
   top: 50%;
-  left: 100%;
+  left: 200%;
   transform: translateY(-50%);
   background-color: var(--accent-lighter);
   color: var(--text-color);
-  font-size: 0.75rem;
+  font-size: 1rem;
   white-space: nowrap;
-  padding: 4px 8px;
+  padding: 8px 8px;
   border-radius: 6px;
   opacity: 0;
   visibility: hidden;
@@ -188,7 +187,7 @@
   margin-left: 10px;
 }
 
-.tooltip-wrapper:hover .tooltip-text {
+.tooltip-wrapper:hover .tooltip-sidebar {
   visibility: visible;
   opacity: 1;
 }

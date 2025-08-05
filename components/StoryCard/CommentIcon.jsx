@@ -6,11 +6,14 @@ import "/styles/storycard.css";
 
 export default function CommentIcon({ storyId }) {
   const [commentCount, setCommentCount] = useState(0);
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await fetch(`/api/all-stories/${storyId}/comment`);
+        const res = await fetch(
+          `${BACKEND_URL}/api/all-stories/${storyId}/comment`
+        );
         const data = await res.json();
         if (Array.isArray(data)) {
           setCommentCount(data.length);

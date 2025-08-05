@@ -6,10 +6,9 @@ import ShareIcon from "/components/StoryCard/ShareIcon";
 import "/styles/storycard.css";
 import { usePathname } from "next/navigation";
 import { FiBookmark } from "react-icons/fi";
-
 import { FaBookmark } from "react-icons/fa";
 
-// Defining my custom emoji avatar
+// Emoji avatars
 const emojiAvatars = [
   "🦁",
   "🐼",
@@ -24,6 +23,7 @@ const emojiAvatars = [
   "👽",
 ];
 
+// Category border colors
 const categoryColors = {
   love: "#ff5e78",
   sex: "#ff9f43",
@@ -32,13 +32,23 @@ const categoryColors = {
 };
 
 export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
+  // Defensive check
+  if (
+    !story ||
+    !story.content ||
+    !story._id ||
+    !story.createdAt ||
+    !story.category
+  ) {
+    return null;
+  }
+
   const { content, category, createdAt } = story;
   const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
   const borderColor = categoryColors[category] || "#999";
   const [shareOpen, setShareOpen] = useState(false);
   const [openShareId, setOpenShareId] = useState(null);
   const shareRefs = useRef({});
-
   const [expanded, setExpanded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const pathname = usePathname();
@@ -57,7 +67,7 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
       setIsFavorite(false);
 
       if (isFavoritePage && onRemoveFavorite) {
-        onRemoveFavorite(story._id); // Trigger UI removal
+        onRemoveFavorite(story._id);
       }
     } else {
       favorites.push(story);
@@ -65,6 +75,7 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
       setIsFavorite(true);
     }
   };
+
   useEffect(() => {
     function handleClickOutside(event) {
       const currentRef = shareRefs.current[openShareId];
@@ -113,7 +124,6 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
 
         <div className="story-header">
           <div className="emoji-avatar">{emojiAvatar}</div>
-
           <div className="meta-info">
             <span className="category" style={{ color: borderColor }}>
               {category}

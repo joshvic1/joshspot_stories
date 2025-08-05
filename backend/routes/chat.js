@@ -1,16 +1,16 @@
-import OpenAI from "openai";
+const express = require("express");
+const router = express.Router();
+const OpenAI = require("openai");
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(req) {
-  const { messageHistory } = await req.json();
+router.post("/chat", async (req, res) => {
+  const { messageHistory } = req.body;
 
   if (!messageHistory || !Array.isArray(messageHistory)) {
-    return new Response(JSON.stringify({ error: "Invalid message history." }), {
-      status: 400,
-    });
+    return res.status(400).json({ error: "Invalid message history." });
   }
 
   try {
@@ -49,11 +49,11 @@ Start every first conversation warmly, like someone confiding in you.`,
     });
 
     const reply = response.choices[0].message.content;
-    return new Response(JSON.stringify({ reply }), { status: 200 });
+    res.status(200).json({ reply });
   } catch (error) {
-    console.error(error);
-    return new Response(JSON.stringify({ error: "Something went wrong." }), {
-      status: 500,
-    });
+    console.error("AI Error:", error);
+    res.status(500).json({ error: "Something went wrong." });
   }
-}
+});
+
+module.exports = router;

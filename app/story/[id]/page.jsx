@@ -1,27 +1,31 @@
-// app/story/[id]/page.jsx
-
-import StoryPageClient from "/components/Comments/StoryPageClient.jsx";
-import dbConnect from "@/lib/dbConnect";
-import Story from "@/models/Story";
+import StoryPageClient from "@/components/Comments/StoryPageClient";
 import { notFound } from "next/navigation";
+
+const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+async function getStoryById(id) {
+  try {
+    const res = await fetch(`${baseUrl}/api/story/${id}`, {
+      cache: "no-store", // optional: ensures fresh fetch every time
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to fetch story");
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
 
 export default async function StoryPage({ params }) {
   const { id } = params;
 
-  await dbConnect();
+  const result = await getStoryById(id);
 
-  try {
-    const story = await Story.findById(id).lean();
+  if (!result.success) return notFound();
 
-    if (!story) return notFound();
-
-    // Convert _id and createdAt to string-safe
-    story._id = story._id.toString();
-    story.createdAt = story.createdAt.toString();
-
-    return <StoryPageClient story={story} />;
-  } catch (error) {
-    console.error("Error fetching story:", error);
-    return notFound();
-  }
+  return <StoryPageClient story={result.data} />;
 }

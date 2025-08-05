@@ -1,6 +1,4 @@
-// Defining my stories structure in the database
-
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const StorySchema = new mongoose.Schema({
   content: {
@@ -35,7 +33,7 @@ const StorySchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
       },
-      emojiAvatar: String, // Add random emoji
+      emojiAvatar: String,
     },
   ],
   media: {
@@ -43,4 +41,4 @@ const StorySchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Story || mongoose.model("Story", StorySchema);
+module.exports = mongoose.models?.Story || mongoose.model("Story", StorySchema);

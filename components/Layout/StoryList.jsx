@@ -40,6 +40,7 @@ export default function StoryList({
     "/featured-20.png",
     "/featured-21.png",
   ];
+
   const router = useRouter();
   const scrollRef = useRef(null);
 
@@ -105,8 +106,8 @@ export default function StoryList({
             <FaFire style={{ marginRight: "5px" }} /> Recent Stories
           </h2>
 
-          <div style={{ display: "flex", alignItems: "flex-start" }}>
-            <div style={{ flex: 1 }}>
+          <div className="story-layout">
+            <div className="main-story-content">
               <div className="story-list">
                 {isFetchingCategory ? (
                   <div className="text-center mt-4">

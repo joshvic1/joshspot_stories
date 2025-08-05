@@ -19,7 +19,8 @@ const categoryColors = {
 export default function StoryPageClient({ story }) {
   const { _id, content, category, createdAt } = story;
   const [refreshKey, setRefreshKey] = useState(0);
-  const displayedStory = content.replace(/[\r\n]+/g, " ");
+  const displayedStory = content?.replace(/[\r\n]+/g, " ") || "";
+
   const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
   const borderColor = categoryColors[category] || "#999";
   const [sidebarOpen, setSidebarOpen] = useState(false);

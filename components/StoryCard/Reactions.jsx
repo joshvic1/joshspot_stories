@@ -8,11 +8,14 @@ export default function Reactions({ storyId }) {
   const [reactions, setReactions] = useState({});
   const [userReaction, setUserReaction] = useState(null);
   const localStorageKey = `reaction-${storyId}`;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     const fetchReactions = async () => {
       try {
-        const res = await axios.get(`/api/all-stories/${storyId}/reactions`);
+        const res = await axios.get(
+          `${BACKEND_URL}/api/all-stories/${storyId}/reactions`
+        );
         setReactions(res.data.reactions || {});
       } catch (error) {
         console.error("Failed to fetch reactions", error);
@@ -38,10 +41,13 @@ export default function Reactions({ storyId }) {
     }
 
     try {
-      const res = await axios.post(`/api/all-stories/${storyId}/reactions`, {
-        type: newReaction,
-        previousType,
-      });
+      const res = await axios.post(
+        `${BACKEND_URL}/api/all-stories/${storyId}/reactions`,
+        {
+          type: newReaction,
+          previousType,
+        }
+      );
       setReactions(res.data.reactions);
       setUserReaction(newReaction);
       if (newReaction) {
