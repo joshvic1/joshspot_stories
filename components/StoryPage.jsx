@@ -17,7 +17,9 @@ export default function StoryPage({ selectedCategory }) {
   const [isFetchingCategory, setIsFetchingCategory] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_API_BASE ||
+    "https://joshspot-backend-2.onrender.com/";
 
   useEffect(() => {
     setHasMounted(true);
