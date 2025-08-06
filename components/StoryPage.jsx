@@ -18,7 +18,7 @@ export default function StoryPage({ selectedCategory }) {
   const [hasMounted, setHasMounted] = useState(false);
 
   const baseUrl =
-    process.env.NEXT_PUBLIC_API_BASE ||
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
     "https://joshspot-backend-2.onrender.com/";
 
   useEffect(() => {
