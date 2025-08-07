@@ -18,6 +18,7 @@ export default function FloatingChatButton({
   setIsChatExpanded,
 }) {
   const messagesEndRef = useRef(null);
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const [messages, setMessages] = useState(() => {
     if (typeof window !== "undefined") {
@@ -64,7 +65,7 @@ export default function FloatingChatButton({
     setIsTyping(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/chat", {
+      const res = await fetch(`${BACKEND_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
