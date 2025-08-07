@@ -6,9 +6,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage({ searchParams }) {
   const selectedCategory = searchParams?.category || "all";
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BACKEND_URL ||
-    "https://joshspot-backend-2.onrender.com/";
+  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const featuredUrl = `${baseUrl}/api/all-stories?featured=true&category=${selectedCategory}&limit=5`;
   const regularUrl = `${baseUrl}/api/all-stories?featured=false&category=${selectedCategory}&limit=10`;
 
