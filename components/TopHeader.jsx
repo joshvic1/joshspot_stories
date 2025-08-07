@@ -32,7 +32,9 @@ export default function TopHeader({ stories }) {
   }, []);
 
   const logoSrc = isMobile
-    ? "/mobilelogo.png"
+    ? theme === "dark"
+      ? "/logo2.png"
+      : "/logo1.png"
     : theme === "dark"
     ? "/logo2.png"
     : "/logo1.png";
