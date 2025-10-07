@@ -12,6 +12,7 @@ import {
   FiEdit2,
   FiZap,
   FiInfo,
+  FiMessageSquare,
 } from "react-icons/fi";
 import "../../styles/sidebar.css";
 
@@ -49,6 +50,7 @@ const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
     { label: "Saved", icon: <FiBookmark />, href: "/favorites" },
     { label: "Notifications", icon: <FiBell />, href: "/notifications" },
     { label: "About us", icon: <FiInfo />, href: "/about" },
+    { label: "Contact us", icon: <FiMessageSquare />, href: "/contact" },
   ];
 
   return (
