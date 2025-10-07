@@ -20,6 +20,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1759270581850188"
+     crossorigin="anonymous"></script>
         <meta name="theme-color" content="#431845" />
         <meta name="msapplication-navbutton-color" content="#431845" />
         <meta
