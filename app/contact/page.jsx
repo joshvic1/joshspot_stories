@@ -9,6 +9,7 @@ import {
   Send,
   MessageCircle,
 } from "lucide-react";
+import MainLayout from "@/components/Layout/MainLayout";
 
 export default function ContactPage() {
   return (
@@ -49,12 +50,12 @@ export default function ContactPage() {
                 We’re available for bookings & adverts.
               </p>
               <a
-                href="https://wa.me/234XXXXXXXXXX"
+                href="https://wa.me/2348098945437"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[var(--primary-color)] hover:underline text-sm"
               >
-                +234 000 000 0000
+                +234 809 894 5437
               </a>
             </div>
 
@@ -122,7 +123,7 @@ export default function ContactPage() {
             </h2>
             <div className="flex items-center justify-center gap-6">
               <a
-                href="https://instagram.com/joshspottv"
+                href="https://instagram.com/joshspot_tv"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-[var(--bg-card)] border border-[var(--border-color)] px-4 py-2 rounded-xl hover:bg-[var(--bg-hover)] transition"
@@ -131,7 +132,7 @@ export default function ContactPage() {
                 <span>Instagram</span>
               </a>
               <a
-                href="https://twitter.com/joshspot_tv"
+                href="https://x.com/joshspot_tv"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-[var(--bg-card)] border border-[var(--border-color)] px-4 py-2 rounded-xl hover:bg-[var(--bg-hover)] transition"
@@ -140,7 +141,7 @@ export default function ContactPage() {
                 <span>Twitter</span>
               </a>
               <a
-                href="https://wa.me/234XXXXXXXXXX"
+                href="https://wa.me/2348098945437"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-[var(--bg-card)] border border-[var(--border-color)] px-4 py-2 rounded-xl hover:bg-[var(--bg-hover)] transition"
