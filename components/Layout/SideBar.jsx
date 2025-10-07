@@ -11,6 +11,7 @@ import {
   FiMessageCircle,
   FiEdit2,
   FiZap,
+  FiInfo,
 } from "react-icons/fi";
 import "../../styles/sidebar.css";
 
@@ -47,6 +48,7 @@ const Sidebar = ({ setSidebarOpen, setChatOpen, setChatExpanded }) => {
     { label: "Exclusive Stories", icon: <FiZap />, href: "/exclusive" },
     { label: "Saved", icon: <FiBookmark />, href: "/favorites" },
     { label: "Notifications", icon: <FiBell />, href: "/notifications" },
+    { label: "About us", icon: <FiInfo />, href: "/about" },
   ];
 
   return (
