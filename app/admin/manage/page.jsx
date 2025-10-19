@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 export default function ManageStories() {
   const [stories, setStories] = useState([]);
   const [editingStory, setEditingStory] = useState(null);
@@ -20,7 +20,7 @@ export default function ManageStories() {
 
   const fetchStories = async (pageNumber) => {
     const res = await fetch(
-      `/api/admin-stories?page=${pageNumber}&limit=${limit}`
+      `${baseUrl}/api/admin-stories?page=${pageNumber}&limit=${limit}`
     );
     const data = await res.json();
     setStories(data.stories);
@@ -28,12 +28,12 @@ export default function ManageStories() {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`/api/admin-stories/${id}`, { method: "DELETE" });
+    await fetch(`${baseUrl}/api/admin-stories/${id}`, { method: "DELETE" });
     setStories(stories.filter((story) => story._id !== id));
   };
 
   const toggleFeatured = async (id, isFeatured) => {
-    await fetch(`/api/admin-stories/${id}`, {
+    await fetch(`${baseUrl}/api/admin-stories/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ isFeatured: !isFeatured }),
@@ -65,7 +65,7 @@ export default function ManageStories() {
   };
 
   const handleUpdate = async (id) => {
-    const res = await fetch(`/api/story/${id}`, {
+    const res = await fetch(`${baseUrl}/api/story/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editForm),
