@@ -5,13 +5,6 @@ import { useRouter } from "next/navigation";
 export default function AdminDashboard() {
   const router = useRouter();
 
-  useEffect(() => {
-    const isAdmin = localStorage.getItem("isAdmin");
-    if (!isAdmin) {
-      router.push("/admin/login");
-    }
-  }, [router]);
-
   return (
     <div style={{ padding: "50px" }}>
       <h1>Welcome, Admin 👋</h1>
