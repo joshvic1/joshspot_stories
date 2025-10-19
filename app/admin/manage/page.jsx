@@ -94,11 +94,14 @@ export default function ManageStories() {
       });
 
       if (res.ok) {
-        const updated = await res.json();
-        setStories((prev) => prev.map((s) => (s._id === id ? updated : s)));
-        cancelEditing();
+        const updated = await res.json().catch(() => null);
+        if (updated) {
+          setStories((prev) => prev.map((s) => (s._id === id ? updated : s)));
+          cancelEditing();
+        }
       } else {
-        alert("Failed to update story");
+        const errMsg = await res.text();
+        alert("Failed to update story: " + errMsg);
       }
     } catch (err) {
       console.error("Update failed:", err);
