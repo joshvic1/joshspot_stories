@@ -11,6 +11,8 @@ import {
   FiEdit2,
   FiZap,
   FiX,
+  FiInfo,
+  FiMessageSquare,
 } from "react-icons/fi";
 import { HiMenuAlt2 } from "react-icons/hi";
 import DarklightMode from "/components/DarkLightMode";
@@ -37,6 +39,8 @@ export default function MobileSideBar({ setChatOpen, setChatExpanded }) {
     { label: "Exclusive Stories", icon: <FiZap />, href: "/exclusive" },
     { label: "Saved", icon: <FiBookmark />, href: "/favorites" },
     { label: "Notifications", icon: <FiBell />, href: "/notifications" },
+    { label: "About us", icon: <FiInfo />, href: "/about" },
+    { label: "Contact us", icon: <FiMessageSquare />, href: "/contact" },
   ];
 
   return (
