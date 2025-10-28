@@ -17,6 +17,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^17.0.1",
     "framer-motion": "^12.23.3",
+    "html2canvas": "^1.4.1",
     "lucide-react": "^0.545.0",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.1",
