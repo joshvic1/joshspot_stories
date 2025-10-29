@@ -2,51 +2,66 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as htmlToImage from "html-to-image";
-import StoryImageCard from "@/components/StoryImageCard";
+import PinGate from "@/components/PinGate";
 
 const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const PAGE_LIMIT = 10;
 const WORDS_PER_IMAGE = 30;
 
-// Break story into chunks of 30 words for images
+// ---------- HELPERS ----------
 function chunkByWords(text, size = WORDS_PER_IMAGE) {
   if (!text) return [""];
+
   const words = text.trim().split(/\s+/).filter(Boolean);
-  const chunks = [];
+  const result = [];
+
   for (let i = 0; i < words.length; i += size) {
-    chunks.push(words.slice(i, i + size).join(" "));
+    result.push(words.slice(i, i + size).join(" "));
   }
-  return chunks.length ? chunks : [text];
+  return result.length ? result : [text];
+}
+
+function clsx(...args) {
+  return args.filter(Boolean).join(" ");
 }
 
 export default function ReviewPage() {
+  // ---------- ALL HOOKS AT TOP ----------
+  const [unlocked, setUnlocked] = useState(false);
+
+  // Data
   const [stories, setStories] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const [titleMap, setTitleMap] = useState({}); // { storyId: "Generated Title" }
-  const [busyIds, setBusyIds] = useState({}); // track loading per item
+  // UI
+  const [titleMap, setTitleMap] = useState({});
+  const [busyIds, setBusyIds] = useState({});
+  const [feedback, setFeedback] = useState({});
+  const [expanded, setExpanded] = useState({});
 
-  const cardRefs = useRef({}); // { storyId: [ref1, ref2...] }
+  // Refs
+  const cardRefs = useRef({});
 
-  // Fetch stories
+  // ---------- FETCH STORIES ----------
   async function fetchStories(pageNum) {
     setLoading(true);
     setErrorMsg("");
 
     try {
       const res = await fetch(
-        `${baseUrl}/api/admin-stories?page=${pageNum}&limit=${PAGE_LIMIT}`
+        `${baseUrl}/api/admin-stories?page=${pageNum}&limit=${PAGE_LIMIT}`,
+        { cache: "no-store" }
       );
+
       if (!res.ok) throw new Error("Failed to fetch stories");
 
       const data = await res.json();
       setStories(Array.isArray(data.stories) ? data.stories : []);
       setHasMore(Boolean(data.hasMore));
     } catch (err) {
-      console.error(err);
       setErrorMsg(err?.message || "Failed to fetch stories");
     } finally {
       setLoading(false);
@@ -56,9 +71,25 @@ export default function ReviewPage() {
   useEffect(() => {
     fetchStories(page);
   }, [page]);
-  // Approve / Unapprove Story
+  // ---------- INLINE FEEDBACK ----------
+  const showInline = (id, key, value = true, ttl = 1500) => {
+    setFeedback((prev) => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), [key]: value },
+    }));
+
+    setTimeout(() => {
+      setFeedback((prev) => ({
+        ...prev,
+        [id]: { ...(prev[id] || {}), [key]: false },
+      }));
+    }, ttl);
+  };
+
+  // ---------- ACTIONS ----------
   async function onTogglePublic(story) {
-    setBusyIds((m) => ({ ...m, [story._id]: true }));
+    setBusyIds((prev) => ({ ...prev, [story._id]: true }));
+
     try {
       const res = await fetch(`${baseUrl}/api/story/${story._id}`, {
         method: "PUT",
@@ -67,239 +98,320 @@ export default function ReviewPage() {
       });
 
       const updated = await res.json();
-      if (!res.ok) throw new Error(updated?.error || "Failed to update story");
+      if (!res.ok) throw new Error(updated?.error || "Failed");
 
       setStories((arr) => arr.map((s) => (s._id === story._id ? updated : s)));
-    } catch (err) {
-      console.error(err);
-      alert(err?.message || "Failed to update story");
+      showInline(
+        story._id,
+        "toggled",
+        updated.isPublic ? "Approved ✓" : "Unapproved ✓"
+      );
+    } catch {
+      showInline(story._id, "toggled", "Failed");
     } finally {
-      setBusyIds((m) => ({ ...m, [story._id]: false }));
+      setBusyIds((prev) => ({ ...prev, [story._id]: false }));
     }
   }
 
-  // Generate Story Title with AI
   async function onGenerateTitle(story) {
-    setBusyIds((m) => ({ ...m, [story._id]: true }));
+    setBusyIds((prev) => ({ ...prev, [story._id]: true }));
+
     try {
-      const res = await fetch(`${baseUrl}/api/ai/generate-title`, {
+      const res = await fetch(`${baseUrl}/api/generate-title`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: story.content }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Failed to generate title");
+      if (!res.ok) throw new Error(data?.error || "Failed");
 
-      setTitleMap((m) => ({ ...m, [story._id]: (data.title || "").trim() }));
-    } catch (err) {
-      console.error(err);
-      alert(err?.message || "Failed to generate title");
+      const title = (data.title || "").trim();
+      setTitleMap((prev) => ({ ...prev, [story._id]: title }));
+      showInline(story._id, "titled");
+    } catch {
+      showInline(story._id, "titled", "Failed");
     } finally {
-      setBusyIds((m) => ({ ...m, [story._id]: false }));
+      setBusyIds((prev) => ({ ...prev, [story._id]: false }));
     }
   }
 
-  // Copy Text to Clipboard
-  async function copyText(text) {
+  async function copyText(text, id, key = "copied") {
     try {
       await navigator.clipboard.writeText(text || "");
-    } catch (e) {
-      alert("Copy failed");
+      showInline(id, key);
+    } catch {
+      showInline(id, key, "Failed");
     }
   }
 
-  // Export Story to Images
   async function onGenerateImages(story) {
     const chunks = chunkByWords(story.content);
     cardRefs.current[story._id] = cardRefs.current[story._id] || [];
 
-    // allow hidden nodes render first
+    // Wait for hidden story image card nodes to render
     setTimeout(async () => {
-      const nodes = cardRefs.current[story._id] || [];
-      for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i];
-        try {
-          const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 2 });
+      try {
+        const nodes = cardRefs.current[story._id] || [];
+
+        for (let i = 0; i < nodes.length; i++) {
+          const dataUrl = await htmlToImage.toPng(nodes[i], {
+            pixelRatio: 2,
+          });
 
           const link = document.createElement("a");
           link.download = `story-${story._id}-page-${i + 1}.png`;
           link.href = dataUrl;
           link.click();
-        } catch (err) {
-          console.error("Image export failed", err);
-          alert("Image export failed");
         }
+
+        showInline(story._id, "images");
+      } catch {
+        showInline(story._id, "images", "Failed");
       }
     }, 80);
   }
 
+  // ---------- UI ----------
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-[#130a20] to-[#2a1447] text-white">
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        {/* HEADER */}
-        <header className="mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">
-              Story Review & Approvals
-            </h1>
-            <p className="text-sm opacity-80">
-              Approve, generate titles, copy, export as image.
-            </p>
-          </div>
-          <span className="text-xs opacity-70">Dark Luxury • Joshspot</span>
-        </header>
+    <div className="min-h-screen w-full bg-gradient-to-b from-[#120a1f] to-[#2a1447] text-white relative overflow-hidden">
+      {/* LOCK OVERLAY */}
+      {!unlocked && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-xl z-50">
+          <PinGate onUnlock={() => setUnlocked(true)} />
+        </div>
+      )}
 
-        {errorMsg && (
-          <div className="mb-4 bg-red-600/20 border border-red-500/40 text-red-100 px-4 py-3 rounded-xl">
-            {errorMsg}
-          </div>
-        )}
+      {/* MAIN UI */}
+      <div
+        className={unlocked ? "opacity-100" : "opacity-0 pointer-events-none"}
+      >
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <h1 className="text-3xl font-semibold mb-2">Review & Approvals</h1>
+          <p className="text-sm text-white/70 mb-6">
+            Approve, generate titles, copy content, export as story images. (
+            {PAGE_LIMIT} per page)
+          </p>
 
-        {loading && (
-          <div className="mb-4 animate-pulse text-sm opacity-80">Loading…</div>
-        )}
+          {errorMsg && (
+            <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+              {errorMsg}
+            </div>
+          )}
 
-        {!loading && stories.length === 0 && (
-          <div className="text-sm opacity-80">No stories found.</div>
-        )}
+          {/* CARD GRID */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {loading && <div className="text-sm opacity-80">Loading…</div>}
+            {!loading && stories.length === 0 && (
+              <div className="text-sm opacity-80 col-span-full">
+                No stories found.
+              </div>
+            )}
+            {stories.map((story) => {
+              const title = titleMap[story._id];
+              const isExpanded = !!expanded[story._id];
+              const isLong = (story.content || "").length > 200;
+              const displayText =
+                isExpanded || !isLong
+                  ? story.content
+                  : story.content.slice(0, 200) + "…";
 
-        <div className="space-y-4">
-          {stories.map((story) => {
-            const title = titleMap[story._id];
-            const chunks = chunkByWords(story.content);
+              const chunks = chunkByWords(story.content);
 
-            return (
-              <div
-                key={story._id}
-                className="rounded-2xl border border-white/10 p-4 bg-gradient-to-br from-[#1a1027] to-[#301a51] shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
-              >
-                {/* STORY HEADER */}
-                <div className="flex items-center justify-between gap-4">
-                  <div className="text-xs opacity-70">
-                    {new Date(story.createdAt).toLocaleString()}
-                  </div>
-                  <span className="text-xs inline-flex items-center gap-2">
-                    <span
-                      className={`px-2 py-1 rounded-full border border-white/10 ${
-                        story.isPublic ? "bg-green-600" : "bg-yellow-600"
-                      } text-white`}
-                    >
-                      {story.isPublic ? "Public" : "Private"}
-                    </span>
-                    <span className="px-2 py-1 rounded-full border border-white/10 bg-white/5">
-                      {story.category}
-                    </span>
-                  </span>
-                </div>
-
-                {/* STORY TEXT */}
-                <p className="whitespace-pre-wrap leading-7 mt-3 text-sm">
-                  {story.content}
-                </p>
-
-                {/* ACTION BUTTONS */}
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <button
-                    onClick={() => copyText(story.content)}
-                    className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition"
-                  >
-                    📋 Copy Story
-                  </button>
-
-                  <button
-                    disabled={!!busyIds[story._id]}
-                    onClick={() => onGenerateTitle(story)}
-                    className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
-                  >
-                    {busyIds[story._id] ? "Generating…" : "✨ Generate Title"}
-                  </button>
-                  {title && (
-                    <div className="flex items-center gap-2 border border-white/15 rounded-lg px-2 py-1 bg-white/5">
-                      <span className="text-sm font-medium truncate max-w-[60vw] md:max-w-[40vw]">
-                        {title}
-                      </span>
-                      <button
-                        onClick={() => copyText(title)}
-                        className="text-xs underline"
+              return (
+                <div
+                  key={story._id}
+                  className="rounded-2xl border border-white/10 bg-[#1b1030]/80 backdrop-blur-xl p-4 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+                >
+                  {/* META */}
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="text-xs text-white/70">
+                      {new Date(story.createdAt).toLocaleString()}
+                    </div>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span
+                        className={clsx(
+                          "px-2 py-1 rounded-full border border-white/10",
+                          story.isPublic
+                            ? "bg-green-600 text-white"
+                            : "bg-yellow-600 text-white"
+                        )}
                       >
-                        Copy
+                        {story.isPublic ? "Public" : "Private"}
+                      </span>
+                      <span className="px-2 py-1 rounded-full border border-white/10 bg-white/5">
+                        {story.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* CONTENT */}
+                  <div className="mt-3">
+                    <p className="whitespace-pre-wrap leading-7 text-sm text-white/95">
+                      {displayText}
+                    </p>
+
+                    {isLong && (
+                      <button
+                        onClick={() =>
+                          setExpanded((prev) => ({
+                            ...prev,
+                            [story._id]: !isExpanded,
+                          }))
+                        }
+                        className="mt-2 text-xs text-white/80 underline underline-offset-4 hover:text-white"
+                      >
+                        {isExpanded ? "View less" : "View more"}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* ACTIONS */}
+                  <div className="mt-4 space-y-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        onClick={() =>
+                          copyText(story.content, story._id, "copied")
+                        }
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition"
+                      >
+                        📋 Copy Story
+                      </button>
+
+                      <button
+                        disabled={!!busyIds[story._id]}
+                        onClick={() => onGenerateTitle(story)}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
+                      >
+                        ✨{" "}
+                        {busyIds[story._id] ? "Generating…" : "Generate Title"}
+                      </button>
+
+                      {title && (
+                        <div className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-2 py-1">
+                          <span className="text-sm font-medium truncate max-w-[44vw] md:max-w-[18vw]">
+                            {title}
+                          </span>
+                          <button
+                            onClick={() =>
+                              copyText(title, story._id, "titleCopied")
+                            }
+                            className="text-xs underline"
+                          >
+                            Copy
+                          </button>
+                        </div>
+                      )}
+
+                      <button
+                        disabled={!!busyIds[story._id]}
+                        onClick={() => onTogglePublic(story)}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
+                      >
+                        {story.isPublic ? "⛔ Unapprove" : "✅ Approve"}
+                      </button>
+
+                      <button
+                        onClick={() => onGenerateImages(story)}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition"
+                      >
+                        🖼️ Export Images
                       </button>
                     </div>
-                  )}
 
-                  <button
-                    disabled={!!busyIds[story._id]}
-                    onClick={() => onTogglePublic(story)}
-                    className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
-                  >
-                    {story.isPublic
-                      ? "⛔ Unapprove (Private)"
-                      : "✅ Approve (Public)"}
-                  </button>
-
-                  <button
-                    onClick={() => onGenerateImages(story)}
-                    className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition"
-                  >
-                    🖼️ Generate Images
-                  </button>
-                </div>
-
-                {/* Hidden nodes for exporting story images */}
-                <div className="sr-only" aria-hidden="true">
-                  {chunks.map((text, idx) => (
-                    <div
-                      key={idx}
-                      ref={(el) => {
-                        if (el) {
-                          if (!cardRefs.current[story._id]) {
-                            cardRefs.current[story._id] = [];
+                    {/* FEEDBACK */}
+                    <div className="min-h-[20px] text-xs flex flex-wrap gap-3">
+                      {feedback[story._id]?.copied && (
+                        <span className="text-emerald-300">✓ Copied</span>
+                      )}
+                      {feedback[story._id]?.titleCopied && (
+                        <span className="text-emerald-300">✓ Title Copied</span>
+                      )}
+                      {feedback[story._id]?.titled &&
+                        feedback[story._id]?.titled !== "Failed" && (
+                          <span className="text-emerald-300">
+                            ✓ Title Generated
+                          </span>
+                        )}
+                      {feedback[story._id]?.titled === "Failed" && (
+                        <span className="text-red-300">✗ Title Failed</span>
+                      )}
+                      {feedback[story._id]?.toggled && (
+                        <span
+                          className={
+                            feedback[story._id]?.toggled === "Failed"
+                              ? "text-red-300"
+                              : "text-emerald-300"
                           }
-                          cardRefs.current[story._id][idx] = el;
-                        }
-                      }}
-                    >
-                      <StoryImageCard
-                        title={title || ""}
-                        text={text}
-                        category={story.category}
-                        index={idx}
-                      />
+                        >
+                          {feedback[story._id]?.toggled}
+                        </span>
+                      )}
+                      {feedback[story._id]?.images &&
+                        feedback[story._id]?.images !== "Failed" && (
+                          <span className="text-emerald-300">
+                            ✓ Images Ready
+                          </span>
+                        )}
+                      {feedback[story._id]?.images === "Failed" && (
+                        <span className="text-red-300">✗ Export Failed</span>
+                      )}
                     </div>
-                  ))}
+                  </div>
+
+                  {/* HIDDEN IMAGE EXPORT CARDS */}
+                  <div className="sr-only" aria-hidden="true">
+                    {chunks.map((text, idx) => (
+                      <div
+                        key={idx}
+                        ref={(el) => {
+                          if (el) {
+                            if (!cardRefs.current[story._id]) {
+                              cardRefs.current[story._id] = [];
+                            }
+                            cardRefs.current[story._id][idx] = el;
+                          }
+                        }}
+                      >
+                        <StoryImageCard
+                          title={title || ""}
+                          text={text}
+                          category={story.category}
+                          index={idx}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between mt-6">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
-          >
-            Prev
-          </button>
-
-          <span className="text-sm opacity-80">Page {page}</span>
-
-          <button
-            disabled={!hasMore}
-            onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
-          >
-            Next
-          </button>
+          {/* PAGINATION */}
+          <div className="flex items-center justify-between mt-6">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
+            >
+              Prev
+            </button>
+            <span className="text-sm text-white/80">Page {page}</span>
+            <button
+              disabled={!hasMore}
+              onClick={() => setPage((p) => p + 1)}
+              className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-// Inline Component - You can move to separate file
+// ---------- EXPORT CARD COMPONENT ----------
 function StoryImageCard({ title, text, category, index }) {
   return (
     <div
@@ -310,7 +422,7 @@ function StoryImageCard({ title, text, category, index }) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        background: "linear-gradient(135deg, #1a1027, #3b245f)",
+        background: "linear-gradient(135deg, #1a1027 0%, #3b245f 100%)",
         color: "white",
         borderRadius: 32,
         boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
@@ -337,7 +449,7 @@ function StoryImageCard({ title, text, category, index }) {
       </div>
 
       <div>
-        {title && title.trim().length > 0 && (
+        {!!title?.trim() && (
           <h2
             style={{
               fontSize: 56,
