@@ -7,7 +7,7 @@ import StoryImageCard from "@/components/StoryImageCard";
 import EditStoryOverlay from "@/components/EditStoryOverlay";
 const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const PAGE_LIMIT = 10;
-const WORDS_PER_IMAGE = 150;
+const WORDS_PER_IMAGE = 65;
 
 // ---------- HELPERS ----------
 function chunkByWords(text, size = WORDS_PER_IMAGE) {

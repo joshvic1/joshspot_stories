@@ -189,8 +189,9 @@ export default function StoryImageCard({ title, text, category, index }) {
 
           <div
             style={{
-              fontSize: 34,
+              fontSize: 50,
               lineHeight: 1.42,
+              fontWeight: 500,
               color: "rgba(255,255,255,0.96)",
               whiteSpace: "pre-wrap",
               textShadow: "0 1px 8px rgba(0,0,0,0.35)",
