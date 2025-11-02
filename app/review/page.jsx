@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import * as htmlToImage from "html-to-image";
 import PinGate from "@/components/PinGate";
-
+import StoryImageCard from "@/components/StoryImageCard";
+import EditStoryOverlay from "@/components/EditStoryOverlay";
 const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const PAGE_LIMIT = 10;
-const WORDS_PER_IMAGE = 30;
+const WORDS_PER_IMAGE = 150;
 
 // ---------- HELPERS ----------
 function chunkByWords(text, size = WORDS_PER_IMAGE) {
@@ -42,8 +43,48 @@ export default function ReviewPage() {
   const [feedback, setFeedback] = useState({});
   const [expanded, setExpanded] = useState({});
 
+  // Edit State
+  const [editingStory, setEditingStory] = useState(null);
+  const [editingText, setEditingText] = useState("");
+
   // Refs
   const cardRefs = useRef({});
+
+  async function onEditStory(story) {
+    setEditingStory(story);
+    setEditingText(story.content || "");
+  }
+
+  async function onSaveEditedStory(newText) {
+    if (!editingStory) return;
+
+    try {
+      setBusyIds((prev) => ({ ...prev, [editingStory._id]: true }));
+
+      const res = await fetch(`${baseUrl}/api/story/${editingStory._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: newText }),
+      });
+
+      const updated = await res.json();
+      if (!res.ok) throw new Error(updated?.error || "Failed");
+
+      // Update UI immediately
+      setStories((arr) =>
+        arr.map((s) =>
+          s._id === editingStory._id ? { ...s, content: newText } : s
+        )
+      );
+
+      setEditingStory(null); // Close modal
+      showInline(editingStory._id, "edited"); // Feedback message
+    } catch {
+      showInline(editingStory._id, "edited", "Failed");
+    } finally {
+      setBusyIds((prev) => ({ ...prev, [editingStory._id]: false }));
+    }
+  }
 
   // ---------- FETCH STORIES ----------
   async function fetchStories(pageNum) {
@@ -146,38 +187,76 @@ export default function ReviewPage() {
   }
 
   async function onGenerateImages(story) {
-    const chunks = chunkByWords(story.content);
-    cardRefs.current[story._id] = cardRefs.current[story._id] || [];
+    const chunks = chunkByWords(story.content, WORDS_PER_IMAGE);
+    const renderRoot = document.getElementById("render-root");
 
-    // Wait for hidden story image card nodes to render
+    if (!renderRoot) {
+      alert("Render container missing");
+      return;
+    }
+
+    // Clear previous render
+    renderRoot.innerHTML = "";
+
+    // Import react-dom/client dynamically (client side only)
+    const { createRoot } = await import("react-dom/client");
+
+    // Mount each chunk as a separate StoryImageCard
+    const mounts = [];
+    chunks.forEach((text, idx) => {
+      const wrapper = document.createElement("div");
+      wrapper.style.display = "block";
+      wrapper.style.marginBottom = "40px";
+      renderRoot.appendChild(wrapper);
+
+      const root = createRoot(wrapper);
+      root.render(
+        <StoryImageCard
+          title={(titleMap[story._id] || "").trim()}
+          text={text}
+          category={story.category}
+          index={idx}
+        />
+      );
+
+      mounts.push({ wrapper, root });
+    });
+
+    // Wait for elements to fully render
     setTimeout(async () => {
       try {
-        const nodes = cardRefs.current[story._id] || [];
+        for (let i = 0; i < mounts.length; i++) {
+          const node = mounts[i].wrapper;
 
-        for (let i = 0; i < nodes.length; i++) {
-          const dataUrl = await htmlToImage.toPng(nodes[i], {
+          const dataUrl = await htmlToImage.toPng(node, {
             pixelRatio: 2,
+            cacheBust: true,
           });
 
-          const link = document.createElement("a");
-          link.download = `story-${story._id}-page-${i + 1}.png`;
-          link.href = dataUrl;
-          link.click();
+          const a = document.createElement("a");
+          a.download = `story-${story._id}-page-${i + 1}.png`;
+          a.href = dataUrl;
+          a.click();
         }
 
-        showInline(story._id, "images");
-      } catch {
+        showInline(story._id, "images", true);
+      } catch (err) {
+        console.error("Export failed:", err);
         showInline(story._id, "images", "Failed");
+      } finally {
+        // Cleanup
+        mounts.forEach(({ root }) => root.unmount());
+        renderRoot.innerHTML = "";
       }
-    }, 80);
+    }, 450);
   }
 
   // ---------- UI ----------
   return (
+    // Loockkkk overlay
     <div className="min-h-screen w-full bg-gradient-to-b from-[#120a1f] to-[#2a1447] text-white relative overflow-hidden">
-      {/* LOCK OVERLAY */}
       {!unlocked && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-xl z-50">
+        <div className="fixed inset-0 h-screen overflow-hidden flex items-center justify-center bg-black/60 backdrop-blur-xl z-50">
           <PinGate onUnlock={() => setUnlocked(true)} />
         </div>
       )}
@@ -269,6 +348,13 @@ export default function ReviewPage() {
                   {/* ACTIONS */}
                   <div className="mt-4 space-y-2">
                     <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        onClick={() => onEditStory(story)}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition"
+                      >
+                        ✏️ Edit
+                      </button>
+
                       <button
                         onClick={() =>
                           copyText(story.content, story._id, "copied")
@@ -385,6 +471,22 @@ export default function ReviewPage() {
                 </div>
               );
             })}
+
+            {/* Hidden offscreen render container for StoryImageCard exports */}
+            <div
+              id="render-root"
+              style={{
+                position: "fixed",
+                top: "-10000px",
+                left: "-10000px",
+                width: "auto",
+                height: "auto",
+                overflow: "visible",
+                zIndex: -9999,
+                padding: 0,
+                margin: 0,
+              }}
+            />
           </div>
 
           {/* PAGINATION */}
@@ -407,77 +509,14 @@ export default function ReviewPage() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-// ---------- EXPORT CARD COMPONENT ----------
-function StoryImageCard({ title, text, category, index }) {
-  return (
-    <div
-      style={{
-        width: 1080,
-        height: 1350,
-        padding: 64,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        background: "linear-gradient(135deg, #1a1027 0%, #3b245f 100%)",
-        color: "white",
-        borderRadius: 32,
-        boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <div
-          style={{
-            fontSize: 28,
-            opacity: 0.85,
-            letterSpacing: 2,
-            textTransform: "uppercase",
-          }}
-        >
-          {category}
-        </div>
-        <div style={{ fontSize: 20, opacity: 0.7 }}>Joshspot TV</div>
-      </div>
-
-      <div>
-        {!!title?.trim() && (
-          <h2
-            style={{
-              fontSize: 56,
-              lineHeight: 1.1,
-              fontWeight: 800,
-              marginBottom: 24,
-            }}
-          >
-            {title}
-          </h2>
-        )}
-        <p style={{ fontSize: 38, lineHeight: 1.35, whiteSpace: "pre-wrap" }}>
-          {text}
-        </p>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <div style={{ fontSize: 20, opacity: 0.85 }}>Part {index + 1}</div>
-        <div style={{ fontSize: 22, opacity: 0.9 }}>
-          joshspot.tv • @joshspot_tv
-        </div>
-      </div>
+      {editingStory && (
+        <EditStoryOverlay
+          storyId={editingStory._id}
+          initialText={editingText}
+          onClose={() => setEditingStory(null)}
+          onSave={onSaveEditedStory}
+        />
+      )}
     </div>
   );
 }
