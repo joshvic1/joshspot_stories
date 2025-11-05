@@ -624,6 +624,147 @@ export default function HowToCatchOyinboPage() {
 
       {/* Part 2 — Ad 2 (after 3 more sections) */}
       <AdUnit />
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold">
+          If Relocation or Marriage Enters the Chat
+        </h2>
+        <p>
+          When cross-cultural relationships get serious, relocation and marriage
+          naturally become part of the conversation. This stage needs maturity,
+          planning, and patience—no rushing because of excitement or visa
+          pressure.
+        </p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>
+            <strong>Discuss future plans early:</strong> Who is more open to
+            relocation? Is there a neutral country option?
+          </li>
+          <li>
+            <strong>Research legal and immigration processes together:</strong>{" "}
+            Transparency prevents resentment.
+          </li>
+          <li>
+            <strong>Don’t relocate blindly:</strong> Visit first if possible.
+            Sample the lifestyle, culture, and community.
+          </li>
+        </ul>
+        <p>
+          Marriage should feel like partnership—not escape, not rescue, not
+          transaction. If the relationship is strong, relocation becomes a
+          strategic decision, not a sacrifice of identity or dreams.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold">
+          The Visa Conversation: How to Handle It With Grace
+        </h2>
+        <p>
+          Visa talk can be delicate—handled poorly, it looks like desperation or
+          opportunism. Handled wisely, it becomes a practical discussion about
+          building a life together.
+        </p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>
+            <strong>Don’t bring it up too early:</strong> Let the relationship
+            have a foundation.
+          </li>
+          <li>
+            <strong>Discuss logistics with maturity:</strong> If long-term plans
+            require visas, talk openly and calmly.
+          </li>
+          <li>
+            <strong>Protect each other from stereotype:</strong> “Visa chasing”
+            is a common assumption—be transparent so no insecurity grows.
+          </li>
+        </ul>
+        <p>
+          Remember: if the love is real, both of you will handle documents like
+          a team—not like a favour from one side.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold">
+          If Things End: How to Exit With Dignity
+        </h2>
+        <p>
+          Not all relationships are meant to end in marriage—and that’s okay.
+          What matters is how you exit. Leave with dignity, respect, and grace,
+          not bitterness or insults about culture or race.
+        </p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>
+            Don’t generalize: One breakup doesn’t define an entire race or
+            culture.
+          </li>
+          <li>
+            Return belongings respectfully, unfollow gradually if needed, and
+            heal privately.
+          </li>
+          <li>
+            Reflect on lessons: What did this teach you about love, boundaries,
+            and compatibility?
+          </li>
+        </ul>
+        <p>
+          A breakup handled with maturity builds character—and prepares you for
+          the love that will stay.
+        </p>
+      </section>
+
+      {/* Part 2 — Final Ad */}
+      <AdUnit />
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold">
+          If It Blossoms into Marriage: Blending Two Worlds Beautifully
+        </h2>
+        <p>
+          If your love leads to marriage, you’re not just merging two
+          hearts—you’re merging families, traditions, values, and histories.
+          This is a gift when handled with respect.
+        </p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>
+            <strong>Create joint traditions:</strong> Blend holidays, meals,
+            languages, and family rituals.
+          </li>
+          <li>
+            <strong>Celebrate differences:</strong> Instead of “whose culture is
+            right,” ask: “How do we honour both?”
+          </li>
+          <li>
+            <strong>Raise children with richness:</strong> Teach them pride in
+            both sides of their heritage.
+          </li>
+        </ul>
+        <p>
+          Cross-cultural marriages done well create children with empathy,
+          adaptability, confidence, and global identity. It’s a beautiful
+          legacy.
+        </p>
+      </section>
+
+      <section className="space-y-4 mb-10">
+        <h2 className="text-2xl font-bold">Final Words of Wisdom</h2>
+        <p>
+          Love is not a continent. Love is not an accent. Love is not a
+          passport. Love is two humans choosing each other daily with respect,
+          curiosity, humour, and patience.
+        </p>
+        <p>
+          If you love an Oyinbo person—or hope to one day—love well, love
+          wisely, and love with dignity. Keep your culture, keep your values,
+          and keep your joy. The goal is not to “catch” anybody. The goal is to
+          build a relationship where two cultures meet—and both feel at home.
+        </p>
+        <p>
+          And remember, whether your soulmate is from Lagos, London, Lisbon, or
+          Los Angeles—good character, emotional maturity, and genuine connection
+          will always be the finest love language.
+        </p>
+      </section>
 
       <footer className="mt-12 pt-6 border-t border-slate-200 text-slate-600">
         <p>
