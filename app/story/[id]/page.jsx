@@ -6,13 +6,12 @@ const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 async function getStoryById(id) {
   try {
     const res = await fetch(`${baseUrl}/api/story/${id}`, {
-      cache: "no-store", // optional: ensures fresh fetch every time
+      cache: "no-store",
     });
+
     const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(data.error || "Failed to fetch story");
-    }
+    if (!res.ok) throw new Error(data.error || "Failed to fetch story");
 
     return { success: true, data };
   } catch (error) {
@@ -20,9 +19,10 @@ async function getStoryById(id) {
   }
 }
 
-export default async function StoryPage({ params }) {
-  const { id } = params;
+export default async function StoryPage(props) {
+  const { id } = await props.params;
 
+  // ✅ Perfect
   const result = await getStoryById(id);
 
   if (!result.success) return notFound();
