@@ -7,13 +7,13 @@ export default function AgePage() {
 
       <div className="flex gap-6">
         <a
-          href="https://https://joshspot-stories.vercel.app/how-to-catch-oyinbo"
+          href="https://joshspot-stories.vercel.app/how-to-catch-oyinbo"
           className="px-8 py-3 bg-white text-purple-600 font-semibold rounded-xl shadow-lg hover:scale-105 transition-transform"
         >
           Yes
         </a>
         <a
-          href="https://https://joshspot-stories.vercel.app/how-to-catch-oyinbo"
+          href="https://joshspot-stories.vercel.app/how-to-catch-oyinbo"
           className="px-8 py-3 bg-black/30 text-white font-semibold rounded-xl shadow-lg hover:scale-105 transition-transform"
         >
           No
