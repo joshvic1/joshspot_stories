@@ -76,6 +76,20 @@ export default function StoryPageClient({ story }) {
 
           <h3>Comments</h3>
           <CommentForm storyId={_id} onCommentAdded={handleCommentAdded} />
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1759270581850188"
+            crossorigin="anonymous"
+          ></script>
+          <ins
+            class="adsbygoogle"
+            style="display:block; text-align:center;"
+            data-ad-layout="in-article"
+            data-ad-format="fluid"
+            data-ad-client="ca-pub-1759270581850188"
+            data-ad-slot="5397996050"
+          ></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
           <CommentList key={refreshKey} storyId={_id} />
         </div>
       </div>
