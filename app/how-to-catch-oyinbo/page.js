@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-irregular-whitespace */
+
 "use client";
 
 import { useEffect, useRef } from "react";

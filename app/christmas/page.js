@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-irregular-whitespace */
+
 "use client";
 import Script from "next/script";
 import MainLayout from "@/components/Layout/MainLayout";
