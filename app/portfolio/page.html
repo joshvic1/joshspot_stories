@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joshua • Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fade-up {
+        animation: fadeUp 0.9s ease forwards;
+      }
+      .hero-bg {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url("https://images.unsplash.com/photo-1522071820081-009f0129c71c");
+        background-size: cover;
+        background-position: center;
+      }
+      .project-card:hover {
+        transform: translateY(-5px);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+    <!-- HERO -->
+    <section
+      class="min-h-screen hero-bg flex flex-col justify-center items-center text-center px-6 text-white"
+    >
+      <h1 class="text-5xl md:text-6xl font-bold fade-up">Hi, I'm Joshua</h1>
+      <p
+        class="mt-4 text-lg md:text-xl max-w-2xl fade-up"
+        style="animation-delay: 0.2s"
+      >
+        Full-Stack Developer • Digital Marketer • Product Builder
+      </p>
+      <p
+        class="mt-3 max-w-xl fade-up text-gray-200"
+        style="animation-delay: 0.4s"
+      >
+        I build clean, modern and functional digital experiences — websites,
+        tools, storytelling platforms and apps.
+      </p>
+      <a
+        href="#projects"
+        class="mt-8 px-8 py-3 bg-blue-600 text-white rounded-full fade-up hover:bg-blue-700 transition"
+        style="animation-delay: 0.6s"
+        >View My Work</a
+      >
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="py-20 px-6">
+      <h2 class="text-4xl font-bold text-center mb-12 fade-up">
+        Highlighted Projects
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+        <!-- Project 1 -->
+        <div
+          class="bg-white rounded-xl shadow-lg overflow-hidden project-card transition fade-up"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1522199755839-a2bacb67c546"
+            class="w-full h-48 object-cover"
+          />
+          <div class="p-6">
+            <h3 class="text-2xl font-semibold mb-2">Joshspot.com</h3>
+            <p class="text-gray-700 mb-4">
+              A storytelling platform for Joshspot TV with high engagement,
+              clean readability and a scalable publishing system.
+            </p>
+            <a
+              href="https://www.joshspot.com"
+              target="_blank"
+              class="text-blue-600 hover:underline font-semibold"
+              >Visit Website →</a
+            >
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div
+          class="bg-white rounded-xl shadow-lg overflow-hidden project-card transition fade-up"
+          style="animation-delay: 0.1s"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
+            class="w-full h-48 object-cover"
+          />
+          <div class="p-6">
+            <h3 class="text-2xl font-semibold mb-2">DVRX Jewelry Store</h3>
+            <p class="text-gray-700 mb-4">
+              A modern ring-selling & jewelry eCommerce site with elegant UI,
+              fast navigation and brand-focused presentation.
+            </p>
+            <a
+              href="https://dvrx-rczq.vercel.app"
+              target="_blank"
+              class="text-blue-600 hover:underline font-semibold"
+              >Visit Website →</a
+            >
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div
+          class="bg-white rounded-xl shadow-lg overflow-hidden project-card transition fade-up"
+          style="animation-delay: 0.2s"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a"
+            class="w-full h-48 object-cover"
+          />
+          <div class="p-6">
+            <h3 class="text-2xl font-semibold mb-2">MyTikLink.com</h3>
+            <p class="text-gray-700 mb-4">
+              A smart tool that solves TikTok’s link-blocking issue by
+              generating clean, functional redirect links for creators &
+              businesses.
+            </p>
+            <a
+              href="https://mytiklink.com"
+              target="_blank"
+              class="text-blue-600 hover:underline font-semibold"
+              >Visit Website →</a
+            >
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div
+          class="bg-white rounded-xl shadow-lg overflow-hidden project-card transition fade-up"
+          style="animation-delay: 0.3s"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1520986606214-8b456906c813"
+            class="w-full h-48 object-cover"
+          />
+          <div class="p-6">
+            <h3 class="text-2xl font-semibold mb-2">GeleExpo.com</h3>
+            <p class="text-gray-700 mb-4">
+              A WordPress-powered event and branding website for a
+              fashion-oriented gele brand with elegant visuals and booking flow.
+            </p>
+            <a
+              href="https://geleexpo.com"
+              target="_blank"
+              class="text-blue-600 hover:underline font-semibold"
+              >Visit Website →</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="py-20 px-6 bg-blue-600 text-white text-center">
+      <h2 class="text-4xl font-bold mb-6 fade-up">Who I Am</h2>
+      <p
+        class="max-w-3xl mx-auto text-lg fade-up"
+        style="animation-delay: 0.1s"
+      >
+        I'm a full-stack developer with strong experience in user-focused
+        design, storytelling platforms, SaaS tools, and digital product
+        development.
+        <br /><br />
+        My work blends clear UI, strong UX, performance optimization,
+        mobile-first principles and business-focused problem-solving.
+      </p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-10 text-center bg-black text-white">
+      <p class="text-gray-300 text-sm">© 2025 Joshua • Full-Stack Developer</p>
+    </footer>
+  </body>
+</html>
