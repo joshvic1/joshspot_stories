@@ -144,8 +144,14 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
                 // Fire TikTok event only when expanding (Show More)
                 if (newState && typeof window !== "undefined" && window.ttq) {
                   window.ttq.track("ViewContent", {
-                    content_type: "story_preview",
+                    content_type: "product",
                     content_id: story._id,
+                    contents: [
+                      {
+                        content_type: "product",
+                        content_id: story._id,
+                      },
+                    ],
                   });
                 }
               }}
