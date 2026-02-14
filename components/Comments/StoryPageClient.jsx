@@ -6,7 +6,7 @@ import CommentList from "@/components/CommentList";
 import ShareIcon from "@/components/StoryCard/ShareIcon";
 import { useState } from "react";
 import MainLayout from "../Layout/MainLayout";
-import "/styles/singleStoryPage.css";
+import "@/styles/singleStoryPage.css";
 import BackButton from "../BackToPrev";
 import AdsenseInline from "@/components/AdsenseInline";
 
@@ -62,7 +62,6 @@ export default function StoryPageClient({ story }) {
 
           <h3>Comments</h3>
           <CommentForm storyId={_id} onCommentAdded={handleCommentAdded} />
-          <AdsenseInline slot="5397996050" />
 
           <CommentList key={refreshKey} storyId={_id} />
         </div>
