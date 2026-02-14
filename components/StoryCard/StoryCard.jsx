@@ -137,7 +137,18 @@ export default function StoryCard({ story, onRemoveFavorite, isFavoritePage }) {
           {isLong && (
             <button
               className="expand-btn"
-              onClick={() => setExpanded(!expanded)}
+              onClick={() => {
+                const newState = !expanded;
+                setExpanded(newState);
+
+                // Fire TikTok event only when expanding (Show More)
+                if (newState && typeof window !== "undefined" && window.ttq) {
+                  window.ttq.track("ViewContent", {
+                    content_type: "story_preview",
+                    content_id: story._id,
+                  });
+                }
+              }}
             >
               {expanded ? "Show Less ▲" : "Show More ▼"}
             </button>

@@ -7,6 +7,7 @@ import { useRef } from "react";
 import Spinner from "./Spinner";
 import SidebarSticky from "../StickySideBar/StickySideBar";
 import "/styles/stickySideBar.css";
+import AdsenseAd from "@/components/AdsenseAd";
 
 export default function StoryList({
   featuredStories,
@@ -105,6 +106,9 @@ export default function StoryList({
           <h2 className="section-title">
             <FaFire style={{ marginRight: "5px" }} /> Recent Stories
           </h2>
+          <div style={{ margin: "20px 0", textAlign: "center" }}>
+            <AdsenseAd type="ad2" />
+          </div>
 
           <div className="story-layout">
             <div className="main-story-content">
@@ -117,8 +121,19 @@ export default function StoryList({
                 ) : filteredStories.length === 0 ? (
                   <p className="text-gray-500">No stories found.</p>
                 ) : (
-                  filteredStories.map((story) => (
-                    <StoryCard key={story._id} story={story} />
+                  filteredStories.map((story, index) => (
+                    <div key={story._id}>
+                      <StoryCard story={story} />
+
+                      {/* Show ad after every 4 stories */}
+                      {(index + 1) % 4 === 0 && (
+                        <AdsenseAd
+                          type={
+                            ["ad1", "ad2", "ad3"][Math.floor(Math.random() * 3)]
+                          }
+                        />
+                      )}
+                    </div>
                   ))
                 )}
               </div>

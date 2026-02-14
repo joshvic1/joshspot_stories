@@ -8,6 +8,7 @@ import { useState } from "react";
 import MainLayout from "../Layout/MainLayout";
 import "/styles/singleStoryPage.css";
 import BackButton from "../BackToPrev";
+import AdsenseInline from "@/components/AdsenseInline";
 
 const categoryColors = {
   love: "#ff5e78",
@@ -50,46 +51,19 @@ export default function StoryPageClient({ story }) {
           </div>
 
           <p className="story-full-content">{displayedStory}</p>
+          <AdsenseInline slot="6027685473" />
 
           <div className="story-meta-icons">
             <Reactions storyId={_id} />
             <ShareIcon story={story} />
           </div>
 
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1759270581850188"
-            crossorigin="anonymous"
-          ></script>
-
-          <ins
-            class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-1759270581850188"
-            data-ad-slot="6027685473"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-
           <hr />
 
           <h3>Comments</h3>
           <CommentForm storyId={_id} onCommentAdded={handleCommentAdded} />
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1759270581850188"
-            crossorigin="anonymous"
-          ></script>
-          <ins
-            class="adsbygoogle"
-            style="display:block; text-align:center;"
-            data-ad-layout="in-article"
-            data-ad-format="fluid"
-            data-ad-client="ca-pub-1759270581850188"
-            data-ad-slot="5397996050"
-          ></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          <AdsenseInline slot="5397996050" />
+
           <CommentList key={refreshKey} storyId={_id} />
         </div>
       </div>
