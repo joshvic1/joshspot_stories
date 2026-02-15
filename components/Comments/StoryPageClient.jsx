@@ -22,13 +22,15 @@ export default function StoryPageClient({ story }) {
 
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const displayedStory = content?.replace(/[\r\n]+/g, " ") || "";
+  // ✅ Split story using shortcode
+  const storyParts = content?.split("[ad]") || [];
 
-  const storyParts = displayedStory.split("[ad]"); // ✅ Now safe
-
-  const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
+  const timeAgo = formatDistanceToNow(new Date(createdAt), {
+    addSuffix: true,
+  });
 
   const borderColor = categoryColors[category] || "#999";
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -48,6 +50,7 @@ export default function StoryPageClient({ story }) {
         }}
       >
         <BackButton className="back" />
+
         <div className="individual-story">
           <div className="story-meta">
             <span style={{ color: borderColor }} className="story-category">
@@ -56,11 +59,16 @@ export default function StoryPageClient({ story }) {
             <span className="story-time">{timeAgo}</span>
           </div>
 
+          {/* ✅ Story Content with shortcode ads */}
           <div className="story-full-content">
             {storyParts.map((part, index) => (
               <div key={index}>
-                <p>{part}</p>
+                {/* Preserve paragraph spacing */}
+                {part.split("\n").map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
 
+                {/* Insert ad between sections */}
                 {index < storyParts.length - 1 && (
                   <AdsenseInline slot="6027685473" />
                 )}
@@ -74,6 +82,8 @@ export default function StoryPageClient({ story }) {
           </div>
 
           <hr />
+
+          {/* ✅ Strong ad before comments */}
           <AdsenseInline slot="6027685473" />
 
           <h3>Comments</h3>
