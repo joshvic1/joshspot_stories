@@ -34,6 +34,26 @@ export default function RootLayout({ children }) {
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
+        {/* OneSignal SDK */}
+        <Script
+          src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
+          strategy="beforeInteractive"
+        />
+
+        <Script id="onesignal-init" strategy="beforeInteractive">
+          {`
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "258b3939-f36a-47ea-b9b0-926192f8cf39",
+          safari_web_id: "web.onesignal.auto.2510e921-2066-4b3b-be25-8e0e09bd836c",
+          notifyButton: {
+            enable: true,
+          },
+        });
+      });
+    `}
+        </Script>
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
       <body
