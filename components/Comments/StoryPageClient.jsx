@@ -18,6 +18,8 @@ const categoryColors = {
 };
 
 export default function StoryPageClient({ story }) {
+  const storyParts = displayedStory.split("[ad]");
+
   const { _id, content, category, createdAt } = story;
   const [refreshKey, setRefreshKey] = useState(0);
   const displayedStory = content?.replace(/[\r\n]+/g, " ") || "";
@@ -50,7 +52,18 @@ export default function StoryPageClient({ story }) {
             <span className="story-time">{timeAgo}</span>
           </div>
 
-          <p className="story-full-content">{displayedStory}</p>
+          <div className="story-full-content">
+            {storyParts.map((part, index) => (
+              <div key={index}>
+                <p>{part}</p>
+
+                {index < storyParts.length - 1 && (
+                  <AdsenseInline slot="6027685473" />
+                )}
+              </div>
+            ))}
+          </div>
+
           <AdsenseInline slot="6027685473" />
 
           <div className="story-meta-icons">
