@@ -18,20 +18,24 @@ const categoryColors = {
 };
 
 export default function StoryPageClient({ story }) {
-  const storyParts = displayedStory.split("[ad]");
-
   const { _id, content, category, createdAt } = story;
+
   const [refreshKey, setRefreshKey] = useState(0);
+
   const displayedStory = content?.replace(/[\r\n]+/g, " ") || "";
 
+  const storyParts = displayedStory.split("[ad]"); // ✅ Now safe
+
   const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
+
   const borderColor = categoryColors[category] || "#999";
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   const sidebarWidth = isMobile ? 0 : sidebarOpen ? 200 : 10;
+
   const handleCommentAdded = () => {
-    setRefreshKey((prev) => prev + 1); // forces CommentList to reload
+    setRefreshKey((prev) => prev + 1);
   };
 
   return (
@@ -64,14 +68,13 @@ export default function StoryPageClient({ story }) {
             ))}
           </div>
 
-          <AdsenseInline slot="6027685473" />
-
           <div className="story-meta-icons">
             <Reactions storyId={_id} />
             <ShareIcon story={story} />
           </div>
 
           <hr />
+          <AdsenseInline slot="6027685473" />
 
           <h3>Comments</h3>
           <CommentForm storyId={_id} onCommentAdded={handleCommentAdded} />
