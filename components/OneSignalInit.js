@@ -20,6 +20,19 @@ export default function OneSignalInit() {
               autoPrompt: true,
               timeDelay: 5, // seconds after page load
               pageViews: 1,
+
+              prompts: [
+                {
+                  type: "push",
+                  autoPrompt: true,
+                  text: {
+                    actionMessage:
+                      "Get hot relationship stories, secrets & confessions before anyone else 😈",
+                    acceptButton: "Yes, Send Me Stories 🔥",
+                    cancelButton: "No",
+                  },
+                },
+              ],
             },
           },
         });
