@@ -9,6 +9,7 @@ import MainLayout from "../Layout/MainLayout";
 import "@/styles/singleStoryPage.css";
 import BackButton from "../BackToPrev";
 import AdsenseInline from "@/components/AdsenseInline";
+import Link from "next/link";
 
 const categoryColors = {
   love: "#ff5e78",
@@ -61,25 +62,64 @@ export default function StoryPageClient({ story }) {
 
           {/* ✅ Story Content with shortcode ads */}
           <div className="story-full-content">
-            {storyParts.map((part, index) => (
-              <div key={index}>
-                {/* Preserve paragraph spacing */}
-                {part.split("\n").map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
+            {storyParts.map((part, index) => {
+              const sections = part.split("[readmore]");
 
-                {/* Insert ad between sections */}
-                {index < storyParts.length - 1 && (
-                  <AdsenseInline slot="6027685473" />
-                )}
-              </div>
-            ))}
+              return (
+                <div key={index}>
+                  {sections.map((section, i) => (
+                    <div key={i}>
+                      {section.split("\n").map((paragraph, pIndex) => (
+                        <p key={pIndex}>{paragraph}</p>
+                      ))}
+
+                      {/* Insert Read More button */}
+                      {i < sections.length - 1 && (
+                        <div style={{ textAlign: "center", margin: "30px 0" }}>
+                          <a
+                            href="/"
+                            style={{
+                              backgroundColor: "#6a89cc",
+                              color: "#fff",
+                              padding: "12px 24px",
+                              borderRadius: "6px",
+                              textDecoration: "none",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Read More Stories →
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* Insert Ad between [ad] */}
+                  {index < storyParts.length - 1 && (
+                    <AdsenseInline slot="6027685473" />
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           <div className="story-meta-icons">
             <Reactions storyId={_id} />
             <ShareIcon story={story} />
           </div>
+          <Link
+            href="/"
+            style={{
+              backgroundColor: "#6a89cc",
+              color: "#fff",
+              padding: "12px 24px",
+              borderRadius: "6px",
+              textDecoration: "none",
+              fontWeight: "bold",
+            }}
+          >
+            Read More Stories →
+          </Link>
 
           <hr />
 
