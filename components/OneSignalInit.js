@@ -28,7 +28,7 @@ export default function OneSignalInit() {
                   text: {
                     actionMessage:
                       "Get hot relationship stories, secrets & confessions before anyone else 😈",
-                    acceptButton: "Yes, Send Me Stories 🔥",
+                    acceptButton: "Yes, Notify me🔥",
                     cancelButton: "No",
                   },
                 },
