@@ -32,6 +32,10 @@
   gap: 18px;
 }
 
+.blog-grid-ad {
+  grid-column: 1 / -1;
+}
+
 .blog-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);

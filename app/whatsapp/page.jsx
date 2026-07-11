@@ -1,52 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import "@/styles/whatsapp-select.css";
 
-const faces = [
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=80",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=320&q=80",
-  "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=320&q=80",
-  "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=320&q=80",
-  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=320&q=80",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=320&q=80",
-  "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=320&q=80",
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=320&q=80",
-];
-
 export default function WhatsAppSelectionPage() {
   const router = useRouter();
-  const [offset, setOffset] = useState(0);
+  const [name, setName] = useState("");
   const year = new Date().getFullYear();
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setOffset((current) => (current + 1) % faces.length);
-    }, 1000);
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    return () => clearInterval(timer);
-  }, []);
-
-  const visibleFaces = useMemo(
-    () =>
-      Array.from(
-        { length: 4 },
-        (_, index) => faces[(offset + index) % faces.length],
-      ),
-    [offset],
-  );
-
-  const goToBlog = (buttonName) => {
     if (typeof window !== "undefined" && window.ttq?.track) {
       window.ttq.track("ClickButton", {
-        button_name: buttonName,
+        button_name: "submit_name",
         page: "whatsapp",
       });
     }
 
-    router.push("/blog/6a5225f0b44fce47b6caa90a");
+    router.push("/blog");
   };
 
   return (
@@ -58,31 +32,24 @@ export default function WhatsAppSelectionPage() {
           ONLINE NOW
         </div>
 
-        <div className="wa-face-row">
-          {visibleFaces.map((face, index) => (
-            <img src={face} alt="" key={`${face}-${index}`} />
-          ))}
-        </div>
+        <h1>Enter your name to continue</h1>
+        <p className="wa-subtitle">
+          Type your name below and continue to the latest Joshspot posts.
+        </p>
 
-        <h1>Are you a male or female?</h1>
-
-        <div className="wa-choice-grid">
-          <button type="button" onClick={() => goToBlog("male")}>
-            MALE
-          </button>
-          <button type="button" onClick={() => goToBlog("female")}>
-            FEMALE
-          </button>
-        </div>
-
-        <div className="wa-action-stack">
-          <button type="button" onClick={() => goToBlog("start_chatting")}>
-            Start chatting
-          </button>
-          <button type="button" onClick={() => goToBlog("join_whatsapp_group")}>
-            Join whatsapp group
-          </button>
-        </div>
+        <form className="wa-name-form" onSubmit={handleSubmit}>
+          <label htmlFor="visitor-name">Your name</label>
+          <input
+            id="visitor-name"
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            placeholder="Enter your name"
+            autoComplete="name"
+            required
+          />
+          <button type="submit">Submit</button>
+        </form>
 
         <footer>
           copyright {year} all rights reserved |{" "}

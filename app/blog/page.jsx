@@ -1,5 +1,7 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import MainLayout from "@/components/Layout/MainLayout";
+import BlogAd from "@/components/BlogAd";
 import "@/styles/blog.css";
 
 export const dynamic = "force-dynamic";
@@ -38,27 +40,40 @@ export default async function BlogPage() {
           <h1>Fresh gist, guides, and stories</h1>
         </div>
 
+        <BlogAd index={0} />
+
         <div className="blog-grid">
           {blogs.length > 0 ? (
-            blogs.map((blog) => (
-              <Link href={`/blog/${blog._id}`} className="blog-card" key={blog._id}>
-                {blog.coverImage && (
-                  <img src={blog.coverImage} alt={blog.title} className="blog-card-image" />
+            blogs.map((blog, index) => (
+              <Fragment key={blog._id}>
+                <Link href={`/blog/${blog._id}`} className="blog-card">
+                  {blog.coverImage && (
+                    <img
+                      src={blog.coverImage}
+                      alt={blog.title}
+                      className="blog-card-image"
+                    />
+                  )}
+                  <div className="blog-card-body">
+                    <span>
+                      {blog.createdAt
+                        ? new Date(blog.createdAt).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })
+                        : "Joshspot"}
+                    </span>
+                    <h2>{blog.title}</h2>
+                    {blog.excerpt && <p>{blog.excerpt}</p>}
+                  </div>
+                </Link>
+                {(index + 1) % 3 === 0 && index < blogs.length - 1 && (
+                  <div className="blog-grid-ad">
+                    <BlogAd index={index + 1} />
+                  </div>
                 )}
-                <div className="blog-card-body">
-                  <span>
-                    {blog.createdAt
-                      ? new Date(blog.createdAt).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        })
-                      : "Joshspot"}
-                  </span>
-                  <h2>{blog.title}</h2>
-                  {blog.excerpt && <p>{blog.excerpt}</p>}
-                </div>
-              </Link>
+              </Fragment>
             ))
           ) : (
             <div className="blog-empty">No blog posts yet.</div>
