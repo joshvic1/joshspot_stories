@@ -26,16 +26,8 @@ export default function WhatsAppSelectionPage() {
   return (
     <main className="wa-page">
       <section className="wa-panel">
-        <p className="wa-kicker">whatsapp chat with me</p>
-        <div className="wa-online">
-          <span />
-          ONLINE NOW
-        </div>
-
         <h1>Enter your name to continue</h1>
-        <p className="wa-subtitle">
-          Type your name below and continue to the latest Joshspot posts.
-        </p>
+        <p className="wa-subtitle">Type your name below to continue</p>
 
         <form className="wa-name-form" onSubmit={handleSubmit}>
           <label htmlFor="visitor-name">Your name</label>
