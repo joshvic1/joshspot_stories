@@ -1,0 +1,135 @@
+.wa-page {
+  align-items: center;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 221, 87, 0.42), transparent 32%),
+    radial-gradient(circle at 85% 15%, rgba(70, 210, 255, 0.34), transparent 34%),
+    linear-gradient(135deg, #fff8f1 0%, #f1fff7 42%, #f4f7ff 100%);
+  color: #13241c;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 22px;
+}
+
+.wa-panel {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(31, 96, 76, 0.16);
+  max-width: 460px;
+  padding: 28px;
+  text-align: center;
+  width: 100%;
+}
+
+.wa-kicker {
+  color: #108d57;
+  font-size: 1.25rem;
+  font-weight: 900;
+  margin: 0 0 12px;
+  text-transform: capitalize;
+}
+
+.wa-online {
+  align-items: center;
+  color: #0c7a43;
+  display: inline-flex;
+  font-size: 0.86rem;
+  font-weight: 900;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.wa-online span {
+  background: #18d26e;
+  border-radius: 999px;
+  box-shadow: 0 0 0 7px rgba(24, 210, 110, 0.16);
+  height: 12px;
+  width: 12px;
+}
+
+.wa-face-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.wa-face-row img {
+  aspect-ratio: 1;
+  border: 3px solid #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 22px rgba(31, 96, 76, 0.14);
+  object-fit: cover;
+  width: 100%;
+}
+
+.wa-panel h1 {
+  font-size: clamp(1.65rem, 7vw, 2.35rem);
+  line-height: 1.08;
+  margin: 0 0 20px;
+}
+
+.wa-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.wa-choice-grid button,
+.wa-action-stack button {
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 900;
+  min-height: 52px;
+}
+
+.wa-choice-grid button:first-child {
+  background: linear-gradient(135deg, #47b8ff, #4f7cff);
+  color: #ffffff;
+}
+
+.wa-choice-grid button:last-child {
+  background: linear-gradient(135deg, #ff76aa, #ff9d5c);
+  color: #ffffff;
+}
+
+.wa-action-stack {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.wa-action-stack button:first-child {
+  background: #16a866;
+  color: #ffffff;
+}
+
+.wa-action-stack button:last-child {
+  background: #101828;
+  color: #ffffff;
+}
+
+.wa-panel footer {
+  color: #65756f;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin-top: 24px;
+}
+
+.wa-panel footer a {
+  color: #0c7a43;
+  font-weight: 800;
+}
+
+@media (max-width: 420px) {
+  .wa-page {
+    padding: 12px;
+  }
+
+  .wa-panel {
+    padding: 22px 16px;
+  }
+}

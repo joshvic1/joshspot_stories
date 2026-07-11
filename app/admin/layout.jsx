@@ -6,6 +6,7 @@ import {
   FiHome,
   FiEdit2,
   FiBookOpen,
+  FiFileText,
   FiLogOut,
   FiMenu,
   FiX,
@@ -38,6 +39,7 @@ export default function AdminLayout({ children }) {
     { label: "Dashboard", href: "/admin", icon: <FiHome /> },
     { label: "Create Story", href: "/admin/create", icon: <FiEdit2 /> },
     { label: "Manage Stories", href: "/admin/manage", icon: <FiBookOpen /> },
+    { label: "Blog Posts", href: "/admin/blog", icon: <FiFileText /> },
   ];
 
   return (
