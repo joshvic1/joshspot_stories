@@ -30,8 +30,12 @@ export default function WhatsAppSelectionPage() {
   }, []);
 
   const visibleFaces = useMemo(
-    () => Array.from({ length: 4 }, (_, index) => faces[(offset + index) % faces.length]),
-    [offset]
+    () =>
+      Array.from(
+        { length: 4 },
+        (_, index) => faces[(offset + index) % faces.length],
+      ),
+    [offset],
   );
 
   const goToBlog = (buttonName) => {
@@ -42,7 +46,7 @@ export default function WhatsAppSelectionPage() {
       });
     }
 
-    router.push("/blog");
+    router.push("/blog/6a5225f0b44fce47b6caa90a");
   };
 
   return (
@@ -82,7 +86,8 @@ export default function WhatsAppSelectionPage() {
 
         <footer>
           copyright {year} all rights reserved |{" "}
-          <Link href="/privacy">Privacy policy</Link> | Terms and conditions apply
+          <Link href="/privacy">Privacy policy</Link> | Terms and conditions
+          apply
         </footer>
       </section>
     </main>
