@@ -34,7 +34,16 @@ export default function WhatsAppSelectionPage() {
     [offset]
   );
 
-  const goToBlog = () => router.push("/blog");
+  const goToBlog = (buttonName) => {
+    if (typeof window !== "undefined" && window.ttq?.track) {
+      window.ttq.track("ClickButton", {
+        button_name: buttonName,
+        page: "whatsapp",
+      });
+    }
+
+    router.push("/blog");
+  };
 
   return (
     <main className="wa-page">
@@ -54,19 +63,19 @@ export default function WhatsAppSelectionPage() {
         <h1>Are you a male or female?</h1>
 
         <div className="wa-choice-grid">
-          <button type="button" onClick={goToBlog}>
+          <button type="button" onClick={() => goToBlog("male")}>
             MALE
           </button>
-          <button type="button" onClick={goToBlog}>
+          <button type="button" onClick={() => goToBlog("female")}>
             FEMALE
           </button>
         </div>
 
         <div className="wa-action-stack">
-          <button type="button" onClick={goToBlog}>
+          <button type="button" onClick={() => goToBlog("start_chatting")}>
             Start chatting
           </button>
-          <button type="button" onClick={goToBlog}>
+          <button type="button" onClick={() => goToBlog("join_whatsapp_group")}>
             Join whatsapp group
           </button>
         </div>
