@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import MainLayout from "@/components/Layout/MainLayout";
 import BlogAd from "@/components/BlogAd";
 import BlogContent from "@/components/BlogContent";
+import RelatedBlogPosts from "@/components/RelatedBlogPosts";
 import "@/styles/blog.css";
 
 export const dynamic = "force-dynamic";
@@ -71,41 +72,17 @@ export default async function BlogDetailsPage({ params }) {
         )}
         <header className="blog-detail-head">
           <h1>{blog.title}</h1>
+          <BlogAd index={0} />
           {blog.excerpt && <p className="blog-excerpt">{blog.excerpt}</p>}
         </header>
 
-        <BlogAd index={0} />
-        <BlogContent html={blog.content} seed={blog._id || id} />
+        <BlogContent
+          html={blog.content}
+          seed={blog._id || id}
+          inlineRelatedPosts={relatedBlogs.slice(0, 5)}
+        />
 
-        {relatedBlogs.length > 0 && (
-          <section className="related-posts" aria-labelledby="related-posts-title">
-            <div className="related-posts-head">
-              <p>Keep reading</p>
-              <h2 id="related-posts-title">Related posts</h2>
-            </div>
-            <div className="related-posts-grid">
-              {relatedBlogs.map((related) => (
-                <a
-                  href={`/blog/${related._id}`}
-                  className="related-post-card"
-                  key={related._id}
-                >
-                  {related.coverImage ? (
-                    <img src={related.coverImage} alt={related.title} />
-                  ) : (
-                    <div className="related-post-fallback">
-                      <span>Joshspot</span>
-                    </div>
-                  )}
-                  <div>
-                    <h3>{related.title}</h3>
-                    {related.excerpt && <p>{related.excerpt}</p>}
-                  </div>
-                </a>
-              ))}
-            </div>
-          </section>
-        )}
+        <RelatedBlogPosts posts={relatedBlogs} />
       </article>
     </MainLayout>
   );
