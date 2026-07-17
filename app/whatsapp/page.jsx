@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import "@/styles/whatsapp-select.css";
 
@@ -11,6 +11,7 @@ export default function WhatsAppSelectionPage() {
   const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const viewContentTracked = useRef(false);
   const year = new Date().getFullYear();
 
   const trackTikTokEvent = (eventName, properties = {}) => {
@@ -23,15 +24,19 @@ export default function WhatsAppSelectionPage() {
     }
   };
 
-  /*
-   * TikTok's base pixel normally handles PageView automatically.
-   * This tracks that the visitor actually viewed this page's content.
-   */
   useEffect(() => {
+    /*
+     * React Strict Mode may run effects twice during development.
+     * This prevents duplicate ViewContent events.
+     */
+    if (viewContentTracked.current) return;
+
+    viewContentTracked.current = true;
+
     trackTikTokEvent("ViewContent", {
       content_name: "WhatsApp name selection page",
-      content_type: "landing_page",
       page_name: "whatsapp_selection",
+      page_url: window.location.href,
     });
   }, []);
 
@@ -54,31 +59,26 @@ export default function WhatsAppSelectionPage() {
 
     setIsSubmitting(true);
 
-    /*
-     * Do not send the visitor's actual name to TikTok.
-     * A person's name is personal information.
-     */
     const eventProperties = {
       form_name: "whatsapp_name_form",
       page_name: "whatsapp_selection",
       destination: "/blog",
-      registration_method: "name_form",
     };
 
-    // The visitor successfully submitted the form.
     trackTikTokEvent("SubmitForm", eventProperties);
 
-    // Fire this only if submitting this form genuinely completes
-    // the registration or access process.
-    trackTikTokEvent("CompleteRegistration", eventProperties);
+    trackTikTokEvent("CompleteRegistration", {
+      ...eventProperties,
+      registration_method: "name_form",
+    });
 
     /*
-     * Give TikTok a moment to send the browser events before
-     * Next.js changes the route.
+     * Small delay gives TikTok time to send the events
+     * before Next.js changes the page.
      */
     window.setTimeout(() => {
       router.push("/blog");
-    }, 350);
+    }, 500);
   };
 
   return (
