@@ -5,13 +5,15 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import "@/styles/whatsapp-select.css";
 
-export default function WhatsAppSelectionPage() {
+export default function GenderSelectionPage() {
   const router = useRouter();
 
-  const [name, setName] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const viewContentTracked = useRef(false);
+  const redirectTimer = useRef(null);
+
   const year = new Date().getFullYear();
 
   const trackTikTokEvent = (eventName, properties = {}) => {
@@ -25,87 +27,136 @@ export default function WhatsAppSelectionPage() {
   };
 
   useEffect(() => {
-    /*
-     * React Strict Mode may run effects twice during development.
-     * This prevents duplicate ViewContent events.
-     */
     if (viewContentTracked.current) return;
 
     viewContentTracked.current = true;
 
     trackTikTokEvent("ViewContent", {
-      content_name: "WhatsApp name selection page",
-      page_name: "whatsapp_selection",
+      content_name: "Gender selection page",
+      page_name: "gender_selection",
       page_url: window.location.href,
     });
+
+    return () => {
+      if (redirectTimer.current) {
+        window.clearTimeout(redirectTimer.current);
+      }
+    };
   }, []);
 
-  const handleButtonClick = () => {
+  const redirectToBlog = () => {
+    redirectTimer.current = window.setTimeout(() => {
+      router.push("/blog");
+    }, 450);
+  };
+
+  const handleGenderSelect = (gender) => {
+    if (isSubmitting) return;
+
+    setSelectedGender(gender);
+    setIsSubmitting(true);
+
     trackTikTokEvent("ClickButton", {
-      button_name: "submit_name",
-      button_text: "Submit",
-      page_name: "whatsapp_selection",
+      button_name: `${gender.toLowerCase()}_gender_option`,
+      button_text: gender,
+      selected_gender: gender.toLowerCase(),
+      page_name: "gender_selection",
+      destination: "/blog",
     });
+
+    trackTikTokEvent("SubmitForm", {
+      form_name: "gender_selection_form",
+      selected_gender: gender.toLowerCase(),
+      page_name: "gender_selection",
+      destination: "/blog",
+    });
+
+    trackTikTokEvent("CompleteRegistration", {
+      registration_method: "gender_selection",
+      selected_gender: gender.toLowerCase(),
+      page_name: "gender_selection",
+      destination: "/blog",
+    });
+
+    redirectToBlog();
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const cleanedName = name.trim();
-
-    if (!cleanedName || isSubmitting) {
-      return;
-    }
+    if (!selectedGender || isSubmitting) return;
 
     setIsSubmitting(true);
 
-    const eventProperties = {
-      form_name: "whatsapp_name_form",
-      page_name: "whatsapp_selection",
+    trackTikTokEvent("ClickButton", {
+      button_name: "submit_gender",
+      button_text: "Submit",
+      selected_gender: selectedGender.toLowerCase(),
+      page_name: "gender_selection",
       destination: "/blog",
-    };
-
-    trackTikTokEvent("SubmitForm", eventProperties);
-
-    trackTikTokEvent("CompleteRegistration", {
-      ...eventProperties,
-      registration_method: "name_form",
     });
 
-    /*
-     * Small delay gives TikTok time to send the events
-     * before Next.js changes the page.
-     */
-    window.setTimeout(() => {
-      router.push("/blog");
-    }, 500);
+    trackTikTokEvent("SubmitForm", {
+      form_name: "gender_selection_form",
+      selected_gender: selectedGender.toLowerCase(),
+      page_name: "gender_selection",
+      destination: "/blog",
+    });
+
+    trackTikTokEvent("CompleteRegistration", {
+      registration_method: "gender_selection",
+      selected_gender: selectedGender.toLowerCase(),
+      page_name: "gender_selection",
+      destination: "/blog",
+    });
+
+    redirectToBlog();
   };
 
   return (
     <main className="wa-page">
       <section className="wa-panel">
-        <h1>Enter your name to continue</h1>
+        <p className="wa-kicker">Just one quick question</p>
 
-        <p className="wa-subtitle">Type your name below to continue</p>
+        <h1>What&apos;s your gender?</h1>
 
-        <form className="wa-name-form" onSubmit={handleSubmit}>
-          <label htmlFor="visitor-name">Your name</label>
+        <p className="wa-subtitle">
+          Select one of the options below to continue
+        </p>
 
-          <input
-            id="visitor-name"
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            placeholder="Enter your name"
-            autoComplete="name"
-            required
-            disabled={isSubmitting}
-          />
+        <form className="wa-gender-form" onSubmit={handleSubmit}>
+          <div className="wa-gender-options">
+            <button
+              type="button"
+              className={`wa-gender-button wa-male ${
+                selectedGender === "Male" ? "wa-selected" : ""
+              }`}
+              onClick={() => handleGenderSelect("Male")}
+              disabled={isSubmitting && selectedGender !== "Male"}
+              aria-pressed={selectedGender === "Male"}
+            >
+              <span className="wa-gender-icon">♂</span>
+              <span>Male</span>
+            </button>
+
+            <button
+              type="button"
+              className={`wa-gender-button wa-female ${
+                selectedGender === "Female" ? "wa-selected" : ""
+              }`}
+              onClick={() => handleGenderSelect("Female")}
+              disabled={isSubmitting && selectedGender !== "Female"}
+              aria-pressed={selectedGender === "Female"}
+            >
+              <span className="wa-gender-icon">♀</span>
+              <span>Female</span>
+            </button>
+          </div>
 
           <button
+            className="wa-submit-button"
             type="submit"
-            onClick={handleButtonClick}
-            disabled={isSubmitting}
+            disabled={!selectedGender || isSubmitting}
           >
             {isSubmitting ? "Please wait..." : "Submit"}
           </button>
