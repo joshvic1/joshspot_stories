@@ -26,6 +26,19 @@ function clsx(...args) {
   return args.filter(Boolean).join(" ");
 }
 
+function waitForImages(node) {
+  const images = Array.from(node.querySelectorAll("img"));
+  return Promise.all(
+    images.map((image) => {
+      if (image.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        image.onload = resolve;
+        image.onerror = resolve;
+      });
+    })
+  );
+}
+
 export default function ReviewPage() {
   // ---------- ALL HOOKS AT TOP ----------
   const [unlocked, setUnlocked] = useState(false);
@@ -186,6 +199,37 @@ export default function ReviewPage() {
     }
   }
 
+  async function ensureStoryImage(story) {
+    if (story.generatedImageUrl) {
+      return story.generatedImageUrl;
+    }
+
+    const res = await fetch(`${baseUrl}/api/story/${story._id}/generate-image`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ force: false }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data?.error || "Failed to generate story image");
+    }
+
+    setStories((arr) =>
+      arr.map((item) =>
+        item._id === story._id
+          ? {
+              ...item,
+              generatedImageUrl: data.imageUrl,
+              generatedImagePrompt: data.prompt,
+            }
+          : item
+      )
+    );
+
+    return data.imageUrl;
+  }
+
   async function onGenerateImages(story) {
     const chunks = chunkByWords(story.content, WORDS_PER_IMAGE);
     const renderRoot = document.getElementById("render-root");
@@ -195,36 +239,48 @@ export default function ReviewPage() {
       return;
     }
 
-    // Clear previous render
-    renderRoot.innerHTML = "";
+    setBusyIds((prev) => ({ ...prev, [story._id]: true }));
+    showInline(story._id, "images", "Generating image...", 120000);
 
-    // Import react-dom/client dynamically (client side only)
-    const { createRoot } = await import("react-dom/client");
+    try {
+      const backgroundImage = await ensureStoryImage(story);
 
-    // Mount each chunk as a separate StoryImageCard
-    const mounts = [];
-    chunks.forEach((text, idx) => {
-      const wrapper = document.createElement("div");
-      wrapper.style.display = "block";
-      wrapper.style.marginBottom = "40px";
-      renderRoot.appendChild(wrapper);
+      // Clear previous render
+      renderRoot.innerHTML = "";
 
-      const root = createRoot(wrapper);
-      root.render(
-        <StoryImageCard
-          title={(titleMap[story._id] || "").trim()}
-          text={text}
-          category={story.category}
-          index={idx}
-        />
-      );
+      // Import react-dom/client dynamically (client side only)
+      const { createRoot } = await import("react-dom/client");
 
-      mounts.push({ wrapper, root });
-    });
+      // Mount each chunk as a separate StoryImageCard
+      const mounts = [];
+      chunks.forEach((text, idx) => {
+        const wrapper = document.createElement("div");
+        wrapper.style.display = "block";
+        wrapper.style.marginBottom = "40px";
+        renderRoot.appendChild(wrapper);
 
-    // Wait for elements to fully render
-    setTimeout(async () => {
-      try {
+        const root = createRoot(wrapper);
+        root.render(
+          <StoryImageCard
+            title={(titleMap[story._id] || "").trim()}
+            text={text}
+            category={story.category}
+            index={idx}
+            totalParts={chunks.length}
+            backgroundImage={backgroundImage}
+          />
+        );
+
+        mounts.push({ wrapper, root });
+      });
+
+      // Wait for React paint and image decode before exporting.
+      setTimeout(async () => {
+        try {
+          for (const mount of mounts) {
+            await waitForImages(mount.wrapper);
+          }
+
         for (let i = 0; i < mounts.length; i++) {
           const node = mounts[i].wrapper;
 
@@ -247,8 +303,14 @@ export default function ReviewPage() {
         // Cleanup
         mounts.forEach(({ root }) => root.unmount());
         renderRoot.innerHTML = "";
+        setBusyIds((prev) => ({ ...prev, [story._id]: false }));
       }
-    }, 450);
+      }, 650);
+    } catch (err) {
+      console.error("Image generation failed:", err);
+      showInline(story._id, "images", "Failed");
+      setBusyIds((prev) => ({ ...prev, [story._id]: false }));
+    }
   }
 
   // ---------- UI ----------
@@ -398,10 +460,14 @@ export default function ReviewPage() {
                       </button>
 
                       <button
+                        disabled={!!busyIds[story._id]}
                         onClick={() => onGenerateImages(story)}
-                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition"
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
                       >
-                        🖼️ Export Images
+                        🖼️{" "}
+                        {busyIds[story._id]
+                          ? "Generating Images..."
+                          : "Export Images"}
                       </button>
                     </div>
 
@@ -434,11 +500,19 @@ export default function ReviewPage() {
                         </span>
                       )}
                       {feedback[story._id]?.images &&
-                        feedback[story._id]?.images !== "Failed" && (
+                        feedback[story._id]?.images !== "Failed" &&
+                        feedback[story._id]?.images !==
+                          "Generating image..." && (
                           <span className="text-emerald-300">
                             ✓ Images Ready
                           </span>
                         )}
+                      {feedback[story._id]?.images ===
+                        "Generating image..." && (
+                        <span className="text-purple-200">
+                          Generating image...
+                        </span>
+                      )}
                       {feedback[story._id]?.images === "Failed" && (
                         <span className="text-red-300">✗ Export Failed</span>
                       )}
@@ -464,6 +538,8 @@ export default function ReviewPage() {
                           text={text}
                           category={story.category}
                           index={idx}
+                          totalParts={chunks.length}
+                          backgroundImage={story.generatedImageUrl}
                         />
                       </div>
                     ))}

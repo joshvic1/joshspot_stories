@@ -1,6 +1,51 @@
-export default function StoryImageCard({ title, text, category, index }) {
+export default function StoryImageCard({
+  title,
+  text,
+  category,
+  index,
+  totalParts = 1,
+  backgroundImage,
+}) {
   const W = 1080;
   const H = 1080;
+  const highlightWords = [
+    "love",
+    "years",
+    "year",
+    "months",
+    "month",
+    "relationship",
+    "marriage",
+    "pregnant",
+    "cheated",
+    "heartbreak",
+    "facebook",
+    "accepted",
+    "forgive",
+    "forgave",
+    "restarted",
+    "hardship",
+    "family",
+    "moved",
+    "confessed",
+  ];
+
+  const renderHighlightedText = (value) =>
+    String(value || "")
+      .split(/(\s+)/)
+      .map((part, partIndex) => {
+        const clean = part.toLowerCase().replace(/[^a-z]/g, "");
+        const isHighlighted = highlightWords.includes(clean);
+
+        return (
+          <span
+            key={`${part}-${partIndex}`}
+            style={{ color: isHighlighted ? "#6B368B" : "#050308" }}
+          >
+            {part}
+          </span>
+        );
+      });
 
   return (
     <div
@@ -9,216 +54,206 @@ export default function StoryImageCard({ title, text, category, index }) {
         height: H,
         position: "relative",
         overflow: "hidden",
-        background: "#000", // Solid to avoid white edge on export
-        color: "#fff",
+        background: "#efe4fb",
+        color: "#050308",
         fontFamily:
           "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       }}
     >
-      {/* OUTER BACKGROUND */}
+      {backgroundImage && (
+        <img
+          src={backgroundImage}
+          alt=""
+          crossOrigin="anonymous"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      )}
+
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(1200px 900px at 20% 0%, rgba(102,51,153,0.55), transparent 60%), radial-gradient(1000px 800px at 85% 100%, rgba(0,0,0,0.9), #000 70%)",
+            "linear-gradient(90deg, rgba(244,232,255,0.98) 0%, rgba(244,232,255,0.94) 39%, rgba(244,232,255,0.56) 59%, rgba(244,232,255,0.08) 100%)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(79,34,106,0.2) 100%)",
         }}
       />
 
-      {/* ABSTRACT BLOBS */}
       <div
         style={{
           position: "absolute",
-          top: -120,
-          left: -100,
-          width: 420,
-          height: 420,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle at 40% 40%, rgba(140,77,255,0.45), transparent 60%)",
-          filter: "blur(70px)",
-          opacity: 0.9,
+          left: 34,
+          right: 28,
+          top: 74,
+          height: 3,
+          background: "#6B368B",
+          opacity: 0.82,
         }}
       />
       <div
         style={{
           position: "absolute",
-          bottom: -160,
-          right: -140,
-          width: 520,
-          height: 520,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle at 50% 50%, rgba(255,60,210,0.35), transparent 65%)",
-          filter: "blur(110px)",
-          opacity: 0.7,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: 120,
-          right: 140,
-          width: 280,
-          height: 280,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle at 50% 50%, rgba(102,51,153,0.35), transparent 65%)",
-          filter: "blur(70px)",
-          opacity: 0.6,
-        }}
-      />
-
-      {/* MAIN CONTENT CARD */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 48,
-          borderRadius: 40,
-          background:
-            "linear-gradient(155deg, rgba(102,51,153,0.95) 0%, rgba(29,14,48,0.98) 55%, rgba(9,6,18,1) 100%)",
-          border: "1px solid rgba(255,255,255,0.07)",
-          boxShadow:
-            "0 40px 100px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.04)",
-          padding: "56px 64px",
-          display: "flex",
-          flexDirection: "column",
+          left: 36,
+          top: 30,
+          fontSize: 30,
+          fontWeight: 900,
+          letterSpacing: 2,
         }}
       >
-        {/* WATERMARK */}
+        JOSHSPOT MEDIA
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          right: 36,
+          top: 30,
+          fontSize: 28,
+          fontWeight: 900,
+          letterSpacing: 1.3,
+        }}
+      >
+        STORY PART {index + 1}
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          left: 34,
+          top: 100,
+          width: 80,
+          height: 76,
+          borderRadius: 14,
+          background: "linear-gradient(145deg, #8E43C7, #4C1F72)",
+          color: "#FFFFFF",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 54,
+          fontWeight: 900,
+        }}
+      >
+        {index + 1}
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          left: 36,
+          top: title?.trim() ? 196 : 198,
+          width: 532,
+          maxHeight: 760,
+          overflow: "hidden",
+        }}
+      >
+        {title?.trim() && (
+          <div
+            style={{
+              fontSize: 28,
+              lineHeight: 1.18,
+              fontWeight: 900,
+              color: "#6B368B",
+              marginBottom: 18,
+            }}
+          >
+            {title}
+          </div>
+        )}
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            userSelect: "none",
+            fontSize: 34,
+            lineHeight: 1.28,
+            fontWeight: 900,
+            color: "#050308",
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word",
+          }}
+        >
+          {renderHighlightedText(text)}
+        </div>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 82,
+          background: "linear-gradient(90deg, #4D246F, #6B368B)",
+          display: "flex",
+          alignItems: "center",
+          color: "#FFFFFF",
+        }}
+      >
+        <div
+          style={{
+            width: 54,
+            height: 54,
+            marginLeft: 30,
+            borderRadius: 10,
+            background: "#FFFFFF",
+            color: "#6B368B",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            overflow: "hidden",
-            zIndex: 0,
+            fontSize: 35,
+            fontWeight: 900,
+            fontStyle: "italic",
           }}
         >
-          <div
-            style={{
-              fontSize: "180px",
-              fontWeight: 800,
-              color: "rgba(255,255,255,0.5)",
-              opacity: 0.06,
-              transform: "rotate(-22deg)",
-              whiteSpace: "nowrap",
-              textShadow: "0 0 35px rgba(0,0,0,0.55)",
-              letterSpacing: "-4px",
-              mixBlendMode: "overlay",
-              filter: "blur(1px)",
-            }}
-          >
-            @joshspot_tv
-          </div>
+          J
         </div>
-
-        {/* HEADER */}
         <div
           style={{
-            textAlign: "center",
-            fontSize: 28,
+            fontSize: 24,
+            fontWeight: 900,
+            letterSpacing: 4,
+            marginLeft: 16,
+          }}
+        >
+          JOSHSPOT TV
+        </div>
+        <div
+          style={{
+            width: 1,
+            height: 48,
+            background: "rgba(255,255,255,0.5)",
+            marginLeft: 30,
+          }}
+        />
+        <div
+          style={{
+            fontSize: 22,
+            fontWeight: 900,
+            letterSpacing: 5,
+            marginLeft: 30,
+          }}
+        >
+          STORIES THAT CONNECT US
+        </div>
+        <div
+          style={{
+            marginLeft: "auto",
+            marginRight: 28,
+            fontSize: 15,
             fontWeight: 800,
-            letterSpacing: 1.4,
-            textTransform: "uppercase",
-            color: "#E9D8FF",
-            textShadow: "0 2px 14px rgba(0,0,0,0.35)",
-            marginBottom: 12,
-            zIndex: 2,
+            opacity: 0.85,
           }}
         >
-          JOSHSPOT TV — ANONYMOUS STORIES
-        </div>
-
-        {/* CATEGORY PILL */}
-        <div
-          style={{
-            alignSelf: "center",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 10,
-            padding: "8px 18px",
-            borderRadius: 999,
-            fontSize: 18,
-            fontWeight: 700,
-            letterSpacing: 1,
-            textTransform: "uppercase",
-            color: "#F8F7FA",
-            background:
-              "linear-gradient(90deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08))",
-            border: "1px solid rgba(255,255,255,0.2)",
-            backdropFilter: "blur(6px)",
-            marginBottom: 28,
-            zIndex: 2,
-          }}
-        >
-          {category || "STORY"}
-        </div>
-
-        {/* CENTER SECTION: Title + Text Always Centered */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            zIndex: 2,
-          }}
-        >
-          {title?.trim() && (
-            <div
-              style={{
-                fontSize: 34,
-                fontWeight: 900,
-                lineHeight: 1.2,
-                color: "#FFFFFF",
-                marginBottom: 22,
-                textShadow: "0 2px 12px rgba(0,0,0,0.35)",
-                maxWidth: "90%",
-              }}
-            >
-              {title}
-            </div>
-          )}
-
-          <div
-            style={{
-              fontSize: 50,
-              lineHeight: 1.42,
-              fontWeight: 500,
-              color: "rgba(255,255,255,0.96)",
-              whiteSpace: "pre-wrap",
-              textShadow: "0 1px 8px rgba(0,0,0,0.35)",
-              wordBreak: "break-word",
-              maxWidth: "90%",
-            }}
-          >
-            {text}
-          </div>
-        </div>
-
-        {/* FOOTER */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: 18,
-            borderTop: "1px solid rgba(255,255,255,0.12)",
-            color: "rgba(255,255,255,0.9)",
-            zIndex: 2,
-          }}
-        >
-          <div style={{ fontSize: 22, fontWeight: 700 }}>Page {index + 1}</div>
-          <div style={{ fontSize: 22, fontWeight: 700 }}>
-            joshspot.tv • @joshspot_tv
-          </div>
+          {index + 1}/{totalParts}
         </div>
       </div>
     </div>
