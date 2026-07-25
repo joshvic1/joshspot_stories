@@ -8,6 +8,8 @@ export default function StoryImageCard({
 }) {
   const W = 1080;
   const H = 1080;
+  const accent = "#DAB566";
+  const deepPurple = "#2B073F";
   const highlightWords = [
     "love",
     "years",
@@ -28,6 +30,9 @@ export default function StoryImageCard({
     "family",
     "moved",
     "confessed",
+    "hurt",
+    "lost",
+    "virginity",
   ];
 
   const renderHighlightedText = (value) =>
@@ -40,7 +45,7 @@ export default function StoryImageCard({
         return (
           <span
             key={`${part}-${partIndex}`}
-            style={{ color: isHighlighted ? "#6B368B" : "#050308" }}
+            style={{ color: isHighlighted ? accent : "#FFFFFF" }}
           >
             {part}
           </span>
@@ -54,10 +59,10 @@ export default function StoryImageCard({
         height: H,
         position: "relative",
         overflow: "hidden",
-        background: "#efe4fb",
-        color: "#050308",
+        background: "#030104",
+        color: "#FFFFFF",
         fontFamily:
-          "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          "Arial Black, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       }}
     >
       {backgroundImage && (
@@ -80,7 +85,7 @@ export default function StoryImageCard({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(90deg, rgba(244,232,255,0.98) 0%, rgba(244,232,255,0.94) 39%, rgba(244,232,255,0.56) 59%, rgba(244,232,255,0.08) 100%)",
+            "linear-gradient(90deg, rgba(0,0,0,0.98) 0%, rgba(5,2,8,0.95) 35%, rgba(43,7,63,0.64) 57%, rgba(0,0,0,0.18) 100%)",
         }}
       />
       <div
@@ -88,29 +93,31 @@ export default function StoryImageCard({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(79,34,106,0.2) 100%)",
+            "radial-gradient(860px 680px at 18% 44%, rgba(74,12,106,0.55), transparent 65%), linear-gradient(180deg, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0.9) 100%)",
         }}
       />
 
       <div
         style={{
           position: "absolute",
-          left: 34,
-          right: 28,
-          top: 74,
-          height: 3,
-          background: "#6B368B",
-          opacity: 0.82,
+          left: 46,
+          right: 48,
+          top: 104,
+          height: 2,
+          background: accent,
+          opacity: 0.9,
         }}
       />
       <div
         style={{
           position: "absolute",
-          left: 36,
-          top: 30,
-          fontSize: 30,
+          left: 50,
+          top: 54,
+          fontSize: 27,
           fontWeight: 900,
-          letterSpacing: 2,
+          letterSpacing: 5,
+          color: accent,
+          textShadow: `0 2px 18px ${deepPurple}`,
         }}
       >
         JOSHSPOT MEDIA
@@ -118,11 +125,13 @@ export default function StoryImageCard({
       <div
         style={{
           position: "absolute",
-          right: 36,
-          top: 30,
-          fontSize: 28,
+          right: 58,
+          top: 54,
+          fontSize: 25,
           fontWeight: 900,
-          letterSpacing: 1.3,
+          letterSpacing: 5,
+          color: accent,
+          textShadow: `0 2px 18px ${deepPurple}`,
         }}
       >
         STORY PART {index + 1}
@@ -131,18 +140,20 @@ export default function StoryImageCard({
       <div
         style={{
           position: "absolute",
-          left: 34,
-          top: 100,
-          width: 80,
-          height: 76,
+          left: 58,
+          top: 158,
+          width: 86,
+          height: 84,
           borderRadius: 14,
-          background: "linear-gradient(145deg, #8E43C7, #4C1F72)",
-          color: "#FFFFFF",
+          background: `linear-gradient(145deg, #F3D889, ${accent})`,
+          color: "#070407",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontSize: 54,
+          fontSize: 52,
           fontWeight: 900,
+          fontFamily: "Georgia, 'Times New Roman', serif",
+          boxShadow: "0 18px 36px rgba(0,0,0,0.45)",
         }}
       >
         {index + 1}
@@ -151,21 +162,22 @@ export default function StoryImageCard({
       <div
         style={{
           position: "absolute",
-          left: 36,
-          top: title?.trim() ? 196 : 198,
-          width: 532,
-          maxHeight: 760,
+          left: 58,
+          top: title?.trim() ? 270 : 282,
+          width: 505,
+          maxHeight: 640,
           overflow: "hidden",
         }}
       >
         {title?.trim() && (
           <div
             style={{
-              fontSize: 28,
-              lineHeight: 1.18,
+              fontSize: 27,
+              lineHeight: 1.12,
               fontWeight: 900,
-              color: "#6B368B",
+              color: accent,
               marginBottom: 18,
+              textShadow: "0 3px 16px rgba(0,0,0,0.82)",
             }}
           >
             {title}
@@ -173,12 +185,15 @@ export default function StoryImageCard({
         )}
         <div
           style={{
-            fontSize: 34,
-            lineHeight: 1.28,
+            fontSize: 40,
+            lineHeight: 1.36,
             fontWeight: 900,
-            color: "#050308",
+            color: "#FFFFFF",
             whiteSpace: "pre-wrap",
             wordBreak: "break-word",
+            letterSpacing: 0,
+            textShadow:
+              "0 3px 18px rgba(0,0,0,0.9), 0 1px 1px rgba(0,0,0,0.9)",
           }}
         >
           {renderHighlightedText(text)}
@@ -188,11 +203,24 @@ export default function StoryImageCard({
       <div
         style={{
           position: "absolute",
+          left: 48,
+          right: 48,
+          bottom: 86,
+          height: 2,
+          background: accent,
+          opacity: 0.75,
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
           left: 0,
           right: 0,
           bottom: 0,
-          height: 82,
-          background: "linear-gradient(90deg, #4D246F, #6B368B)",
+          height: 86,
+          background:
+            "linear-gradient(90deg, rgba(0,0,0,0.99), rgba(13,4,20,0.99))",
           display: "flex",
           alignItems: "center",
           color: "#FFFFFF",
@@ -202,26 +230,28 @@ export default function StoryImageCard({
           style={{
             width: 54,
             height: 54,
-            marginLeft: 30,
+            marginLeft: 54,
             borderRadius: 10,
-            background: "#FFFFFF",
-            color: "#6B368B",
+            background: accent,
+            color: "#09040D",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: 35,
             fontWeight: 900,
             fontStyle: "italic",
+            boxShadow: `0 0 0 2px rgba(255,255,255,0.26) inset`,
           }}
         >
           J
         </div>
         <div
           style={{
-            fontSize: 24,
+            fontSize: 21,
             fontWeight: 900,
-            letterSpacing: 4,
-            marginLeft: 16,
+            letterSpacing: 5,
+            marginLeft: 20,
+            color: accent,
           }}
         >
           JOSHSPOT TV
@@ -229,17 +259,18 @@ export default function StoryImageCard({
         <div
           style={{
             width: 1,
-            height: 48,
-            background: "rgba(255,255,255,0.5)",
-            marginLeft: 30,
+            height: 46,
+            background: "rgba(218,181,102,0.65)",
+            marginLeft: 32,
           }}
         />
         <div
           style={{
-            fontSize: 22,
+            fontSize: 20,
             fontWeight: 900,
             letterSpacing: 5,
-            marginLeft: 30,
+            marginLeft: 34,
+            color: "#FFFFFF",
           }}
         >
           STORIES THAT CONNECT US
@@ -247,10 +278,11 @@ export default function StoryImageCard({
         <div
           style={{
             marginLeft: "auto",
-            marginRight: 28,
+            marginRight: 30,
             fontSize: 15,
             fontWeight: 800,
-            opacity: 0.85,
+            color: accent,
+            opacity: 0.95,
           }}
         >
           {index + 1}/{totalParts}
