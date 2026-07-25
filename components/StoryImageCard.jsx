@@ -10,6 +10,8 @@ export default function StoryImageCard({
   const H = 1080;
   const accent = "#DAB566";
   const deepPurple = "#2B073F";
+  const wordCount = String(text || "").trim().split(/\s+/).filter(Boolean).length;
+  const textFontSize = wordCount > 58 ? 34 : wordCount > 44 ? 37 : 40;
   const highlightWords = [
     "love",
     "years",
@@ -62,7 +64,7 @@ export default function StoryImageCard({
         background: "#030104",
         color: "#FFFFFF",
         fontFamily:
-          "Arial Black, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          "var(--font-geist-sans), Inter, Helvetica Neue, Arial, sans-serif",
       }}
     >
       {backgroundImage && (
@@ -164,7 +166,7 @@ export default function StoryImageCard({
           position: "absolute",
           left: 58,
           top: title?.trim() ? 270 : 282,
-          width: 505,
+          width: 515,
           maxHeight: 640,
           overflow: "hidden",
         }}
@@ -185,15 +187,19 @@ export default function StoryImageCard({
         )}
         <div
           style={{
-            fontSize: 40,
-            lineHeight: 1.36,
-            fontWeight: 900,
+            fontFamily:
+              "var(--font-geist-sans), Inter, Helvetica Neue, Arial, sans-serif",
+            fontSize: textFontSize,
+            lineHeight: 1.26,
+            fontWeight: 950,
             color: "#FFFFFF",
             whiteSpace: "pre-wrap",
             wordBreak: "break-word",
             letterSpacing: 0,
+            WebkitFontSmoothing: "antialiased",
+            textRendering: "geometricPrecision",
             textShadow:
-              "0 3px 18px rgba(0,0,0,0.9), 0 1px 1px rgba(0,0,0,0.9)",
+              "0 4px 20px rgba(0,0,0,0.92), 0 1px 1px rgba(0,0,0,0.95)",
           }}
         >
           {renderHighlightedText(text)}
