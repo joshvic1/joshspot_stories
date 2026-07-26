@@ -190,6 +190,31 @@ export default function ReviewPage() {
     }
   }
 
+  async function onCorrectErrors(story) {
+    setBusyIds((prev) => ({ ...prev, [story._id]: true }));
+    showInline(story._id, "corrected", "Correcting...", 120000);
+
+    try {
+      const res = await fetch(`${baseUrl}/api/story/${story._id}/correct-errors`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const updated = await res.json();
+      if (!res.ok) throw new Error(updated?.error || "Failed");
+
+      setStories((arr) =>
+        arr.map((item) => (item._id === story._id ? updated : item))
+      );
+      showInline(story._id, "corrected", true);
+    } catch (error) {
+      console.error("Correction failed:", error);
+      showInline(story._id, "corrected", "Failed");
+    } finally {
+      setBusyIds((prev) => ({ ...prev, [story._id]: false }));
+    }
+  }
+
   async function copyText(text, id, key = "copied") {
     try {
       await navigator.clipboard.writeText(text || "");
@@ -435,6 +460,17 @@ export default function ReviewPage() {
                         {busyIds[story._id] ? "Generating…" : "Generate Title"}
                       </button>
 
+                      <button
+                        disabled={!!busyIds[story._id]}
+                        onClick={() => onCorrectErrors(story)}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
+                      >
+                        📝{" "}
+                        {busyIds[story._id]
+                          ? "Working..."
+                          : "Correct Errors"}
+                      </button>
+
                       {title && (
                         <div className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-2 py-1">
                           <span className="text-sm font-medium truncate max-w-[44vw] md:max-w-[18vw]">
@@ -487,6 +523,25 @@ export default function ReviewPage() {
                         )}
                       {feedback[story._id]?.titled === "Failed" && (
                         <span className="text-red-300">✗ Title Failed</span>
+                      )}
+                      {feedback[story._id]?.corrected ===
+                        "Correcting..." && (
+                        <span className="text-purple-200">
+                          Correcting story...
+                        </span>
+                      )}
+                      {feedback[story._id]?.corrected &&
+                        feedback[story._id]?.corrected !== "Failed" &&
+                        feedback[story._id]?.corrected !==
+                          "Correcting..." && (
+                          <span className="text-emerald-300">
+                            ✓ Story Corrected
+                          </span>
+                        )}
+                      {feedback[story._id]?.corrected === "Failed" && (
+                        <span className="text-red-300">
+                          ✗ Correction Failed
+                        </span>
                       )}
                       {feedback[story._id]?.toggled && (
                         <span
