@@ -1,3 +1,10 @@
+import { Montserrat } from "next/font/google";
+
+const exportFont = Montserrat({
+  subsets: ["latin"],
+  weight: ["800", "900"],
+});
+
 export default function StoryImageCard({
   title,
   text,
@@ -11,7 +18,7 @@ export default function StoryImageCard({
   const accent = "#DAB566";
   const deepPurple = "#2B073F";
   const wordCount = String(text || "").trim().split(/\s+/).filter(Boolean).length;
-  const textFontSize = wordCount > 58 ? 34 : wordCount > 44 ? 37 : 40;
+  const textFontSize = wordCount > 62 ? 39 : wordCount > 52 ? 41 : wordCount > 40 ? 44 : 48;
   const highlightWords = [
     "love",
     "years",
@@ -56,6 +63,7 @@ export default function StoryImageCard({
 
   return (
     <div
+      className={exportFont.className}
       style={{
         width: W,
         height: H,
@@ -63,8 +71,6 @@ export default function StoryImageCard({
         overflow: "hidden",
         background: "#030104",
         color: "#FFFFFF",
-        fontFamily:
-          "var(--font-geist-sans), Inter, Helvetica Neue, Arial, sans-serif",
       }}
     >
       {backgroundImage && (
@@ -87,7 +93,7 @@ export default function StoryImageCard({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(90deg, rgba(0,0,0,0.98) 0%, rgba(5,2,8,0.95) 35%, rgba(43,7,63,0.64) 57%, rgba(0,0,0,0.18) 100%)",
+            "linear-gradient(90deg, rgba(0,0,0,0.94) 0%, rgba(5,2,8,0.88) 35%, rgba(43,7,63,0.42) 56%, rgba(0,0,0,0.04) 100%)",
         }}
       />
       <div
@@ -95,7 +101,7 @@ export default function StoryImageCard({
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(860px 680px at 18% 44%, rgba(74,12,106,0.55), transparent 65%), linear-gradient(180deg, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0.9) 100%)",
+            "radial-gradient(800px 620px at 18% 44%, rgba(74,12,106,0.34), transparent 66%), linear-gradient(180deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.52) 100%)",
         }}
       />
 
@@ -165,9 +171,9 @@ export default function StoryImageCard({
         style={{
           position: "absolute",
           left: 58,
-          top: title?.trim() ? 270 : 282,
-          width: 515,
-          maxHeight: 640,
+          top: title?.trim() ? 260 : 272,
+          width: 560,
+          maxHeight: 685,
           overflow: "hidden",
         }}
       >
@@ -187,11 +193,9 @@ export default function StoryImageCard({
         )}
         <div
           style={{
-            fontFamily:
-              "var(--font-geist-sans), Inter, Helvetica Neue, Arial, sans-serif",
             fontSize: textFontSize,
-            lineHeight: 1.26,
-            fontWeight: 950,
+            lineHeight: 1.2,
+            fontWeight: 900,
             color: "#FFFFFF",
             whiteSpace: "pre-wrap",
             wordBreak: "break-word",
@@ -199,7 +203,7 @@ export default function StoryImageCard({
             WebkitFontSmoothing: "antialiased",
             textRendering: "geometricPrecision",
             textShadow:
-              "0 4px 20px rgba(0,0,0,0.92), 0 1px 1px rgba(0,0,0,0.95)",
+              "0 4px 16px rgba(0,0,0,0.9), 0 1px 1px rgba(0,0,0,0.98)",
           }}
         >
           {renderHighlightedText(text)}
