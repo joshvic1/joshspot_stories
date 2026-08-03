@@ -224,15 +224,18 @@ export default function ReviewPage() {
     }
   }
 
-  async function ensureStoryImage(story) {
-    if (story.generatedImageUrl) {
+  async function ensureStoryImage(story, force = false) {
+    if (story.generatedImageUrl && !force) {
       return story.generatedImageUrl;
     }
 
     const res = await fetch(`${baseUrl}/api/story/${story._id}/generate-image`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ force: false }),
+      body: JSON.stringify({
+        force,
+        title: (titleMap[story._id] || "").trim(),
+      }),
     });
 
     const data = await res.json();
@@ -255,6 +258,21 @@ export default function ReviewPage() {
     return data.imageUrl;
   }
 
+  async function onRegenerateStoryImage(story) {
+    setBusyIds((prev) => ({ ...prev, [story._id]: true }));
+    showInline(story._id, "imageRegenerated", "Regenerating image...", 120000);
+
+    try {
+      await ensureStoryImage(story, true);
+      showInline(story._id, "imageRegenerated", true);
+    } catch (error) {
+      console.error("Image regeneration failed:", error);
+      showInline(story._id, "imageRegenerated", "Failed");
+    } finally {
+      setBusyIds((prev) => ({ ...prev, [story._id]: false }));
+    }
+  }
+
   async function onGenerateImages(story) {
     const chunks = chunkByWords(story.content, WORDS_PER_IMAGE);
     const renderRoot = document.getElementById("render-root");
@@ -268,7 +286,14 @@ export default function ReviewPage() {
     showInline(story._id, "images", "Generating image...", 120000);
 
     try {
-      const backgroundImage = await ensureStoryImage(story);
+      let backgroundImage = "";
+
+      try {
+        backgroundImage = await ensureStoryImage(story);
+      } catch (imageError) {
+        console.error("Image generation failed, using fallback:", imageError);
+        showInline(story._id, "images", "Using fallback background...", 4000);
+      }
 
       // Clear previous render
       renderRoot.innerHTML = "";
@@ -332,7 +357,7 @@ export default function ReviewPage() {
       }
       }, 650);
     } catch (err) {
-      console.error("Image generation failed:", err);
+      console.error("Export setup failed:", err);
       showInline(story._id, "images", "Failed");
       setBusyIds((prev) => ({ ...prev, [story._id]: false }));
     }
@@ -505,6 +530,17 @@ export default function ReviewPage() {
                           ? "Generating Images..."
                           : "Export Images"}
                       </button>
+
+                      <button
+                        disabled={!!busyIds[story._id]}
+                        onClick={() => onRegenerateStoryImage(story)}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition disabled:opacity-50"
+                      >
+                        🎨{" "}
+                        {busyIds[story._id]
+                          ? "Working..."
+                          : "Regenerate Image"}
+                      </button>
                     </div>
 
                     {/* FEEDBACK */}
@@ -557,7 +593,9 @@ export default function ReviewPage() {
                       {feedback[story._id]?.images &&
                         feedback[story._id]?.images !== "Failed" &&
                         feedback[story._id]?.images !==
-                          "Generating image..." && (
+                          "Generating image..." &&
+                        feedback[story._id]?.images !==
+                          "Using fallback background..." && (
                           <span className="text-emerald-300">
                             ✓ Images Ready
                           </span>
@@ -568,8 +606,33 @@ export default function ReviewPage() {
                           Generating image...
                         </span>
                       )}
+                      {feedback[story._id]?.images ===
+                        "Using fallback background..." && (
+                        <span className="text-purple-200">
+                          Using fallback background...
+                        </span>
+                      )}
                       {feedback[story._id]?.images === "Failed" && (
                         <span className="text-red-300">✗ Export Failed</span>
+                      )}
+                      {feedback[story._id]?.imageRegenerated ===
+                        "Regenerating image..." && (
+                        <span className="text-purple-200">
+                          Regenerating image...
+                        </span>
+                      )}
+                      {feedback[story._id]?.imageRegenerated &&
+                        feedback[story._id]?.imageRegenerated !== "Failed" &&
+                        feedback[story._id]?.imageRegenerated !==
+                          "Regenerating image..." && (
+                          <span className="text-emerald-300">
+                            ✓ Image Regenerated
+                          </span>
+                        )}
+                      {feedback[story._id]?.imageRegenerated === "Failed" && (
+                        <span className="text-red-300">
+                          ✗ Image Regeneration Failed
+                        </span>
                       )}
                     </div>
                   </div>

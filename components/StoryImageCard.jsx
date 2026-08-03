@@ -15,7 +15,8 @@ export default function StoryImageCard({
 }) {
   const W = 1080;
   const H = 1080;
-  const accent = "#DAB566";
+  const accent = "#B46CFF";
+  const accentSoft = "#E5D2FF";
   const deepPurple = "#2B073F";
   const wordCount = String(text || "").trim().split(/\s+/).filter(Boolean).length;
   const textFontSize = wordCount > 62 ? 39 : wordCount > 52 ? 41 : wordCount > 40 ? 44 : 48;
@@ -73,6 +74,15 @@ export default function StoryImageCard({
         color: "#FFFFFF",
       }}
     >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(850px 720px at 72% 28%, rgba(180,108,255,0.38), transparent 62%), radial-gradient(760px 620px at 18% 56%, rgba(72,15,111,0.9), transparent 68%), linear-gradient(135deg, #09020f 0%, #240638 46%, #050107 100%)",
+        }}
+      />
+
       {backgroundImage && (
         <img
           src={backgroundImage}
@@ -93,7 +103,7 @@ export default function StoryImageCard({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(90deg, rgba(0,0,0,0.94) 0%, rgba(5,2,8,0.88) 35%, rgba(43,7,63,0.42) 56%, rgba(0,0,0,0.04) 100%)",
+            "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(8,2,14,0.82) 35%, rgba(43,7,63,0.32) 56%, rgba(0,0,0,0.02) 100%)",
         }}
       />
       <div
@@ -101,7 +111,7 @@ export default function StoryImageCard({
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(800px 620px at 18% 44%, rgba(74,12,106,0.34), transparent 66%), linear-gradient(180deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.52) 100%)",
+            "radial-gradient(800px 620px at 18% 44%, rgba(116,36,171,0.28), transparent 66%), linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.48) 100%)",
         }}
       />
 
@@ -153,8 +163,8 @@ export default function StoryImageCard({
           width: 86,
           height: 84,
           borderRadius: 14,
-          background: `linear-gradient(145deg, #F3D889, ${accent})`,
-          color: "#070407",
+          background: `linear-gradient(145deg, ${accentSoft}, ${accent})`,
+          color: "#160326",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -230,7 +240,7 @@ export default function StoryImageCard({
           bottom: 0,
           height: 86,
           background:
-            "linear-gradient(90deg, rgba(0,0,0,0.99), rgba(13,4,20,0.99))",
+            "linear-gradient(90deg, rgba(0,0,0,0.99), rgba(25,5,38,0.99))",
           display: "flex",
           alignItems: "center",
           color: "#FFFFFF",
@@ -242,8 +252,8 @@ export default function StoryImageCard({
             height: 54,
             marginLeft: 54,
             borderRadius: 10,
-            background: accent,
-            color: "#09040D",
+            background: `linear-gradient(145deg, ${accentSoft}, ${accent})`,
+            color: "#160326",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -270,7 +280,7 @@ export default function StoryImageCard({
           style={{
             width: 1,
             height: 46,
-            background: "rgba(218,181,102,0.65)",
+            background: "rgba(180,108,255,0.68)",
             marginLeft: 32,
           }}
         />
