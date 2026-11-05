@@ -3,7 +3,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import OneSignalInit from "@/components/OneSignalInit";
-
+import ConditionalAdSense from "./components/ConditionalAdSense";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -47,6 +47,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <OneSignalInit />
+        <ConditionalAdSense />
         {/* TikTok Pixel */}
         <Script id="tiktok-pixel" strategy="afterInteractive">
           {`
