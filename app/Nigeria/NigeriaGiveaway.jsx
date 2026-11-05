@@ -180,7 +180,7 @@ export default function NigeriaGiveaway() {
   const [stage, setStage] = useState("details");
   const [clicks, setClicks] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState(
-    "Preparing your next step",
+    "Congratulations! You’re eligible for the relief funds.",
   );
   const dialog = useRef(null);
   const clickCount = useRef(0);
@@ -195,7 +195,7 @@ export default function NigeriaGiveaway() {
     if (stage !== "preparing") return;
     dialog.current?.showModal();
     const messageTimer = window.setTimeout(
-      () => setLoadingMessage("Opening the invitation step"),
+      () => setLoadingMessage("Calculating your prize"),
       1200,
     );
     const finishTimer = window.setTimeout(() => {
@@ -269,7 +269,7 @@ ${link}`;
             {stage === "details" || stage === "preparing"
               ? "Fill the form below to get your relief funds"
               : stage === "share"
-                ? "Your Prize is ready! Share this to 20 groups to receive it now."
+                ? "Congratulations! Your Prize is ready! Share this to 20 groups to receive it now."
                 : "You’re ready to explore!"}
           </h2>
           {stage === "details" || stage === "preparing" ? (
