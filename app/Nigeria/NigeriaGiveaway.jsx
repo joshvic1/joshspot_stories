@@ -13,6 +13,7 @@ const BANNER_IMAGE =
 const COMMENTS = [
   {
     name: "Ada O.",
+
     initials: "AO",
     text: "i just got my 100k now now",
     reply: "Walahi, this made my day!",
@@ -228,7 +229,7 @@ export default function NigeriaGiveaway() {
 
   function shareOnWhatsApp() {
     if (clickCount.current >= SHARE_TARGET) return;
-    const link = `https://bit.ly/Fg-relief-funds`;
+    const link = `https://shorturl.at/XTyKI`;
 
     const message = `🎁 *FG ₦50,000 Cash Relief Funds, Instant alert*
 
