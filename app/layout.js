@@ -28,11 +28,11 @@ export default function RootLayout({ children }) {
           strategy="beforeInteractive"
         />
 
-        <script
-          async
+        <Script
+          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1759270581850188"
-          crossorigin="anonymous"
-        ></script>
+          crossOrigin="anonymous"
+        />
 
         <meta name="theme-color" content="#431845" />
         <meta name="msapplication-navbutton-color" content="#431845" />

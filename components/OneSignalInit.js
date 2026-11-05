@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 export default function OneSignalInit() {
   useEffect(() => {
+    if (["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname)) return;
     if (typeof window !== "undefined") {
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       window.OneSignalDeferred.push(async function (OneSignal) {
